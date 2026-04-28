@@ -1,0 +1,396 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body {
+        background-color: #f0f0f0c5;
+        color: #333333;
+    }
+
+    .frame {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: rgba(154, 179, 175, 0.5);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .glow-button {
+        background-color: #23aa9f;
+        color: #ffffff;
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        border-radius: 5px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        margin: 5px;
+    }
+
+    .glow-button:hover {
+        background-color: #c06db2;
+    }
+
+    .numeric-category {
+        margin-bottom: 15px;
+    }
+
+    .form-control, select, input[type="number"] {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .form-control:focus, select:focus, input[type="number"]:focus {
+        border-color: #23aa9f;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(35, 170, 159, 0.2);
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .risk-display {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin: 20px 0;
+    }
+
+    .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .risk-item {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #dee2e6;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+
+    .risk-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .risk-bar {
+        width: 100%;
+        max-width: 250px;
+        height: 30px;
+        background: linear-gradient(to right, #28a745, #ffc107, #dc3545);
+        border: 2px solid #333;
+        position: relative;
+        margin: 15px auto;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .risk-indicator {
+        width: 4px;
+        height: 100%;
+        background-color: #000;
+        position: absolute;
+        border-radius: 2px;
+        box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    }
+
+    .risk-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .risk-percentage {
+        font-size: 24px;
+        font-weight: bold;
+        color: #e74c3c;
+        margin-top: 10px;
+    }
+
+    .title-header {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+
+    .custom-navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        background-color: #0c1d1d !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .custom-navbar .navbar-brand,
+    .custom-navbar .nav-link {
+        color: #f7fafa !important;
+    }
+
+    .custom-navbar .nav-link:hover {
+        color: #3bd3d8 !important;
+    }
+
+    @media (max-width: 768px) {
+        .risk-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .risk-item {
+            padding: 15px;
+        }
+        
+        .risk-bar {
+            max-width: 200px;
+            height: 25px;
+        }
+        
+        .risk-title {
+            font-size: 16px;
+        }
+        
+        .risk-percentage {
+            font-size: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .risk-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .risk-bar {
+            max-width: 180px;
+            height: 25px;
+        }
+        
+        body {
+            padding-top: 60px;
+        }
+    }
+</style>
+
+<script>
+    function addTrimesterFrame() {
+        const container = document.getElementById('trimester-frames');
+        const secondTrimester = document.querySelector('.second-trimester');
+        const thirdTrimester = document.querySelector('.third-trimester');
+
+        if (!secondTrimester) {
+            const frame = document.createElement('div');
+            frame.classList.add('frame', 'second-trimester');
+
+            frame.innerHTML = `
+                <h4>Second Trimester Details</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="Trim_2_MAP">MAP</label>
+                        <br>
+                        <input type="number" id="Trim_2_MAP" name="Trim_2_MAP" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_2_PLGF">PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_2_PLGF" name="Trim_2_PLGF" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_2_SFLT1">SFLT1</label>
+                        <br>
+                        <input type="number" id="Trim_2_SFLT1" name="Trim_2_SFLT1" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_2_sflt1_PLGF">sFLT1/PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_2_sflt1_PLGF" name="Trim_2_sflt1_PLGF" step="any">
+                    </div>
+                </div>
+                <br>
+                <button type="button" class="glow-button" onclick="this.parentNode.remove()">Remove Trimester</button>
+            `;
+
+            container.appendChild(frame);
+        } else if (!thirdTrimester) {
+            const frame = document.createElement('div');
+            frame.classList.add('frame', 'third-trimester');
+
+            frame.innerHTML = `
+                <h4>Third Trimester Details</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="Trim_3_MAP">MAP</label>
+                        <br>
+                        <input type="number" id="Trim_3_MAP" name="Trim_3_MAP" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_3_SFLT1/PLGF">SFLT1/PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_3_SFLT1/PLGF" name="Trim_3_SFLT1/PLGF" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_3_SFLT1">SFLT1</label>
+                        <br>
+                        <input type="number" id="Trim_3_SFLT1" name="Trim_3_SFLT1" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_3_PLGF">PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_3_PLGF" name="Trim_3_PLGF" step="any">
+                    </div>
+                </div>
+                <br>
+                <button type="button" class="glow-button" onclick="this.parentNode.remove()">Remove Trimester</button>
+            `;
+            container.appendChild(frame);
+        }
+    }
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    {% if error %}
+        <h3>The following error occurred: {{ error }}</h3>
+        <br><br>
+    {% endif %}
+    <div class="frame">
+         <h1>Online calculator for predicting preeclampsia in twins</h1>
+    </div>
+</div>
+<div class="container text-center">
+    <br>
+    <h4>Please fill the following details:</h4>
+    <br>
+    <form action="/process_pe_form" method="post" enctype="multipart/form-data">
+        <div class="frame">
+            <div class="section">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="Trim_1_MAP">MAP</label>
+                        <br>
+                        <input type="number" id="Trim_1_MAP" name="Trim_1_MAP" step="any">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="Trim_1_PLGF">PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_1_PLGF" name="Trim_1_PLGF" step="any">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="Trim_1_cffDNA">cffDNA</label>
+                        <br>
+                        <input type="number" id="Trim_1_cffDNA" name="Trim_1_cffDNA" step="any">
+
+                    </div>
+                </div>
+        
+                <br>
+        
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="Trim_1_B">B</label>
+                        <br>
+                        <select id="Trim_1_B" name="Trim_1_B">
+                            <option value=""></option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="DM">DM</label>
+                        <br>
+                        <select id="DM" name="DM">
+                            <option value=""></option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="Nulliparous">Nulliparous</label>
+                        <br>
+                        <select id="Nulliparous" name="Nulliparous">
+                            <option value=""></option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+        <div id="trimester-frames"></div>
+    
+        <br>
+        <button type="button" class="glow-button" onclick="addTrimesterFrame()">Add Trimester</button>
+        
+        <button type="submit" class="glow-button" >Submit</button>
+        <br>
+        
+    </form>
+
+    {% if risks %}
+        <br>
+        <br>
+        <div class="row text-center">
+             <!-- {% if risks | length == 3 %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">First trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 4px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[0]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on first trimester inputs {{ risks[0]}}.</p>
+            </div>
+            <!-- {% endif %} -->
+
+            <!-- {% if risks | length == 3 %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">Second trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 4px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[1]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on second trimester inputs {{ risks[1]}}.</p>
+            </div>
+            <!-- {% endif %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">Third trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 6px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[2]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on  third trimester inputs {{ risks[2]}}.</p>
+            </div>
+ 
+        </div>
+    {% endif %}
+    <br><br>
+</div>
+{% endblock %}
