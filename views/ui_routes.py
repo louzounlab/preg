@@ -1,33 +1,26 @@
-import sys
 from pathlib import Path
-from flask import Blueprint, abort, redirect, render_template, request, url_for
-
-from ml_models.registry import get_model_spec, list_model_specs
+from flask import Blueprint, redirect, render_template, request, url_for
 
 from ml_models.adapters.twin_pe import predict as predict_pe
-from ml_models.adapters.twin_fwe import predict as predict_fwe
+from ml_models.adapters.twin_fwe import predict as predict_fwe, adjust_trend as adjust_fwe_trend
 
-# create a blueprint for UI routes
 ui = Blueprint('ui', __name__)
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+STATIC_ROOT = str(PROJECT_ROOT / "static")
 
-@ui.context_processor
-def inject_models():
-    return {"available_models": list_model_specs()}
 
 @ui.route('/')
+@ui.route('/Home')
 def home():
     return render_template('index.html')
 
-
-@ui.route('/Home')
-def home_alias():
-    return render_template('index.html')
 
 @ui.route('/about')
 @ui.route('/About')
 def about():
     return render_template('about.html')
+
 
 @ui.route('/glossary')
 @ui.route('/Glossary')
@@ -46,43 +39,60 @@ def example():
 def pe_twins():
     return render_template('twin-pe.html', risks=[])
 
-@ui.route('/models/<model_slug>')
-def model_page(model_slug: str):
-    try:
-        spec = get_model_spec(model_slug)
-    except KeyError:
-        abort(404)
-
-    return render_template(spec.template_name, model=spec)
-
 
 @ui.route('/GDM')
 @ui.route('/twin-fwe')
-def gdm():
-    return redirect(url_for('ui.model_page', model_slug='twin-fwe'))
+def twin_fwe():
+    return render_template('twin-fwe.html', data={}, percentage_dict={}, zscore_dict={}, last_row=4)
 
 
 @ui.route('/process_pe_form', methods=['POST', 'GET'])
 def process_pe_form():
-    """Process PE form using minimal adapter."""
-    from pathlib import Path
+    submodule_root = str(PROJECT_ROOT / "ml_models" / "twins_pe")
     try:
-        submodule_root = str(Path(__file__).resolve().parents[1] / "ml_models" / "twins_pe")
-        payload = dict(request.form)
-        risks = predict_pe(payload, submodule_root)
+        risks = predict_pe(dict(request.form), submodule_root)
         return render_template('twin-pe.html', risks=risks)
     except Exception as exc:
         return render_template('twin-pe.html', risks=[], error=str(exc))
 
 
-@ui.route('/process_gdm_form', methods=['POST', 'GET'])
-def process_gdm_form():
-    """Process GDM form using minimal adapter."""
-    from pathlib import Path
+@ui.route('/process_fwe_form', methods=['POST', 'GET'])
+def process_fwe_form():
+    submodule_root = str(PROJECT_ROOT / "ml_models" / "twin_fwe")
+    form_data = request.form.to_dict()
+    last_row = int(form_data.get('last_row', 4) or 4)
     try:
-        submodule_root = str(Path(__file__).resolve().parents[1] / "ml_models" / "twin_fwe")
-        payload = dict(request.form)
-        risks = predict_fwe(payload, submodule_root)
-        return render_template('gdm.html', risks=risks)
+        ctx = predict_fwe(form_data, submodule_root, static_root=STATIC_ROOT)
+        return render_template('twin-fwe.html', **ctx)
     except Exception as exc:
-        return render_template('gdm.html', risks=[], error=str(exc))
+        return render_template(
+            'twin-fwe.html',
+            data=form_data,
+            percentage_dict={},
+            zscore_dict={},
+            discordance_index={},
+            highlight_index={},
+            last_row=last_row,
+            error=str(exc),
+        )
+
+
+@ui.route('/adjust_trend', methods=['POST', 'GET'])
+def adjust_trend():
+    trend_data_path = request.form.get("trend_data")
+    extended_by = int(request.form.get("range") or 1)
+    last_row = int(request.form.get("last_row", 4) or 4)
+    try:
+        ctx = adjust_fwe_trend(trend_data_path, extended_by=extended_by)
+        return render_template('twin-fwe.html', **ctx)
+    except Exception as exc:
+        return render_template(
+            'twin-fwe.html',
+            data={},
+            percentage_dict={},
+            zscore_dict={},
+            discordance_index={},
+            highlight_index={},
+            last_row=last_row,
+            error=str(exc),
+        )

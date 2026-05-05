@@ -251,9 +251,9 @@
                         <input type="number" id="Trim_3_MAP" name="Trim_3_MAP" step="any">
                     </div>
                     <div class="col-md-3">
-                        <label for="Trim_3_SFLT1/PLGF">SFLT1/PLGF</label>
+                        <label for="Trim_3_SFLT1_PLGF">SFLT1/PLGF</label>
                         <br>
-                        <input type="number" id="Trim_3_SFLT1/PLGF" name="Trim_3_SFLT1/PLGF" step="any">
+                        <input type="number" id="Trim_3_SFLT1_PLGF" name="Trim_3_SFLT1_PLGF" step="any">
                     </div>
                     <div class="col-md-3">
                         <label for="Trim_3_SFLT1">SFLT1</label>
@@ -291,7 +291,10 @@
     <br>
     <h4>Please fill the following details:</h4>
     <br>
-    <form action="/process_pe_form" method="post" enctype="multipart/form-data">
+    <form action="/process_pe_form" method="post" enctype="multipart/form-data" data-autosave-key="twin-pe">
+        <div style="text-align: right; margin-bottom: 10px;">
+            <button type="button" class="glow-button" data-autosave-clear>Clear saved inputs</button>
+        </div>
         <div class="frame">
             <div class="section">
                 <div class="row">
@@ -353,43 +356,51 @@
         <br>
         <button type="button" class="glow-button" onclick="addTrimesterFrame()">Add Trimester</button>
         
-        <button type="submit" class="glow-button" >Submit</button>
+        <button type="submit" class="glow-button">Submit</button>
         <br>
         
     </form>
 
-    {% if risks %}
+    {% if risks and risks | select | list %}
         <br>
         <br>
         <div class="row text-center">
-             <!-- {% if risks | length == 3 %} -->
+            {% if risks[0] is not none %}
             <div class="col">
                 <p style="font-size: 22px; font-weight: bold;">First trimester:</p>
                 <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
-                    <div style="width: 4px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[0]  }} - 2px);"></div>
+                    <div class="risk-indicator-pos" style="width: 4px; height: 100%; background-color: black; position: absolute;" data-risk="{{ risks[0] }}"></div>
                 </div>
-                <p style="font-size: 20px;">Absolute risk based on first trimester inputs {{ risks[0]}}.</p>
+                <p style="font-size: 20px;">Absolute risk based on first trimester inputs {{ risks[0] }}.</p>
             </div>
-            <!-- {% endif %} -->
+            {% endif %}
 
-            <!-- {% if risks | length == 3 %} -->
+            {% if risks[1] is not none %}
             <div class="col">
                 <p style="font-size: 22px; font-weight: bold;">Second trimester:</p>
                 <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
-                    <div style="width: 4px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[1]  }} - 2px);"></div>
+                    <div class="risk-indicator-pos" style="width: 4px; height: 100%; background-color: black; position: absolute;" data-risk="{{ risks[1] }}"></div>
                 </div>
-                <p style="font-size: 20px;">Absolute risk based on second trimester inputs {{ risks[1]}}.</p>
+                <p style="font-size: 20px;">Absolute risk based on second trimester inputs {{ risks[1] }}.</p>
             </div>
-            <!-- {% endif %} -->
+            {% endif %}
+
+            {% if risks[2] is not none %}
             <div class="col">
                 <p style="font-size: 22px; font-weight: bold;">Third trimester:</p>
                 <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
-                    <div style="width: 6px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[2]  }} - 2px);"></div>
+                    <div class="risk-indicator-pos" style="width: 4px; height: 100%; background-color: black; position: absolute;" data-risk="{{ risks[2] }}"></div>
                 </div>
-                <p style="font-size: 20px;">Absolute risk based on  third trimester inputs {{ risks[2]}}.</p>
+                <p style="font-size: 20px;">Absolute risk based on third trimester inputs {{ risks[2] }}.</p>
             </div>
- 
+            {% endif %}
         </div>
+        <script>
+            document.querySelectorAll('.risk-indicator-pos').forEach(function (el) {
+                var risk = el.dataset.risk;
+                if (risk) el.style.left = 'calc(' + risk + ' - 2px)';
+            });
+        </script>
     {% endif %}
     <br><br>
 </div>

@@ -56,16 +56,33 @@ def _calculate_risk(predict_prob, step, model_dir):
     return predict_prob
 
 
+def _has_trimester_data(payload: dict, prefix: str) -> bool:
+    for k, v in payload.items():
+        if k.startswith(prefix):
+            val = v[0] if isinstance(v, list) else v
+            if val not in (None, ""):
+                return True
+    return False
+
+
 def predict(payload: dict, submodule_root: str) -> list:
-    """Compute PE risk prediction."""
+    """Compute PE risk prediction. Returns list of 3 elements; None means trimester was skipped."""
+    trimester_active = [
+        _has_trimester_data(payload, "Trim_1_"),
+        _has_trimester_data(payload, "Trim_2_"),
+        _has_trimester_data(payload, "Trim_3_"),
+    ]
+
     # Load mean/std
     mean_std_df = pd.read_csv(join(submodule_root, "static", "mean_std_tw.csv"))
     mean_dict = dict(zip(mean_std_df["label"], mean_std_df["Mean"]))
-    
+
     # Build data dict from payload
     data_dict = {}
     for label in mean_dict.keys():
         value = payload.get(label)
+        if isinstance(value, list):
+            value = value[0]
         if value in (None, ""):
             data_dict[label] = float(mean_dict[label])
         else:
@@ -73,10 +90,10 @@ def predict(payload: dict, submodule_root: str) -> list:
                 data_dict[label] = float(value)
             except (TypeError, ValueError):
                 data_dict[label] = float(mean_dict[label])
-    
+
     # Create DataFrame
     data_df = pd.DataFrame({k: [v] for k, v in data_dict.items()})
-    
+
     # Normalize
     with open(join(submodule_root, "static", "mean_std_tw.csv")) as f:
         for line in f:
@@ -87,20 +104,22 @@ def predict(payload: dict, submodule_root: str) -> list:
                 continue
             if label in data_df.columns:
                 data_df[label] = (data_df[label] - float(mean)) / float(std)
-    
-    # Predict
+
+    # Predict only for trimesters that have data
     models = _load_models(join(submodule_root, "models_pe_tw"))
     pred_results_dir = join(submodule_root, "predicted_results_pe_tw")
     risks = []
-    
-    for step, model in enumerate(models):
+
+    for step, (model, active) in enumerate(zip(models, trimester_active)):
+        if not active:
+            risks.append(None)
+            continue
         data_df_ = data_df.copy()
         feature_names = model.feature_name()
         for feature in feature_names:
             if feature not in data_df_.columns:
                 data_df_[feature] = 0.0
-        
         prob = float(model.predict(data_df_[feature_names])[0])
         risks.append(_calculate_risk(prob, step, pred_results_dir))
-    
-    return [f"{round(r * 100, 2)}%" for r in risks]
+
+    return [f"{round(r * 100, 2)}%" if r is not None else None for r in risks]
