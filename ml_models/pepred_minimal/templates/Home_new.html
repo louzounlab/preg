@@ -1,0 +1,618 @@
+{% extends "layout.html" %}
+{% block title %}PEPRED{% endblock %}
+{% block head %}
+    {{super()}}
+    {% block style %}
+        {{super()}}
+    {% endblock %}
+{% endblock %}
+{% block body %}
+    {{super()}}
+
+<style>
+.help-tip{
+    margin: auto;
+    text-align: center;
+    background-color: #809fff;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    line-height: 26px;
+    cursor: default;
+    margin-left: 5%;
+    margin-bottom: 1.5%;
+}
+
+.help-tip:before{
+    content:'?';
+    font-weight: bold;
+    color:#fff;
+}
+
+.help-tip:hover p{
+    display:block;
+    transform-origin: 100% 0%;
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+
+}
+
+.help-tip p{    /* The tooltip */
+    display: none;
+    text-align: center;
+    background-color: #1E2021;
+    padding: 20px;
+    width: 300px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    right: -4px;
+    color: #FFF;
+    font-size: 18px;
+    line-height: 1.4;
+    position:relative;
+
+}
+
+.help-tip p:before{ /* The pointer of the tooltip */
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#1E2021;
+    right:10px;
+    top:-12px;
+        position:relative;
+
+}
+
+.help-tip p:after{ /* Prevents the tooltip from being hidden */
+    width:100%;
+    height:40px;
+    content:'';
+    top:-40px;
+    left:0;
+    margin: auto;
+    position:relative;
+
+}
+
+/* CSS animation */
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity:0;
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+.vl {
+  border-left: 10px solid #ec8080;
+  height: auto;
+}
+tr.spaceUnder>td {
+  padding-bottom: 1em;
+}
+</style>
+    <div class="row" style="width: auto;  background: #c2c2d6; height: 150px; width: 103%;">
+        <div style="text-align:left; height: 150px; margin-left: 3%;">
+            <img src="../static/image.png" style="max-width: 100%;max-height: 100%;">
+        </div>
+        <div class="column" style=" position:relative; margin-left: 24%; margin-top:-1%">
+            <h1 style="text-align:center;font-size: 40px;color: dark;font-weight: bold">PEPRED</h1>
+            <h4 style="text-align:center;font-size: 20px;color: dark;">Risks can be derived from maternal history and any combinations of biomarkers.</h4>
+            <h4 style="text-align:center;font-size: 20px;color: dark;">Useful markers at 11-14 weeks are mean arterial pressure (MAP), uterine artery PI (UTPI)</h4>
+            <h4 style="text-align:center;font-size: 20px;color: dark;">and serum PLGF (or PAPP-A when PLGF is not available).</h4>
+        </div>
+       
+    </div>  
+    <div class="row" style="height: 80vh; background: white; position: relative; min-width: none;">
+        <div class="column" style="background: #ec8080; height: auto; width: 22%; border-radius: 0px;">
+            <ul style="margin-left: 12%; margin-top: 20%; margin-right: 5%;">
+                <li style="font-size: 26px;">Before starting, it is recommended to read the explanations under "Help".</li>
+                <br>
+                <li style="font-size: 26px;">If you do not fill the test date field, the risk will be based on the
+                observations before the pregnancy (upper part of the form). Any field
+                left empty will be replaced by default values.
+                Two risk factors can be computed, either the total risk for PE (All PE)
+                or the risk for PE and early preterm birth (before the 37th week).
+                </li>
+              </ul>
+        </div>
+        <div class="column" style="background: #FFFFFF; height: auto; width: 1px;"></div>
+        <div class="vl"></div>
+
+        <form id="my-form" action="" method=post enctype=multipart/form-data autocomplete="off" style="width: 73%; vertical-align: middle;">
+            <br>
+            <div class="column" style="background: #FFFFFF;text-align: left; border-color: white; margin: auto;">
+                <div class="row" style="display:flex; flex-direction: row; margin-left: 5%; margin-top: 1%; ">
+                    <h4   for="model">Type of Preeclampsia: <br></h4>
+                    <select name="model" id="model" style="margin-left: 1%; margin-bottom: 0.5%;">
+                        <option value="1" selected>All PE</option>
+                        <option value="3">Preterm PE</option>
+                    </select>
+                    <div class="help-tip" style="margin-bottom: 1%; margin-left: 1.5%;">
+                        <p>Preterm (less than 37weeks ) and All (Any Gestational Age). Previous prgnancies lasting beyond 24 weeks.</p>
+                    </div>
+                </div>                  
+                <hr style="background-color: #343333; width: 90%; text-align: center; height: 2px; background: darkgray;">
+
+
+                <table style="margin-left: 5%; margin-top: 1%;"  class="spaceUnder">
+                    <tr style="margin-top: 50px;"  class="spaceUnder">
+                        <td style="width: 175px; text-align: left;">  
+                            <h4 for="age">Age (years): </h4>  
+                        </td>    
+                        <td style="width: 140px">  
+                             <input type="text" id="age" name="age", size="9" style="margin-bottom: 1%;"></input>
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip" >
+                                <p>Mother's age.</p>
+                            </div>
+                        </td>
+                        <td style="width: 135px; text-align: left;">
+                            <h4  for="race">Racial origin: </h4>
+                        </td>    
+                        <td  style="width: 140px">
+                            <select name="race" id="race" style=" margin-bottom: 1%;">
+                                    <option value="White"></option>
+                                <option value="White">White</option>
+                                <option value="Black">Black</option>
+                                <option value="South_Asian">South Asian</option>
+                                <option value="East_Asian">East Asian</option>
+                                <option value="Mixed">Mixed</option>
+                            </select>
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip" >
+                                <p>Mother's race. </p>
+                            </div>
+                        </td>
+                        <td style="width: 150px;  text-align: left;">
+                            <h4  for="smoking">Smoking:</h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <div style="border-color: white;">
+                              <label style=" border-style:none; border-color: white; font-size: 20px;">
+                                  <input type="radio" name="smoking" value="Yes"  style="transform: scale(1.2); border-style:none; border-color: white;">
+                                Yes
+                              </label>
+                              <label style="border-style:none; border-color: white; margin-left: 20px; font-size: 20px;">
+                                  <input type="radio" name="smoking" value="No"  style="transform: scale(1.2); border-style:none; border-color: white;" checked="checked">
+                                No
+                              </label>
+                            </div>
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip" >
+                                <p> Whether the mother smokes.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="margin-top: 50px;"  class="spaceUnder">
+                        <td style="width: 175px; text-align: left;">
+                            <h4 for="age">Conception: </h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <select name="conception" id="conception" , style=" margin-bottom: 0.5%;">
+                                <option value="Spontaneous"></option>
+                                <option value="Spontaneous">Spontaneous</option>
+                                <option value="IVF">IVF</option>
+                                <option value="Ovulation_drugs">Med. for ovulation</option>
+                            </select>
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip"  style="margin-left: 5%;">
+                                <p>Conception type.</p>
+                            </div>
+                        </td>
+                        <td style="width: 135px; text-align: left;">
+                            <h4  for="race">Height: <br></h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <input type="text" id="ht" name="ht", size="5" style=" margin-bottom: 0.5%;">
+                            <select name="ht.measure" id="ht.measure">
+                                <option value="cm">CM</option>
+                                <option value="foot">Foot'Inch</option>
+                            </select>
+                        </td>
+                        <td style="width: 50px">
+                            <div class="help-tip">
+                                <p>Mother height in cm. </p>
+                            </div>
+                        </td>
+                        <td style="width: 150px; text-align: left;" >
+                            <h4  for="smoking">Weight (kg): <br></h4>
+                        </td>
+                        <td style="width: 175px;">
+                            <input type="text" id="wt" name="wt" size="5"  style=" margin-bottom: 0.5%;">
+                             <select name="wt.measure" id="wt.measure">
+                                <option value="kg">KG</option>
+                                <option value="pound">Pound</option>
+                            </select>
+                        </td>
+
+                        <td style="width: 50px">  
+                            <div class="help-tip">
+                                <p> Mother weight. </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="margin-top: 50px;"  class="spaceUnder">
+                        <td style="width: 175px; text-align: left;">
+                            <h4  for="race">Mother had PE: <br></h4>
+                        </td>
+                        <td style="width: 140px;">
+                             <div style="border-color: white;">
+                              <label style=" border-style:none; border-color: white; font-size: 20px;">
+                                  <input type="radio" name="FH_PE_grandmother" value="Yes"  style="transform: scale(1.2); border-style:none; border-color: white;">
+                                Yes
+                              </label>
+                              <label style="border-style:none; border-color: white; margin-left: 20px; font-size: 20px;">
+                                  <input type="radio" name="FH_PE_grandmother" value="No"  style="transform: scale(1.2); border-style:none; border-color: white;" checked="checked">
+                                No
+                              </label>
+                            </div>
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip">
+                                <p> Whether the grandmother of the baby had PE.</p>
+                            </div>
+                        </td>
+                        <td style="width: 150px; text-align: left;">
+                            <h4  for="race">Diabetes: </h4>
+                        </td>
+                        <td style="width: 135px;">
+                            <select name="Diabetes" id="Diabetes">
+                                <option value="No"></option>
+                                <option value="No">No</option>
+                                <option value="Type_1_DM">Type1 DM</option>
+                                <option value="Type_2_DM">Type2 DM</option>
+                          </select>
+                        </td>
+                        <td style="width: 50px">
+                            <div class="help-tip">
+                                <p>Whether the mother has diabetes (and type).\</p>
+                            </div>
+                        </td>
+                        <td style="width: 150px; text-align: left;">
+                            <h4  for="race">SLE or APS: </h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <div style="border-color: white;">
+                              <label style=" border-style:none; border-color: white; font-size: 20px;">
+                                  <input type="radio" name="SLE" value="SLE_or_APS"  style="transform: scale(1.2); border-style:none; border-color: white;">
+                                Yes
+                              </label>
+                              <label style="border-style:none; border-color: white; margin-left: 20px; font-size: 20px;">
+                                  <input type="radio" name="SLE" value="No"  style="transform: scale(1.2); border-style:none; border-color: white;" checked="checked">
+                                No
+                              </label>
+                            </div>
+                        </td>
+                        <td style="width: 50px">
+                            <div class="help-tip">
+                                <p>Whether the mother has Lupus. </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="margin-top: 50px;"  class="spaceUnder">
+                        <td style="width: 175px; text-align: left;">
+                            <h4  for="race">Chronic hypertension: </h4>
+                        </td>
+                        <td style="width: 140px;">
+                             <div style="border-color: white;">
+                              <label style=" border-style:none; border-color: white; font-size: 20px;">
+                                  <input type="radio" name="Chronic_hypertension" value="Yes"  style="transform: scale(1.2); border-style:none; border-color: white;">
+                                Yes
+                              </label>
+                              <label style="border-style:none; border-color: white; margin-left: 20px; font-size: 20px;">
+                                  <input type="radio" name="Chronic_hypertension" value="No"  style="transform: scale(1.2); border-style:none; border-color: white;" checked="checked">
+                                No
+                              </label>
+                            </div>
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip">
+                                <p>Whether the mother has Chronich hypertension. </p>
+                            </div>
+                        </td>
+                        <td style="width: 135px; text-align: left;" >
+                            <h4  for="race">Previous pregnancy (of 24 wks at least): </h4>
+                        </td>
+                        <td style="width: 140px;border-color: white;">
+                            <div style="border-color: white; margin-left: 10%;">
+                              <label style=" border-style:none; border-color: white; font-size: 20px;">
+                                  <input type="radio" id="radio_show" name="fav_language" value="1"  style="transform: scale(1.2); border-style:none; border-color: white;">
+                                Yes
+                              </label>
+                              <label style="border-style:none; border-color: white; margin-left: 20px; font-size: 20px;">
+                                  <input type="radio" id="radio_hide" name="fav_language" value="0"  style="transform: scale(1.2); border-style:none; border-color: white;" checked="checked">
+                                No
+                              </label>
+                            </div>
+                        </td>
+                        <td style="width: 50px">
+
+                        </td>
+                    </tr>
+                </table>
+                <div id="show" style="display: none;">
+                     <hr style="background-color: #343333; width: 90%; text-align: center; height: 2px; background: darkgray;">
+                    <div class="row" style="margin-left: 5%;">
+                        <h4>In case of previous pregnancies, please fill also the following fields</h4>
+                    </div>
+                    <table style="margin-left: 5%; margin-top: 1%;"  class="spaceUnder">
+                        <tr style="margin-top: 50px;"  class="spaceUnder">
+                           <td style="width: 175px; text-align: left;">
+                                <h4 for="age">Interval: </h4>
+                            </td>
+                            <td style="width: 140px;">
+                                <input type="text" id="interval" name="interval", size="9" style="margin-bottom: 0.5%;">
+                            </td>
+                            <td style="width: 50px">
+                                    <div class="help-tip">
+                                    <p> Interval from the end of the last of pregnancy (per years).</p>
+                                </div>
+                            </td>
+                            <td style="width: 150px; text-align: left;">
+                                <h4  for="last.ga">Last GA (wks): <br></h4>
+                            </td>
+                            <td style="width: 140px;">
+                                <input type="text" id="last.ga" name="last.ga" size="9" style=" margin-bottom: 0.5%;">
+                            </td>
+                            <td style="width: 50px">
+                                <div class="help-tip">
+                                    <p>Gestational age of previous pregnancy (per weeks). </p>
+                                </div>
+                            </td>
+                            <td style="width: 175px; text-align: left;">
+                                <h4  for="race">Previous PE: </h4>
+                            </td>
+                            <td style="width: 140px;">
+                                <select name="Previous_PE" id="Previous_PE">
+                                    <option value="Nullip"></option>
+                                    <option value="Multip_PE">Yes</option>
+                                    <option value="Multip_no_PE">No</option>
+                                    <option value="Nullip">Nullip</option>
+                              </select>
+                            </td>
+                            <td style="width: 50px">
+                                <div class="help-tip">
+                                    <p>Whether the mother had previous PE. </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <hr style="background-color: #343333; width: 90%; text-align: center; height: 2px; background: darkgray;">
+                <div class="row" style="margin-left: 5%;">
+                    <h4>Biomarkers measured between week 11 and 14.</h4>
+                </div>
+                <table style="margin-left: 5%; margin-top: 1%;">
+                    <tr style="margin-top: 50px;" class="spaceUnder">
+                        <td style="width: 140px; text-align: left;">
+                            <h4 for="ga">Current GA (days): </h4>
+                        </td>    
+                        <td style="width: 140px">  
+                            <input type="text" id="ga" name="ga" size="5" style=" margin-bottom: 0.5%;">
+                                <select name="ga.measure" id="ga.measure">
+                                    <option value="days">Days</option>
+                                    <option value="weeks">Weeks</option>
+                                </select>
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip">
+                                <p>Gestational age of this pregnancy (in days). </p>
+                            </div>
+                        </td>
+                        <td style="width: 140px; text-align: left;">
+                            <h4  for="race">Test Date: </h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <input type="date" id="start" name="test-date">
+                        </td>
+                        <td style="width: 50px">
+                            <div class="help-tip">
+                                <p>The date on which the tests were taken.</p>
+                            </div>
+                        </td>
+                        <td style="width: 125px; text-align: left;">
+                            <h4  for="pappa">PAPP-A: </h4>
+                        </td>    
+                        <td style="width: 140px">
+                            <input type="text" id="pappa" name="pappa", size="9" >
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip">
+                                <p>Pregnancy associated plasma protein-A. </p>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr style="margin-top: 50px;" class="spaceUnder">
+                        <td style="width: 125px;  text-align: left;">
+                            <h4  for="utpi">UTPI:</h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <input type="text" id="utpi" name="utpi", size="9">
+                        </td>
+                        <td style="width: 50px">
+                            <div class="help-tip">
+                                <p>Average uterine. </p>
+                            </div>
+                        </td>
+                        <td style="width: 140px; text-align: left;">
+                            <h4 for="map">MAP: </h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <input type="text" id="map" name="map", size="9" >
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip">
+                                <p>Mean arterial pressure.</p>
+                            </div>
+                        </td>
+                        <td style="width: 125px; text-align: left;">
+                            <h4  for="plgf">PLGF: <br></h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <input type="text" id="plgf" name="plgf", size="9" >
+                        </td>
+                        <td style="width: 50px">  
+                            <div class="help-tip">
+                                <p>Angiogenic placental growth factor. </p>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <td style="width: 125px; text-align: left;" >
+                            <h4  for="plgf.machine">PLGF Machine: <br></h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <select name="plgf.machine" id="plgf.machine" >
+                                <option value="Delfia"></option>
+                                <option value="Delfia">Delfia</option>
+                                <option value="Roche">East Roche</option>
+                          </select>
+                        </td>
+                        <td style="width: 50px">
+                            <div class="help-tip">
+                                <p>Type of machine used for plgf. </p>
+                            </div>
+                        </td>
+                        <td style="width: 140px; text-align: left;">
+                            <h4 for="map">PAPP-A Machine: </h4>
+                        </td>
+                        <td style="width: 140px;">
+                            <select type="text" id="pappa.machine" name="pappa.machine">
+                                <option value="Delfia"></option>
+                                <option value="Delfia">Delfia</option>
+                            </select>
+                        </td>
+                        <td style="width: 50px">
+                            <div class="help-tip">
+                                <p>Type of machine used for PAPP-A.</p>
+                            </div>
+                        </td>
+                </table>
+                <hr style="background-color: #343333; width: 90%; text-align: center; height: 2px; background: darkgray;">
+                <div class="row" style="margin-left: 41.5%; text-align: center;">
+                    <button type="submit" form="my-form" onclick="myFunction();" name="submit_file_btn" value="Calculate" style="background-color: #ec8080;width:200px;border-radius: 7px;color: white;padding:10px; text-align: center; font-size: 25px;">Calculate risk</button>
+                </div>
+                <br>
+                {% if error_message != "" %}
+                <p style="color:darkred;text-align: center;font-size: 20px">
+                    <b>{{error_message}}</b></p>
+                {% endif %}
+            
+                <p id="txt_mes"
+                    style="color: #40132a;text-align: center;font-size:20px;font-weight: 600;text-shadow: 4px 4px 8px white"></p>
+
+                <script>
+                    document.getElementById('radio_show').onclick =  function (){
+                        document.getElementById("show").style.display = "inline";
+                    }
+                    document.getElementById('radio_hide').onclick = function(){
+                        document.getElementById("show").style.display = "none";
+                    }
+                </script>
+            
+                {% if results %}
+                <div class="row">
+                    <div style="width: 360px;margin-left: 10%; margin-top: 2.5%;">
+                        <h3 style="font-weight: 500">Your percentile:</h3>
+                    </div>
+                    <div class="row" style="background-color:red; text-align: center;border: 8px solid #000000; width:30%;">
+                       {% for i in range(100) %}
+                            <div class="color-box" style=" height:100px; width:1%;" id="color{{i}}"></div>
+                       {% endfor %}
+                    </div>
+                </div>
+                <h1  style="text-align: center;font-size:30px;font-weight: 600;text-shadow: 3px 3px 10px white">You are in the {{precentege}}% percentile</h1>
+                <br>
+                <div class="row">
+                    <div style="width: 360px;margin-left: 10%; margin-top: 2.5%;">
+                        <h3 style="font-weight: 500">Your risk:</h3>
+                    </div>
+                    <div class="row" style="background-color:red;  text-align: center;border: 8px solid #000000; width:30%; ">
+                       {% for i in range(100) %}
+                            <div class="color-box" style=" height:100px; width:1%;" id="color_{{i}}"></div>
+                       {% endfor %}
+                    </div>
+                </div>
+                <h1  style="text-align: center;font-size:30px;font-weight: 600;text-shadow: 3px 3px 10px white">You have a risk of {{risk}}% to have PE</h1>
+                <br>
+                <h4 style="text-align: center;font-size:14px;font-weight: 600;text-shadow: 3px 3px 10px white">Your request id: {{id}}</h4>
+                <script  type = "text/javascript">
+           
+                    window.addEventListener('load', (event) => {
+                        color(Math.round({{precentege}}), {{risk}})
+                    });
+                    function getColor(value){
+                        //value from 0 to 1
+                        var hue=((1-value)*120).toString(10);
+                        return ["hsl(",hue,",100%,50%)"].join("");
+                    }
+                    function color(score, risk){
+                        for (let i = 0; i < 100; i++) {
+                        var c =  document.getElementById("color"+i.toString())
+                        var c2 =  document.getElementById("color_"+i.toString())
+                        if (i == Math.max(1,Math.min(Math.round(99/100*100),Math.round(score/100*100)))) {
+                            c.style.backgroundColor = "#000000"
+                        } else{
+                            c.style.backgroundColor = getColor(0.01*i)
+                        }
+                       if (i == Math.min(100,Math.round(risk*4))) {
+                            c2.style.backgroundColor = "#000000"
+                        } else{
+                            c2.style.backgroundColor = getColor(0.01*i)
+                        }
+                        }
+                    }
+                   
+                </script>
+                {% endif %}
+                <script id="my_scr">
+                    function myFunction() {
+                        document.getElementById("txt_mes").innerHTML = "Analysis in process ...";
+                        var x = document.getElementById("link_output");
+                        x.style.display = "none";
+                    }
+                </script>
+                <br>
+                <br>
+                <div style="text-align: center;">
+                    <a style="text-align: center; size: 20px; align-items: center; margin: auto;" href="https://gdmpred.math.biu.ac.il/Home">GDMpred - predicting GDM</a>
+                    </div>
+                    <br>
+                <p style="text-align: center; size: 20px"><b>Produced by: </b>Cirkin R, Ansbacher Z, Argyro Syngelaki, Hamutal Meiri, Kypros H. Nicolaides, Louzoun Y (2022).</p>
+                    <div style="text-align: center; size: 20px" >
+                        <a href="../static/paper.pdf" download="paper.pdf">Download the paper</a>
+                    </div>
+       		<p style="text-align:center; font-size:15px">&copy; Louzoun-Lab 2022</p>
+            </div>
+        </form>
+       
+    </div>
+          
+       
+            
+           
+        
+
+
+
+
+{% endblock %}
+

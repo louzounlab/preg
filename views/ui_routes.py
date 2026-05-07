@@ -1,6 +1,7 @@
 from pathlib import Path
 from flask import Blueprint, redirect, render_template, request, url_for
 
+from ml_models.adapters.gdm import predict as predict_gdm
 from ml_models.adapters.twin_pe import predict as predict_pe
 from ml_models.adapters.twin_fwe import predict as predict_fwe, adjust_trend as adjust_fwe_trend
 
@@ -41,6 +42,11 @@ def pe_twins():
 
 
 @ui.route('/GDM')
+@ui.route('/gdm')
+def gdm():
+    return render_template('gdm.html', active='GDM', risks=[])
+
+
 @ui.route('/twin-fwe')
 def twin_fwe():
     return render_template('twin-fwe.html', data={}, percentage_dict={}, zscore_dict={}, last_row=4)
@@ -54,6 +60,16 @@ def process_pe_form():
         return render_template('twin-pe.html', risks=risks)
     except Exception as exc:
         return render_template('twin-pe.html', risks=[], error=str(exc))
+
+
+@ui.route('/process_gdm_form', methods=['POST', 'GET'])
+def process_gdm_form():
+    submodule_root = str(PROJECT_ROOT / "ml_models" / "twins_pe")
+    try:
+        risks = predict_gdm(dict(request.form), submodule_root)
+        return render_template('gdm.html', active='GDM', risks=risks)
+    except Exception as exc:
+        return render_template('gdm.html', active='GDM', risks=[], error=str(exc))
 
 
 @ui.route('/process_fwe_form', methods=['POST', 'GET'])

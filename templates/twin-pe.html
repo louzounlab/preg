@@ -322,29 +322,32 @@
                     <div class="col-md-4">
                         <label for="Trim_1_B">B</label>
                         <br>
-                        <select id="Trim_1_B" name="Trim_1_B">
-                            <option value=""></option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                        </select>
+                        <div class="tri-toggle" data-target="Trim_1_B">
+                            <button type="button" data-val="1">Yes</button>
+                            <button type="button" data-val="0">No</button>
+                            <button type="button" data-val="" class="tri-active">None</button>
+                        </div>
+                        <input type="hidden" id="Trim_1_B" name="Trim_1_B" value="">
                     </div>
                     <div class="col-md-4">
                         <label for="DM">DM</label>
                         <br>
-                        <select id="DM" name="DM">
-                            <option value=""></option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                        </select>
+                        <div class="tri-toggle" data-target="DM">
+                            <button type="button" data-val="1">Yes</button>
+                            <button type="button" data-val="0">No</button>
+                            <button type="button" data-val="" class="tri-active">None</button>
+                        </div>
+                        <input type="hidden" id="DM" name="DM" value="">
                     </div>
                     <div class="col-md-4">
                         <label for="Nulliparous">Nulliparous</label>
                         <br>
-                        <select id="Nulliparous" name="Nulliparous">
-                            <option value=""></option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                        </select>
+                        <div class="tri-toggle" data-target="Nulliparous">
+                            <button type="button" data-val="1">Yes</button>
+                            <button type="button" data-val="0">No</button>
+                            <button type="button" data-val="" class="tri-active">None</button>
+                        </div>
+                        <input type="hidden" id="Nulliparous" name="Nulliparous" value="">
                     </div>
                 </div>
             </div>

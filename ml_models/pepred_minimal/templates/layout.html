@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% block head %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Create two unequal columns that floats next to each other */
+        .column {
+            padding: 1%;
+            height: 60%;
+            border-radius: 25px;
+
+        }
+
+        .left {
+            width: 25%;
+            height: 100%;
+            margin-left: 4%;
+            margin-right: 1%;
+        }
+
+        .right {
+            width: 65%;
+            height: 100%;
+            margin-right: 4%;
+            margin-left: 1%;
+        }
+
+        .bottom {
+            width: 90%;
+            margin-top: 1%;
+            margin-left: 4%;
+            margin-right: 1%;
+            border-radius: 25px;
+        }
+
+        .set-property {
+            padding-left: 0.5%;
+            padding-top: 0.5%;
+            text-align: left;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        input[type=radio] {
+            outline: 2px solid black
+        }
+
+        body {
+            background-repeat: no-repeat;
+            background-size: 100%
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        .one {
+            border-radius: 3px;
+            height: 20%;
+            width: 100%;
+            {#margin-top: 1%;#}
+            float: left;
+        }
+
+        .two {
+            border-radius: 3px;
+            height: 80%;
+            width: 100%;
+            float: left;
+            /*margin: 1%;*/
+        }
+
+        .three {
+            height: 100%;
+            width: 100%;
+            float: right;
+            {#margin-top: 1%;#}
+            /*float: right;*/
+        }
+
+        .Left {
+            height: 100%;
+            width: 70%;
+            float: left;
+        }
+
+        .Right {
+            height: 100%;
+            width: 30%;
+            float: right;
+            position: relative;
+        }
+
+        .All {foundation
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            margin-top: 1%;
+        }
+        {% block style %}{% endblock %}
+    </style>
+    {% endblock %}
+</head>
+
+<body style="background-color: #FFFFFF">
+{% block body %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-white">
+
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('/.home_page')}}" style="font-size:20px;color:#343a40">Home <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('/.example_page')}}" style="font-size:20px;color:#343a40">Example <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('/.help_page')}}" style="font-size:20px;color:#343a40">Help <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('/.about_page')}}" style="font-size:20px;color:#343a40">About <span
+                        class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <img src="{{url_for('static', filename='shela.png')}}" style="height: 60px; width: auto; margin-right: 10px">
+        <!-- 
+        <a href="https://fetalmedicine.org/"> <img src="{{url_for('static', filename='foundation.png')}}" style="height: 60px; width: auto; margin-right: 10px"></a>
+        <a href="https://yolo.math.biu.ac.il/"> <img src="{{url_for('static', filename='yolo_lab.png')}}" style="height: 60px; width: auto; margin-right: 10px"></a>
+        -->
+    </div>
+</nav>
+
+{% endblock %}
+</body>
+
+</html>

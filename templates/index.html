@@ -87,6 +87,10 @@
             background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
         }
 
+        .btn-twin {
+            background: linear-gradient(135deg, #A569BD 0%, #7D3C98 100%);
+        }
+
         .btn-icon {
             font-size: 3rem;
             margin-bottom: 15px;
@@ -142,8 +146,14 @@
                     <div class="btn-description">Predict preeclampsia risk in twin pregnancies using advanced algorithms</div>
                 </a>
 
-                <a href="{{ url_for('ui.twin_fwe') }}" class="btn-custom btn-gdm">
+                <a href="{{ url_for('ui.gdm') }}" class="btn-custom btn-gdm">
                     <div class="btn-icon">🩺</div>
+                    <div class="btn-title">GDM Prediction</div>
+                    <div class="btn-description">Gestational diabetes mellitus risk assessment and prediction tool</div>
+                </a>
+
+                <a href="{{ url_for('ui.twin_fwe') }}" class="btn-custom btn-twin">
+                    <div class="btn-icon">📈</div>
                     <div class="btn-title">Twin-FWE</div>
                     <div class="btn-description">Twin fetal weight estimation and discordance prediction tool</div>
                 </a>
