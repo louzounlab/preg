@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style>
+        .main-div {
+            margin: auto;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: #4a5b5a;
+            margin-bottom: 0;
+        }
+
+        .model-frame {
+            border-left: 6px solid #888;
+        }
+
+        .model-frame.model-pe       { border-left-color: #ee5a52; }
+        .model-frame.model-gdm      { border-left-color: #44a08d; }
+        .model-frame.model-twin-fwe { border-left-color: #7D3C98; }
+        .model-frame.model-pepred   { border-left-color: #1e3a8a; }
+
+        .model-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .model-header h2 {
+            margin: 0;
+            font-size: 1.6rem;
+            color: #1f2d2d;
+        }
+
+        .model-description {
+            color: #2f3d3d;
+            margin: 0 0 16px 0;
+        }
+
+        .try-link {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #ffffff !important;
+            background-color: #0c1d1d;
+            transition: opacity 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .try-link:hover {
+            opacity: 0.85;
+            text-decoration: none;
+            color: #ffffff !important;
+        }
+
+        .scenario {
+            margin-top: 18px;
+            padding-top: 14px;
+            border-top: 1px dashed rgba(0,0,0,0.15);
+        }
+
+        .scenario:first-of-type {
+            border-top: none;
+            padding-top: 0;
+            margin-top: 8px;
+        }
+
+        .scenario-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1f2d2d;
+            margin-bottom: 10px;
+        }
+
+        .example-pair {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .example-card {
+            flex: 1 1 320px;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .example-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #3a4a4a;
+            margin-bottom: 6px;
+        }
+
+        .example-card a {
+            display: block;
+        }
+
+        .example-card img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #ffffff;
+            cursor: zoom-in;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        @media (max-width: 768px) {
+            .example-card { flex: 1 1 100%; }
+            .page-title { font-size: 1.8rem; }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="main-div page-top">
+        <br>
+        <div class="frame">
+            <h1 class="page-title">Example Runs</h1>
+            <p class="page-subtitle">
+                Walk-throughs of representative form submissions and the corresponding
+                results for each prediction tool. Click any image to view it full size.
+            </p>
+        </div>
+
+        <div class="frame model-frame model-pe">
+            <div class="model-header">
+                <h2>PE Twins Prediction</h2>
+                <a class="try-link" href="{{ url_for('ui.pe_twins') }}">Try this model →</a>
+            </div>
+            <p class="model-description">Preeclampsia risk in twin pregnancies.</p>
+
+            <div class="scenario">
+                <div class="scenario-title">Low-risk example</div>
+                <div class="example-pair">
+                    <div class="example-card">
+                        <div class="example-label">Form input</div>
+                        <a href="/static/examples/PE_TWINS/low_risk_form.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/PE_TWINS/low_risk_form.png" alt="PE Twins low-risk form input">
+                        </a>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-label">Result</div>
+                        <a href="/static/examples/PE_TWINS/low_risk_results.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/PE_TWINS/low_risk_results.png" alt="PE Twins low-risk result">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scenario">
+                <div class="scenario-title">High-risk example</div>
+                <div class="example-pair">
+                    <div class="example-card">
+                        <div class="example-label">Form input</div>
+                        <a href="/static/examples/PE_TWINS/high_risk_form.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/PE_TWINS/high_risk_form.png" alt="PE Twins high-risk form input">
+                        </a>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-label">Result</div>
+                        <a href="/static/examples/PE_TWINS/high_risk_results.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/PE_TWINS/high_risk_results.png" alt="PE Twins high-risk result">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="frame model-frame model-gdm">
+            <div class="model-header">
+                <h2>GDM Prediction</h2>
+                <a class="try-link" href="{{ url_for('ui.gdm') }}">Try this model →</a>
+            </div>
+            <p class="model-description">Gestational diabetes mellitus risk assessment.</p>
+
+            <div class="scenario">
+                <div class="scenario-title">Low-risk example</div>
+                <div class="example-pair">
+                    <div class="example-card">
+                        <div class="example-label">Form input</div>
+                        <a href="/static/examples/gdm/low_risk_form.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/gdm/low_risk_form.png" alt="GDM low-risk form input">
+                        </a>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-label">Result</div>
+                        <a href="/static/examples/gdm/low_risk_results.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/gdm/low_risk_results.png" alt="GDM low-risk result">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scenario">
+                <div class="scenario-title">High-risk example</div>
+                <div class="example-pair">
+                    <div class="example-card">
+                        <div class="example-label">Form input</div>
+                        <a href="/static/examples/gdm/high_risk_form.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/gdm/high_risk_form.png" alt="GDM high-risk form input">
+                        </a>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-label">Result</div>
+                        <a href="/static/examples/gdm/high_risk_results.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/gdm/high_risk_results.png" alt="GDM high-risk result">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="frame model-frame model-twin-fwe">
+            <div class="model-header">
+                <h2>Twin-FWE</h2>
+                <a class="try-link" href="{{ url_for('ui.twin_fwe') }}">Try this model →</a>
+            </div>
+            <p class="model-description">Twin fetal weight estimation and discordance prediction.</p>
+
+            <div class="scenario">
+                <div class="scenario-title">Both twins severely growth restricted</div>
+                <div class="example-pair">
+                    <div class="example-card">
+                        <div class="example-label">Form input</div>
+                        <a href="/static/examples/TWIN_FWE/both_twins_severly_growth_form.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/TWIN_FWE/both_twins_severly_growth_form.png" alt="Twin-FWE both twins growth restricted form input">
+                        </a>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-label">Result</div>
+                        <a href="/static/examples/TWIN_FWE/both_twins_severly_growth_result.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/TWIN_FWE/both_twins_severly_growth_result.png" alt="Twin-FWE both twins growth restricted result">
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scenario">
+                <div class="scenario-title">Severe discordance</div>
+                <div class="example-pair">
+                    <div class="example-card">
+                        <div class="example-label">Form input</div>
+                        <a href="/static/examples/TWIN_FWE/Severe_discordance_form.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/TWIN_FWE/Severe_discordance_form.png" alt="Twin-FWE severe discordance form input">
+                        </a>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-label">Result</div>
+                        <a href="/static/examples/TWIN_FWE/Severe_discordance_result.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/TWIN_FWE/Severe_discordance_result.png" alt="Twin-FWE severe discordance result">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="frame model-frame model-pepred">
+            <div class="model-header">
+                <h2>PEPRED</h2>
+                <a class="try-link" href="{{ url_for('ui.pepred') }}">Try this model →</a>
+            </div>
+            <p class="model-description">Preeclampsia risk from maternal history and 1st-trimester biomarkers.</p>
+
+            <div class="scenario">
+                <div class="scenario-title">High-risk example</div>
+                <div class="example-pair">
+                    <div class="example-card">
+                        <div class="example-label">Form input</div>
+                        <a href="/static/examples/PEPRED/high_risk_form.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/PEPRED/high_risk_form.png" alt="PEPRED high-risk form input">
+                        </a>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-label">Result</div>
+                        <a href="/static/examples/PEPRED/high_risk_result.png" target="_blank" rel="noopener">
+                            <img src="/static/examples/PEPRED/high_risk_result.png" alt="PEPRED high-risk result">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

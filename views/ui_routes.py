@@ -1,5 +1,5 @@
 from pathlib import Path
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, render_template, request
 
 from ml_models.adapters.gdm import predict as predict_gdm
 from ml_models.adapters.twin_pe import predict as predict_pe
@@ -33,7 +33,7 @@ def glossary():
 @ui.route('/example')
 @ui.route('/Example')
 def example():
-    return redirect(url_for('ui.home'))
+    return render_template('example.html')
 
 
 @ui.route('/PE_Twins')
