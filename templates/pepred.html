@@ -1,0 +1,605 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body {
+        background-color: #f0f0f0c5;
+        color: #333333;
+        padding-top: 70px;
+    }
+
+    .frame {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .frame h4 {
+        color: #1e3a8a;
+        margin-bottom: 4px;
+    }
+
+    .frame .section-help {
+        color: #555;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .frame .row + .row { margin-top: 12px; }
+
+    .glow-button {
+        background-color: #3b82f6;
+        color: #ffffff;
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        margin: 5px;
+    }
+
+    .glow-button:hover {
+        background-color: #1e3a8a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .form-control, select, input[type="number"], input[type="text"], input[type="date"] {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .form-control:focus, select:focus, input[type="number"]:focus, input[type="text"]:focus, input[type="date"]:focus {
+        border-color: #3b82f6;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .label-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 2px;
+    }
+
+    /* Question-mark help tooltip — restyled from the original PEPRED design */
+    .help-tip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #3b82f6;
+        color: #ffffff;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: help;
+        position: relative;
+        user-select: none;
+    }
+
+    .help-tip::before {
+        content: '?';
+    }
+
+    .help-tip:hover .help-tip-text {
+        display: block;
+        animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .help-tip .help-tip-text {
+        display: none;
+        position: absolute;
+        bottom: 130%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 240px;
+        background-color: #1E2021;
+        color: #ffffff;
+        padding: 10px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: normal;
+        line-height: 1.4;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        z-index: 100;
+        pointer-events: none;
+    }
+
+    .help-tip .help-tip-text::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -6px;
+        border-width: 6px;
+        border-style: solid;
+        border-color: #1E2021 transparent transparent transparent;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; transform: translateX(-50%) scale(0.9); }
+        100% { opacity: 1; transform: translateX(-50%) scale(1); }
+    }
+
+    .yesno-radio {
+        display: inline-flex;
+        gap: 12px;
+        margin-top: 2px;
+    }
+
+    .yesno-radio label {
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .measure-row {
+        display: flex;
+        gap: 6px;
+    }
+
+    .measure-row input { flex: 1; }
+    .measure-row select { flex: 0 0 90px; }
+
+    .risk-display {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin: 20px 0;
+    }
+
+    .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .risk-item {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #dee2e6;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+
+    .risk-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .risk-bar {
+        width: 100%;
+        max-width: 320px;
+        height: 30px;
+        background: linear-gradient(to right, #28a745, #ffc107, #dc3545);
+        border: 2px solid #333;
+        position: relative;
+        margin: 15px auto;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .risk-indicator {
+        width: 4px;
+        height: 100%;
+        background-color: #000;
+        position: absolute;
+        border-radius: 2px;
+        box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    }
+
+    .risk-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1e3a8a;
+        margin-bottom: 10px;
+    }
+
+    .risk-percentage {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1e3a8a;
+        margin-top: 10px;
+    }
+
+    .title-header {
+        background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .intro-callout {
+        background: #eef4ff;
+        border-left: 4px solid #3b82f6;
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        color: #1f2937;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+
+    #previous-pregnancy-details { display: none; }
+
+    @media (max-width: 768px) {
+        .risk-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .risk-item { padding: 15px; }
+        .risk-bar { max-width: 220px; height: 25px; }
+        .risk-title { font-size: 16px; }
+        .risk-percentage { font-size: 20px; }
+    }
+</style>
+
+<script>
+    function positionRiskIndicators() {
+        document.querySelectorAll('.risk-indicator[data-risk]').forEach(function (indicator) {
+            var risk = parseFloat(indicator.dataset.risk);
+            if (!Number.isNaN(risk)) {
+                var clamped = Math.max(0, Math.min(100, risk));
+                indicator.style.left = 'calc(' + clamped + '% - 2px)';
+            }
+        });
+    }
+
+    function setupPreviousPregnancyToggle() {
+        var details = document.getElementById('previous-pregnancy-details');
+        document.querySelectorAll('input[name="prev_pregnancy"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                details.style.display = (radio.value === '1' && radio.checked) ? 'block' : 'none';
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            positionRiskIndicators();
+            setupPreviousPregnancyToggle();
+        });
+    } else {
+        positionRiskIndicators();
+        setupPreviousPregnancyToggle();
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% if error %}
+    <div class="container">
+        <div class="error-message text-center">
+            <h4>Error: {{ error }}</h4>
+        </div>
+    </div>
+{% endif %}
+
+<div class="container">
+    <div class="title-header">
+        <h1>🫀 PEPRED — Preeclampsia Risk Prediction</h1>
+        <p>Risks can be derived from maternal history and any combinations of biomarkers.<br>
+        Useful markers at 11–14 weeks are mean arterial pressure (MAP), uterine artery PI (UTPI) and serum PLGF (or PAPP-A when PLGF is not available).</p>
+    </div>
+
+    <div class="intro-callout">
+        Any field left empty will be replaced by a default value. If you do not fill the
+        <strong>Test Date</strong> field, the risk will be based only on observations before the pregnancy
+        (maternal history). Two risk factors can be computed: the total risk for PE (All&nbsp;PE) or the
+        risk for PE leading to early preterm birth (before week&nbsp;37).
+    </div>
+
+    <form action="{{ url_for('ui.process_pepred_form') }}" method="post" enctype="multipart/form-data">
+
+        <!-- Maternal history -->
+        <div class="frame">
+            <h4>Maternal History</h4>
+            <p class="section-help">Demographics, lifestyle and medical history of the mother.</p>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="model">Type of Preeclampsia</label>
+                        <span class="help-tip"><span class="help-tip-text">Preterm (less than 37 weeks) and All (any gestational age). Previous pregnancies lasting beyond 24 weeks.</span></span>
+                    </div>
+                    <select name="model" id="model" class="form-control">
+                        <option value="1" selected>All PE</option>
+                        <option value="3">Preterm PE</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="age">Age (years)</label>
+                        <span class="help-tip"><span class="help-tip-text">Mother's age.</span></span>
+                    </div>
+                    <input type="number" id="age" name="age" step="any" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="race">Racial origin</label>
+                        <span class="help-tip"><span class="help-tip-text">Mother's race.</span></span>
+                    </div>
+                    <select name="race" id="race" class="form-control">
+                        <option value="White" selected>White</option>
+                        <option value="Black">Black</option>
+                        <option value="South_Asian">South Asian</option>
+                        <option value="East_Asian">East Asian</option>
+                        <option value="Mixed">Mixed</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="conception">Conception</label>
+                        <span class="help-tip"><span class="help-tip-text">Conception type.</span></span>
+                    </div>
+                    <select name="conception" id="conception" class="form-control">
+                        <option value="Spontaneous" selected>Spontaneous</option>
+                        <option value="IVF">IVF</option>
+                        <option value="Ovulation_drugs">Med. for ovulation</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label>Smoking</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the mother smokes.</span></span>
+                    </div>
+                    <div class="yesno-radio">
+                        <label><input type="radio" name="smoking" value="Yes"> Yes</label>
+                        <label><input type="radio" name="smoking" value="No" checked> No</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="ht">Height</label>
+                        <span class="help-tip"><span class="help-tip-text">Mother's height.</span></span>
+                    </div>
+                    <div class="measure-row">
+                        <input type="text" id="ht" name="ht" placeholder="e.g. 165">
+                        <select name="ht.measure">
+                            <option value="cm" selected>cm</option>
+                            <option value="foot">foot'inch</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="wt">Weight</label>
+                        <span class="help-tip"><span class="help-tip-text">Mother's weight.</span></span>
+                    </div>
+                    <div class="measure-row">
+                        <input type="text" id="wt" name="wt" placeholder="e.g. 70">
+                        <select name="wt.measure">
+                            <option value="kg" selected>kg</option>
+                            <option value="pound">pound</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label>Mother had PE</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the grandmother of the baby had PE.</span></span>
+                    </div>
+                    <div class="yesno-radio">
+                        <label><input type="radio" name="FH_PE_grandmother" value="Yes"> Yes</label>
+                        <label><input type="radio" name="FH_PE_grandmother" value="No" checked> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="Diabetes">Diabetes</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the mother has diabetes (and type).</span></span>
+                    </div>
+                    <select name="Diabetes" id="Diabetes" class="form-control">
+                        <option value="No" selected>No</option>
+                        <option value="Type_1_DM">Type 1 DM</option>
+                        <option value="Type_2_DM">Type 2 DM</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label>SLE or APS</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the mother has Lupus (SLE) or antiphospholipid syndrome (APS).</span></span>
+                    </div>
+                    <div class="yesno-radio">
+                        <label><input type="radio" name="SLE" value="SLE_or_APS"> Yes</label>
+                        <label><input type="radio" name="SLE" value="No" checked> No</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label>Chronic hypertension</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the mother has chronic hypertension.</span></span>
+                    </div>
+                    <div class="yesno-radio">
+                        <label><input type="radio" name="Chronic_hypertension" value="Yes"> Yes</label>
+                        <label><input type="radio" name="Chronic_hypertension" value="No" checked> No</label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label>Previous pregnancy</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the mother previously had a pregnancy lasting at least 24 weeks.</span></span>
+                    </div>
+                    <div class="yesno-radio">
+                        <label><input type="radio" name="prev_pregnancy" value="1"> Yes</label>
+                        <label><input type="radio" name="prev_pregnancy" value="0" checked> No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="previous-pregnancy-details">
+                <hr>
+                <p class="section-help">Please also fill in details about the previous pregnancy.</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="label-row">
+                            <label for="interval">Interval (years)</label>
+                            <span class="help-tip"><span class="help-tip-text">Interval from the end of the last pregnancy (in years).</span></span>
+                        </div>
+                        <input type="number" id="interval" name="interval" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="label-row">
+                            <label for="last.ga">Last GA (weeks)</label>
+                            <span class="help-tip"><span class="help-tip-text">Gestational age of the previous pregnancy (in weeks).</span></span>
+                        </div>
+                        <input type="number" id="last.ga" name="last.ga" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="label-row">
+                            <label for="Previous_PE">Previous PE</label>
+                            <span class="help-tip"><span class="help-tip-text">Whether the mother had previous PE.</span></span>
+                        </div>
+                        <select name="Previous_PE" id="Previous_PE" class="form-control">
+                            <option value="Multip_PE">Yes</option>
+                            <option value="Multip_no_PE" selected>No</option>
+                            <option value="Nullip">Nullip</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biomarkers -->
+        <div class="frame">
+            <h4>Biomarkers (11–14 weeks) — optional</h4>
+            <p class="section-help">Leave Test Date blank to predict from maternal history alone. Filling it in enables the full model that incorporates first-trimester biomarkers.</p>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="start">Test Date</label>
+                        <span class="help-tip"><span class="help-tip-text">The date on which the tests were taken.</span></span>
+                    </div>
+                    <input type="date" id="start" name="test-date">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="ga">Current GA</label>
+                        <span class="help-tip"><span class="help-tip-text">Gestational age of this pregnancy.</span></span>
+                    </div>
+                    <div class="measure-row">
+                        <input type="text" id="ga" name="ga" placeholder="e.g. 89">
+                        <select name="ga.measure">
+                            <option value="days" selected>days</option>
+                            <option value="weeks">weeks</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="pappa">PAPP-A</label>
+                        <span class="help-tip"><span class="help-tip-text">Pregnancy-associated plasma protein-A.</span></span>
+                    </div>
+                    <input type="number" id="pappa" name="pappa" step="any" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="utpi">UTPI</label>
+                        <span class="help-tip"><span class="help-tip-text">Average uterine artery pulsatility index.</span></span>
+                    </div>
+                    <input type="number" id="utpi" name="utpi" step="any" class="form-control">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="map">MAP</label>
+                        <span class="help-tip"><span class="help-tip-text">Mean arterial pressure.</span></span>
+                    </div>
+                    <input type="number" id="map" name="map" step="any" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="plgf">PLGF</label>
+                        <span class="help-tip"><span class="help-tip-text">Angiogenic placental growth factor.</span></span>
+                    </div>
+                    <input type="number" id="plgf" name="plgf" step="any" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="plgf.machine">PLGF Machine</label>
+                        <span class="help-tip"><span class="help-tip-text">Type of machine used to measure PLGF.</span></span>
+                    </div>
+                    <select name="plgf.machine" id="plgf.machine" class="form-control">
+                        <option value="Delfia" selected>Delfia</option>
+                        <option value="Roche">Roche</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="glow-button">🔬 Calculate PE Risk</button>
+        </div>
+    </form>
+
+    {% if results %}
+        <div class="risk-display">
+            <h3 style="color:#1e3a8a;">Preeclampsia Risk Assessment</h3>
+            <p class="text-muted">
+                Model: {{ 'Preterm PE (<37 weeks)' if binary_case == 3 else 'All PE' }}
+                · {{ 'Full (with biomarkers)' if is_full else 'Partial (history only)' }}
+            </p>
+            <div class="risk-grid">
+                <div class="risk-item">
+                    <div class="risk-title">Your Percentile</div>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" data-risk="{{ percentile }}"></div>
+                    </div>
+                    <div class="risk-percentage">{{ percentile }}%</div>
+                    <small class="text-muted">Position relative to the training population</small>
+                </div>
+                <div class="risk-item">
+                    <div class="risk-title">Risk of PE</div>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" data-risk="{{ risk }}"></div>
+                    </div>
+                    <div class="risk-percentage">{{ risk }}%</div>
+                    <small class="text-muted">Estimated probability of preeclampsia</small>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

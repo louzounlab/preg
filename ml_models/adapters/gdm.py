@@ -35,7 +35,7 @@ def _divide_array(arr, num_subarrays):
 
 
 @lru_cache(maxsize=1)
-def _load_models(model_dir: str):
+def _load_models(model_dir: str): # Load and cache GDM models from the specified directory.
     model_names = ("lgbm_0.pkl", "lgbm_1.pkl", "lgbm_2.pkl", "lgbm_3.pkl")
     models = []
     for model_name in model_names:

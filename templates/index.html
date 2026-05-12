@@ -91,6 +91,10 @@
             background: linear-gradient(135deg, #A569BD 0%, #7D3C98 100%);
         }
 
+        .btn-pepred {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+        }
+
         .btn-icon {
             font-size: 3rem;
             margin-bottom: 15px;
@@ -156,6 +160,12 @@
                     <div class="btn-icon">📈</div>
                     <div class="btn-title">Twin-FWE</div>
                     <div class="btn-description">Twin fetal weight estimation and discordance prediction tool</div>
+                </a>
+
+                <a href="{{ url_for('ui.pepred') }}" class="btn-custom btn-pepred">
+                    <div class="btn-icon">🫀</div>
+                    <div class="btn-title">PEPRED</div>
+                    <div class="btn-description">Preeclampsia risk prediction from maternal history and 1st-trimester biomarkers</div>
                 </a>
             </div>
         </div>

@@ -256,7 +256,10 @@
             <input type="number" hidden id="last_row" name="last_row" value="{{ last_row or 4 }}">
 
             <div class="frame">
-                <h4>Chorionicity</h4>
+                <div class="label-row" style="justify-content: center;">
+                    <h4 style="margin: 0;">Chorionicity</h4>
+                    <span class="help-tip"><span class="help-tip-text">MCDA = monochorionic diamniotic (one shared placenta, two amniotic sacs). DCDA = dichorionic diamniotic (two separate placentas).</span></span>
+                </div>
                 <p>Select <b>MCDA</b> or <b>DCDA</b></p>
                 <div id="chorionicity-buttons">
                     <button class="glow-button" onclick="glow1()" id="MCDA" name="MCDA" type="button">MCDA</button>
@@ -268,10 +271,30 @@
                 <div class="frame">
                     <h4>Measurements</h4>
                     <div class="row measurement-row">
-                        <div class="col-md-3"><label>Week</label></div>
-                        <div class="col-md-3"><label>Day</label></div>
-                        <div class="col-md-3"><label>EFW1</label></div>
-                        <div class="col-md-3"><label>EFW2</label></div>
+                        <div class="col-md-3">
+                            <div class="label-row">
+                                <label>Week</label>
+                                <span class="help-tip"><span class="help-tip-text">Gestational age in completed weeks at the time of this measurement (12–36).</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="label-row">
+                                <label>Day</label>
+                                <span class="help-tip"><span class="help-tip-text">Days past the gestational week for this measurement (0–6).</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="label-row">
+                                <label>EFW1</label>
+                                <span class="help-tip"><span class="help-tip-text">Estimated fetal weight of twin 1 (grams) at this measurement.</span></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="label-row">
+                                <label>EFW2</label>
+                                <span class="help-tip"><span class="help-tip-text">Estimated fetal weight of twin 2 (grams) at this measurement.</span></span>
+                            </div>
+                        </div>
                     </div>
 
                     {% for i in range(1, 11) %}

@@ -218,15 +218,24 @@
                 <h4>Second Trimester Details</h4>
                 <div class="row">
                     <div class="col-md-3">
-                        <label for="second_trimester_EFW1">EFW1</label>
+                        <div class="label-row">
+                            <label for="second_trimester_EFW1">EFW1</label>
+                            <span class="help-tip"><span class="help-tip-text">Estimated fetal weight of twin 1 (grams) in the second trimester.</span></span>
+                        </div>
                         <input type="number" id="second_trimester_EFW1" name="second_trimester_EFW1" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="second_trimester_Glucose">Glucose</label>
+                        <div class="label-row">
+                            <label for="second_trimester_Glucose">Glucose</label>
+                            <span class="help-tip"><span class="help-tip-text">Maternal blood glucose level (mg/dL) in the second trimester.</span></span>
+                        </div>
                         <input type="number" id="second_trimester_Glucose" name="second_trimester_Glucose" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="second_trimester_WBC">WBC</label>
+                        <div class="label-row">
+                            <label for="second_trimester_WBC">WBC</label>
+                            <span class="help-tip"><span class="help-tip-text">White blood cell count (×10³/µL) in the second trimester.</span></span>
+                        </div>
                         <input type="number" id="second_trimester_WBC" name="second_trimester_WBC" step="any" class="form-control">
                     </div>
                 </div>
@@ -243,11 +252,17 @@
                 <h4>Third Trimester Details</h4>
                 <div class="row">
                     <div class="col-md-3">
-                        <label for="Third_Trimester_EFW2">EFW2</label>
+                        <div class="label-row">
+                            <label for="Third_Trimester_EFW2">EFW2</label>
+                            <span class="help-tip"><span class="help-tip-text">Estimated fetal weight of twin 2 (grams) in the third trimester.</span></span>
+                        </div>
                         <input type="number" id="Third_Trimester_EFW2" name="Third_Trimester_EFW2" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="Third_Trimester_PAPPA">PAPPA</label>
+                        <div class="label-row">
+                            <label for="Third_Trimester_PAPPA">PAPPA</label>
+                            <span class="help-tip"><span class="help-tip-text">Pregnancy-associated plasma protein-A — placental biomarker.</span></span>
+                        </div>
                         <input type="number" id="Third_Trimester_PAPPA" name="Third_Trimester_PAPPA" step="any" class="form-control">
                     </div>
                 </div>
@@ -288,8 +303,10 @@
                 <h4>First Trimester Baseline Information</h4>
                 <div class="row">
                     <div class="col-md-3">
-                        <label for="First_trimester_Aspirin">Aspirin</label>
-                        <br>
+                        <div class="label-row">
+                            <label for="First_trimester_Aspirin">Aspirin</label>
+                            <span class="help-tip"><span class="help-tip-text">Whether the mother is taking low-dose aspirin during this pregnancy.</span></span>
+                        </div>
                         <div class="tri-toggle" data-target="First_trimester_Aspirin">
                             <button type="button" data-val="1">Yes</button>
                             <button type="button" data-val="0">No</button>
@@ -298,23 +315,34 @@
                         <input type="hidden" id="First_trimester_Aspirin" name="First_trimester_Aspirin" value="">
                     </div>
                     <div class="col-md-3">
-                        <label for="First_trimester_BMI">BMI</label>
+                        <div class="label-row">
+                            <label for="First_trimester_BMI">BMI</label>
+                            <span class="help-tip"><span class="help-tip-text">Body Mass Index (kg/m²) at the first-trimester visit.</span></span>
+                        </div>
                         <input type="number" id="First_trimester_BMI" name="First_trimester_BMI" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="First_trimester_GA.1st">GA 1st</label>
+                        <div class="label-row">
+                            <label for="First_trimester_GA.1st">GA 1st</label>
+                            <span class="help-tip"><span class="help-tip-text">Gestational age (weeks) at the first-trimester visit.</span></span>
+                        </div>
                         <input type="number" id="First_trimester_GA.1st" name="First_trimester_GA.1st" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="First_trimester_Glucose">Glucose</label>
+                        <div class="label-row">
+                            <label for="First_trimester_Glucose">Glucose</label>
+                            <span class="help-tip"><span class="help-tip-text">Maternal fasting blood glucose level (mg/dL).</span></span>
+                        </div>
                         <input type="number" id="First_trimester_Glucose" name="First_trimester_Glucose" step="any" class="form-control">
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-3">
-                        <label for="First_trimester_History_of_GDM">History of GDM</label>
-                        <br>
+                        <div class="label-row">
+                            <label for="First_trimester_History_of_GDM">History of GDM</label>
+                            <span class="help-tip"><span class="help-tip-text">Whether the mother had gestational diabetes in a previous pregnancy.</span></span>
+                        </div>
                         <div class="tri-toggle" data-target="First_trimester_History_of_GDM">
                             <button type="button" data-val="1">Yes</button>
                             <button type="button" data-val="0">No</button>
@@ -323,35 +351,55 @@
                         <input type="hidden" id="First_trimester_History_of_GDM" name="First_trimester_History_of_GDM" value="">
                     </div>
                     <div class="col-md-3">
-                        <label for="First_trimester_MAP">MAP</label>
+                        <div class="label-row">
+                            <label for="First_trimester_MAP">MAP</label>
+                            <span class="help-tip"><span class="help-tip-text">Mean arterial pressure (mmHg) — average blood pressure during one cardiac cycle.</span></span>
+                        </div>
                         <input type="number" id="First_trimester_MAP" name="First_trimester_MAP" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="First_trimester_NT2">NT2</label>
+                        <div class="label-row">
+                            <label for="First_trimester_NT2">NT2</label>
+                            <span class="help-tip"><span class="help-tip-text">Nuchal translucency of the second twin (mm) at the 11–14 week scan.</span></span>
+                        </div>
                         <input type="number" id="First_trimester_NT2" name="First_trimester_NT2" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="First_trimester_Platelets">Platelets</label>
+                        <div class="label-row">
+                            <label for="First_trimester_Platelets">Platelets</label>
+                            <span class="help-tip"><span class="help-tip-text">Maternal platelet count (×10³/µL).</span></span>
+                        </div>
                         <input type="number" id="First_trimester_Platelets" name="First_trimester_Platelets" step="any" class="form-control">
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-3">
-                        <label for="First_trimester_PreTwin.ID">PreTwin ID</label>
+                        <div class="label-row">
+                            <label for="First_trimester_PreTwin.ID">PreTwin ID</label>
+                            <span class="help-tip"><span class="help-tip-text">Identifier of the presenting twin used for ordering measurements.</span></span>
+                        </div>
                         <input type="number" id="First_trimester_PreTwin.ID" name="First_trimester_PreTwin.ID" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="First_trimester_RBC">RBC</label>
+                        <div class="label-row">
+                            <label for="First_trimester_RBC">RBC</label>
+                            <span class="help-tip"><span class="help-tip-text">Red blood cell count (×10⁶/µL).</span></span>
+                        </div>
                         <input type="number" id="First_trimester_RBC" name="First_trimester_RBC" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="First_trimester_WBC">WBC</label>
+                        <div class="label-row">
+                            <label for="First_trimester_WBC">WBC</label>
+                            <span class="help-tip"><span class="help-tip-text">White blood cell count (×10³/µL).</span></span>
+                        </div>
                         <input type="number" id="First_trimester_WBC" name="First_trimester_WBC" step="any" class="form-control">
                     </div>
                     <div class="col-md-3">
-                        <label for="maternal_and_newborn_data_Caucasian">Caucasian</label>
-                        <br>
+                        <div class="label-row">
+                            <label for="maternal_and_newborn_data_Caucasian">Caucasian</label>
+                            <span class="help-tip"><span class="help-tip-text">Whether the mother is of Caucasian/White ethnic origin.</span></span>
+                        </div>
                         <div class="tri-toggle" data-target="maternal_and_newborn_data_Caucasian">
                             <button type="button" data-val="1">Yes</button>
                             <button type="button" data-val="0">No</button>

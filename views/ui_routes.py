@@ -4,6 +4,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from ml_models.adapters.gdm import predict as predict_gdm
 from ml_models.adapters.twin_pe import predict as predict_pe
 from ml_models.adapters.twin_fwe import predict as predict_fwe, adjust_trend as adjust_fwe_trend
+from ml_models.adapters.pepred import predict as predict_pepred
 
 ui = Blueprint('ui', __name__)
 
@@ -52,6 +53,12 @@ def twin_fwe():
     return render_template('twin-fwe.html', data={}, percentage_dict={}, zscore_dict={}, last_row=4)
 
 
+@ui.route('/PEPRED')
+@ui.route('/pepred')
+def pepred():
+    return render_template('pepred.html', results=False)
+
+
 @ui.route('/process_pe_form', methods=['POST', 'GET'])
 def process_pe_form():
     submodule_root = str(PROJECT_ROOT / "ml_models" / "twins_pe")
@@ -91,6 +98,16 @@ def process_fwe_form():
             last_row=last_row,
             error=str(exc),
         )
+
+
+@ui.route('/process_pepred_form', methods=['POST', 'GET'])
+def process_pepred_form():
+    submodule_root = str(PROJECT_ROOT / "ml_models" / "pepred_minimal")
+    try:
+        ctx = predict_pepred(dict(request.form), submodule_root)
+        return render_template('pepred.html', results=True, **ctx)
+    except Exception as exc:
+        return render_template('pepred.html', results=False, error=str(exc))
 
 
 @ui.route('/adjust_trend', methods=['POST', 'GET'])
