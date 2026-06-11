@@ -11,7 +11,8 @@
       "Bash(sudo -n docker ps)",
       "Bash(python -c \"import secrets; print\\(secrets.token_urlsafe\\(48\\)\\)\")",
       "Bash(sg docker *)",
-      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8000/Home)"
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8000/Home)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} -> %{redirect_url}\\\\n\" http://localhost:8000/login)"
     ]
   }
 }
