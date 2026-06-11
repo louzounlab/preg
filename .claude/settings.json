@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(file /home/yonathanrozen/Desktop/modelsSite/ml_models/twins_pe/models_pe_tw/*.pkl)",
+      "Bash(.venv/bin/pip freeze *)",
+      "Bash(grep -E \"^\\\\.env$\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\('views/auth_routes.py'\\).read\\(\\)\\); ast.parse\\(open\\('config.py'\\).read\\(\\)\\); print\\('syntax OK'\\)\")",
+      "Bash(docker --version)",
+      "Bash(docker compose *)",
+      "Bash(sed -E 's/\\(SECRET|KEY|ID\\)=.+/\\\\1=***SET***/; s/\\(CLIENT_SECRET\\)=.+/\\\\1=***SET***/' /home/yonathanrozen/Desktop/modelsSite/.env)",
+      "Bash(sudo -n docker ps)",
+      "Bash(python -c \"import secrets; print\\(secrets.token_urlsafe\\(48\\)\\)\")",
+      "Bash(sg docker *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8000/Home)"
+    ]
+  }
+}

@@ -289,6 +289,18 @@
             <a class="navbar-brand" href="https://yolo.math.biu.ac.il/">
                 <img src="/static/yolo_lab.jpg" alt="..." height="36">
             </a>
+            <div class="d-flex align-items-center ms-3">
+                {% if session.user %}
+                    {% if session.user.picture %}
+                        <img src="{{ session.user.picture }}" alt="" height="32"
+                             style="border-radius:50%;margin-right:8px;">
+                    {% endif %}
+                    <span style="color:white;margin-right:12px;">{{ session.user.name }}</span>
+                    <a class="btn btn-outline-light btn-sm" href="/logout">Sign out</a>
+                {% else %}
+                    <a class="btn btn-light btn-sm" href="/login">Sign in with Google</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
 </div>

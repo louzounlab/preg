@@ -1,6 +1,7 @@
 from pathlib import Path
 from flask import Blueprint, render_template, request
 
+from auth.decorators import login_required
 from ml_models.adapters.gdm import predict as predict_gdm
 from ml_models.adapters.twin_pe import predict as predict_pe
 from ml_models.adapters.twin_fwe import predict as predict_fwe, adjust_trend as adjust_fwe_trend
@@ -38,28 +39,33 @@ def example():
 
 @ui.route('/PE_Twins')
 @ui.route('/twin-pe')
+@login_required
 def pe_twins():
     return render_template('twin-pe.html', risks=[])
 
 
 @ui.route('/GDM')
 @ui.route('/gdm')
+@login_required
 def gdm():
     return render_template('gdm.html', active='GDM', risks=[])
 
 
 @ui.route('/twin-fwe')
+@login_required
 def twin_fwe():
     return render_template('twin-fwe.html', data={}, percentage_dict={}, zscore_dict={}, last_row=4)
 
 
 @ui.route('/PEPRED')
 @ui.route('/pepred')
+@login_required
 def pepred():
     return render_template('pepred.html', results=False)
 
 
 @ui.route('/process_pe_form', methods=['POST', 'GET'])
+@login_required
 def process_pe_form():
     submodule_root = str(PROJECT_ROOT / "ml_models" / "twins_pe")
     try:
@@ -70,6 +76,7 @@ def process_pe_form():
 
 
 @ui.route('/process_gdm_form', methods=['POST', 'GET'])
+@login_required
 def process_gdm_form():
     submodule_root = str(PROJECT_ROOT / "ml_models" / "twins_pe")
     try:
@@ -80,6 +87,7 @@ def process_gdm_form():
 
 
 @ui.route('/process_fwe_form', methods=['POST', 'GET'])
+@login_required
 def process_fwe_form():
     submodule_root = str(PROJECT_ROOT / "ml_models" / "twin_fwe")
     form_data = request.form.to_dict()
@@ -101,6 +109,7 @@ def process_fwe_form():
 
 
 @ui.route('/process_pepred_form', methods=['POST', 'GET'])
+@login_required
 def process_pepred_form():
     submodule_root = str(PROJECT_ROOT / "ml_models" / "pepred_minimal")
     try:
@@ -111,6 +120,7 @@ def process_pepred_form():
 
 
 @ui.route('/adjust_trend', methods=['POST', 'GET'])
+@login_required
 def adjust_trend():
     trend_data_path = request.form.get("trend_data")
     extended_by = int(request.form.get("range") or 1)

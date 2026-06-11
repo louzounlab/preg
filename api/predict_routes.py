@@ -1,6 +1,7 @@
 from pathlib import Path
 from flask import Blueprint, jsonify, request
 
+from auth.decorators import login_required
 from ml_models.adapters.twin_pe import predict as predict_pe
 from ml_models.adapters.twin_fwe import predict as predict_fwe
 
@@ -11,6 +12,7 @@ STATIC_ROOT = str(PROJECT_ROOT / "static")
 
 
 @api.route('/predict/twin-pe', methods=['POST'])
+@login_required
 def predict_twin_pe():
     payload = request.get_json(silent=True) or {}
     submodule_root = str(PROJECT_ROOT / "ml_models" / "twins_pe")
@@ -19,6 +21,7 @@ def predict_twin_pe():
 
 
 @api.route('/predict/twin-fwe', methods=['POST'])
+@login_required
 def predict_twin_fwe():
     payload = request.get_json(silent=True) or {}
     submodule_root = str(PROJECT_ROOT / "ml_models" / "twin_fwe")
