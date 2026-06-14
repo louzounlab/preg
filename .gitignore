@@ -18,7 +18,7 @@ dist/
 *.egg
 
 # Generated per-request output (timestamped run dirs from adapters)
-static/[0-9]*.[0-9]*/
+app/static/[0-9]*.[0-9]*/
 
 # OS
 .DS_Store
@@ -29,6 +29,9 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# Claude / local tooling
+.claude/
 
 # Logs
 *.log

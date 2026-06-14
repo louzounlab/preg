@@ -26,14 +26,10 @@ RUN pip install --upgrade pip \
         --extra-index-url https://download.pytorch.org/whl/cpu \
         -r requirements.txt
 
-# Application code
-COPY app.py config.py ./
-COPY api ./api
-COPY auth ./auth
-COPY views ./views
-COPY templates ./templates
-COPY static ./static
-COPY ml_models ./ml_models
+# Application code. Everything lives under ./app in the repo and is copied into
+# the image WORKDIR (/app), so the flat imports — `import config`,
+# `from api ...` — and the `app:app` gunicorn target keep working unchanged.
+COPY app/ ./
 
 # Create non-root user and make sure the static dir is writable
 # (twin_fwe adapter writes per-request output under /app/static/<timestamp>/)

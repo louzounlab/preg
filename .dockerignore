@@ -30,7 +30,7 @@ build
 dist
 
 # Per-request generated outputs (created at runtime)
-static/[0-9]*.[0-9]*/
+app/static/[0-9]*.[0-9]*/
 
 # Logs
 *.log
