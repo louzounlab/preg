@@ -67,7 +67,16 @@ def callback():
         "name": userinfo.get("name") or userinfo.get("email"),
         "picture": userinfo.get("picture"),
     }
-    next_url = session.pop("next", None) or "/Home"
+    next_url = session.pop("next", None)
+    # Only follow same-site relative paths. Reject absolute URLs and
+    # protocol-relative paths ("//evil.com") to avoid an open redirect.
+    # Browsers may treat "/\" like "//", so reject both as the second char.
+    if (
+        not next_url
+        or not next_url.startswith("/")
+        or next_url[:2] in ("//", "/\\")
+    ):
+        next_url = "/Home"
     return redirect(next_url)
 
 

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
+    <link rel="stylesheet" href="/static/index.css">
     <style>
         .main-div {
             margin: auto;
@@ -40,6 +41,7 @@
         }
 
         .btn-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 40px 30px;
             text-decoration: none;
@@ -85,18 +87,6 @@
 
         .btn-gdm {
             background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
-        }
-
-        .btn-twin {
-            background: linear-gradient(135deg, #A569BD 0%, #7D3C98 100%);
-        }
-
-        .btn-pepred {
-            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
-        }
-
-        .btn-preterm {
-            background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
         }
 
         .btn-icon {
@@ -148,34 +138,16 @@
             <p class="hero-subtitle">Advanced AI-powered diagnostic tools to support healthcare professionals in making informed decisions</p>
 
             <div class="button-group">
-                <a href="{{ url_for('ui.pe_twins') }}" class="btn-custom btn-pe">
+                <a href="{{ url_for('pe_twins') }}" class="btn-custom btn-pe">
                     <div class="btn-icon">👶</div>
                     <div class="btn-title">PE Twins Prediction</div>
                     <div class="btn-description">Predict preeclampsia risk in twin pregnancies using advanced algorithms</div>
                 </a>
 
-                <a href="{{ url_for('ui.gdm') }}" class="btn-custom btn-gdm">
+                <a href="{{ url_for('gdm') }}" class="btn-custom btn-gdm">
                     <div class="btn-icon">🩺</div>
                     <div class="btn-title">GDM Prediction</div>
                     <div class="btn-description">Gestational diabetes mellitus risk assessment and prediction tool</div>
-                </a>
-
-                <a href="{{ url_for('ui.twin_efw') }}" class="btn-custom btn-twin">
-                    <div class="btn-icon">📈</div>
-                    <div class="btn-title">Twin-EFW</div>
-                    <div class="btn-description">Twin fetal weight estimation and discordance prediction tool</div>
-                </a>
-
-                <a href="{{ url_for('ui.pepred') }}" class="btn-custom btn-pepred">
-                    <div class="btn-icon">🫀</div>
-                    <div class="btn-title">PEPRED</div>
-                    <div class="btn-description">Preeclampsia risk prediction from maternal history and 1st-trimester biomarkers</div>
-                </a>
-
-                <a href="{{ url_for('ui.preterm') }}" class="btn-custom btn-preterm">
-                    <div class="btn-icon">👶</div>
-                    <div class="btn-title">Preterm Birth</div>
-                    <div class="btn-description">Risk of delivery before 34 weeks from maternal history (preview model)</div>
                 </a>
             </div>
         </div>

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/index.css">
+    <style>
+        .main-div {
+            margin: auto;
+            width: 80%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container page-top">
+        <br>
+        <h1>Example</h1>
+    </div>
+    <br>
+    <div class="container page-top">
+        <br>
+        <h4>This is a detailed example for the use of this website.</h4>
+    </div>
+    <br>
+    <div class="container">
+        <p> Let's take a simple example of the site functionality.
+            First, let's agree that the initial home page looks like: </p>
+        <br>
+        <img src="../static/example1.png" height="200">
+        <br>
+        <br>
+        <p>Let's take a simple example of inputs (with <b style="font-size: 18px;">MCDA</b> clicked).</p>
+        <br>
+        <br>
+        <img src="../static/example2.png" height="200">
+        <br>
+        <br>
+        <p>In this example, we extended the amount of <b>default</b>
+            rows by simply clicking on the button "add row" (you can have 10 rows).</p>
+        <br>
+        <p>After filling all the details, we can now push submit as get the results.
+            <br>
+            <u>Notice</u>: It is allowed to fill details for a single twin in per row (and not for both twins).
+            But you do have to put at least one value for each column.</p>
+        <br>
+        <p>If you scroll down a little bit, on the results page, you will find the following table of results:</p>
+        <br>
+        <img src="../static/example3.png" height="200">
+        <br>
+        <br>
+        <p>As you can see, the table present varius of metrics,
+            calculated on the data supplied (for more details, please refer to the <a href="About">about</a> page).
+            <br>
+            <br>
+            Furthermore, you can view an informative plot of the trend line of the twins, relative to our data.
+        </p>
+        <br>
+        <img src="../static/example4.png" height="400">
+        <br>
+        <p>As you can see, there is a trend line which indicate how the twins located related to the popularity.
+            <br>
+            In addition, there are to buttons to download the percentages and z-scores of the twins
+            (presented in the above picture), as tables.
+            <br>
+            Lastly, there is an "advanced results" button, that presents some Gaussian plots of the twins related to the
+            distribution.
+        </p>
+        <br>
+        <img src="../static/example5.png" height="400">
+        <br>
+        <img src="../static/example6.png" height="200">
+        <br>
+        <br>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+{% endblock %}
+

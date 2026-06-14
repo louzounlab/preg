@@ -1,0 +1,112 @@
+label,Mean,Std,label_
+Third_Trimester_GA_at_test,30.28522691,3.256228106,Third Trimester GA at test
+Third_Trimester_EFW1,1558.501616,908.7827386,Third Trimester EFW1
+Third_Trimester_EFW2,1520.300861,426.3979804,Third Trimester EFW2
+Third_Trimester_MAP,86.37490492,10.13051813,Third Trimester MAP
+Third_Trimester_UtAPI_-Abdominal,0.713475671,0.259831829,Third Trimester UtAPI -Abdominal
+Third_Trimester_PLGF,508.7756879,459.9583826,Third Trimester PLGF
+Third_Trimester_PAPPA,67.03857718,80.14102307,Third Trimester PAPPA
+Third_Trimester_SFLT1,5098.010201,4602.367669,Third Trimester SFLT1
+Third_Trimester_SFLT1/PLGF,20.82596776,30.58571266,Third Trimester SFLT1/PLGF
+Third_Trimester_WBC,10.1236745,7.328639927,Third Trimester WBC
+Third_Trimester_RBC,3.848708054,0.464836886,Third Trimester RBC
+Third_Trimester_HB,11.76563758,4.632377276,Third Trimester HB
+Third_Trimester_Platelets,219.364094,51.42613768,Third Trimester Platelets
+Third_Trimester_Glucose,78.10503356,11.88525572,Third Trimester Glucose
+Third_Trimester_EFW_Total,1533.333285,571.6921521,Third Trimester EFW Total
+second_trimester_GA.2nd,21.35896213,0.996249188,second trimester GA.2nd
+second_trimester_EFW1,419.5251678,79.84984464,second trimester EFW1
+second_trimester_EFW2,412.0176174,87.10740848,second trimester EFW2
+second_trimester_MAP,85.57939597,7.601995144,second trimester MAP
+second_trimester_UtAPI_-Abdominal,0.850868289,0.396448563,second trimester UtAPI -Abdominal
+second_trimester_PLGF,596.0620134,340.6300979,second trimester PLGF
+second_trimester_pAPPA,80.10918121,59.21034034,second trimester pAPPA
+second_trimester_SFLT1,2846.740613,2193.37741,second trimester SFLT1
+second_trimester_sflt1/PlGf,6.706895138,10.4677593,second trimester sflt1/PlGf
+second_trimester_WBC,9.742550336,2.035026146,second trimester WBC
+second_trimester_RBC,3.770231544,1.478277668,second trimester RBC
+second_trimester_HB,14.18654362,8.594874436,second trimester HB
+second_trimester_Platelets,246.9362416,57.2332971,second trimester Platelets
+second_trimester_Glucose,81.37214765,14.20643568,second trimester Glucose
+second_trimester_EFW_Total,414.9140101,77.4620594,second trimester EFW Total
+First_trimester_PreTwin.ID,641.8808725,440.7335491,First trimester PreTwin.ID
+First_trimester_Chorionicity,0.716442953,0.450724359,First trimester Chorionicity
+First_trimester_MA,34.30574584,4.970139849,First trimester MA
+First_trimester_GA.1st,12.62269895,0.64146229,First trimester GA.1st
+First_trimester_CRL1,64.1590604,9.192171045,First trimester CRL1
+First_trimester_CRL2,63.85068792,10.17301876,First trimester CRL2
+First_trimester_NT1,1.64033557,0.94094794,First trimester NT1
+First_trimester_NT2,1.621711409,0.501285687,First trimester NT2
+First_trimester_EFW1,65.40590517,10.82042664,First trimester EFW1
+First_trimester_EFW2,63.95182229,10.78450025,First trimester EFW2
+First_trimester_MAP,88.3883557,8.08877105,First trimester MAP
+First_trimester_UtAPI_-Abdominal,1.419778356,0.452275079,First trimester UtAPI -Abdominal
+First_trimester_UTP-PI-Transvaginal,1.560374161,0.944261801,First trimester UTP-PI-Transvaginal
+First_trimester_BMI,25.5116277,7.571259731,First trimester BMI
+First_trimester_PLGF,76.37976678,92.93044386,First trimester PLGF
+First_trimester_Family_History_of_PE,0.036912752,0.205576287,First trimester Family History of PE
+First_trimester_History_of_PE,0.041946309,0.200466496,First trimester History of PE
+First_trimester_History_of_IUGR,0.020134228,0.140459393,First trimester History of IUGR
+First_trimester_History_of_GDM,0.018456376,0.134594718,First trimester History of GDM
+First_trimester_Placenta_Abruption,0.001677852,0.040927218,First trimester Placenta Abruption
+First_trimester_WBC,9.201610738,2.495824316,First trimester WBC
+First_trimester_RBC,4.298657718,2.097732287,First trimester RBC
+First_trimester_HB,12.98541946,8.835644653,First trimester HB
+First_trimester_Platelets,252.0221477,60.36754257,First trimester Platelets
+First_trimester_Glucose,79.55025168,11.88077798,First trimester Glucose
+First_trimester_Aspirin,118.488255,57.48108702,First trimester Aspirin
+First_trimester_Recommendation,8.513422819,35.63510289,First trimester Recommendation
+First_trimester_cffDNA,14.45503356,3.151545615,First trimester cffDNA
+First_trimester_Ethniicty,1.404362416,1.23670694,First trimester Ethniicty
+First_trimester_Patient_code,534.6493289,454.1889329,First trimester Patient code
+First_trimester_A,0.488255034,0.499862037,First trimester A
+First_trimester_AB,0.038590604,0.192617157,First trimester AB
+First_trimester_B,0.147651007,0.354753699,First trimester B
+First_trimester_O,0.312080537,0.463342503,First trimester O
+First_trimester_EFW_Total,64.68478046,10.06022454,First trimester EFW Total
+maternal_and_newborn_data_Caucasian,0.877516779,0.327843075,maternal and newborn data Caucasian
+maternal_and_newborn_data_Spontaneous,0.587248322,0.492328884,maternal and newborn data Spontaneous
+maternal_and_newborn_data_Nulliparous,0.5,0.5,maternal and newborn data Nulliparous
+maternal_and_newborn_data_DM,0.015100671,0.121953437,maternal and newborn data DM
+maternal_and_newborn_data_Asthma,0.060402685,0.238231401,maternal and newborn data Asthma
+maternal_and_newborn_data_Hypo-thyroidism,0.105704698,0.30745929,maternal and newborn data Hypo-thyroidism
+maternal_and_newborn_data_Hyper-thyroidism,0.010067114,0.09982869,maternal and newborn data Hyper-thyroidism
+maternal_and_newborn_data_Cardio_vascular,0.021812081,0.146069551,maternal and newborn data Cardio vascular
+Outcome_GA.delivery,34.7388303,6.593101652,Outcome GA.delivery
+Outcome_mAP,70.23026286,41.55427458,Outcome mAP
+Outcome_WBC,52.34010067,765.3025173,Outcome WBC
+Outcome_RBC,2.740989933,2.168089468,Outcome RBC
+Outcome_Hg,8.520687919,8.50571697,Outcome Hg
+Outcome_Platelets,154.104698,91.86000461,Outcome Platelets
+Outcome_Glucose,60.64463087,42.03126379,Outcome Glucose
+Outcome_AST,11.83892617,24.95588514,Outcome AST
+Outcome_ALT,10.6442953,33.94425431,Outcome ALT
+Outcome_LDH,88.88036913,175.3160255,Outcome LDH
+Outcome_Uric_Acid,1.574865772,2.885869964,Outcome Uric Acid
+Outcome_Protein,225.910755,1099.647581,Outcome Protein
+Outcome_dipstick,0.035234899,0.301728986,Outcome dipstick
+Outcome_24h_protein,118.2817114,717.5657306,Outcome 24h protein
+Outcome_Mode_of_delivery_Fetus_A,,,Outcome Mode of delivery Fetus A
+Outcome_Mode_of_Delivery_Fetus_B,0.016778523,0.311502676,Outcome Mode of Delivery Fetus B
+Outcome_Birthweight_Fetus_A,2321.530201,597.9767291,Outcome Birthweight Fetus A
+Outcome_Birthweight_Fetus_B,2234.565101,690.1758762,Outcome Birthweight Fetus B
+Outcome_IUGR_A,0.097315436,0.296386812,Outcome IUGR A
+Outcome_IUGR_B,0.104026846,0.305295367,Outcome IUGR B
+Outcome_Preeclampsia,0.109060403,0.311714984,Outcome Preeclampsia
+Outcome_GDM,0.166107383,0.372177001,Outcome GDM
+Outcome_Gestational_Diabetes_diagnosed_by,0.149328859,0.517657559,Outcome Gestational Diabetes diagnosed by
+Outcome_Pregestational_Diabetes,0.001677852,0.040927218,Outcome Pregestational Diabetes
+Outcome_Diet_only,0.041946309,0.200466496,Outcome Diet only
+Outcome_Insulin,0.040268456,0.196588168,Outcome Insulin
+Outcome_Metformin,0.011744966,0.107735891,Outcome Metformin
+Outcome_Other_Drugs,,,Outcome Other Drugs
+Outcome_GDM.1,0.166107383,0.372177001,Outcome GDM.1
+Outcome_Preeclampsia.1,0.110738255,0.313807734,Outcome Preeclampsia.1
+Outcome_Gender1_Fe1=0,0.510067114,0.499898643,Outcome Gender1 Fe1=0
+Outcome_NICU1,3.994966443,13.00277364,Outcome NICU1
+Outcome_Apgar1.1,7.709731544,2.360462771,Outcome Apgar1.1
+Outcome_Apgar1.5,8.790268456,2.418740991,Outcome Apgar1.5
+Outcome_Gender2,0.488255034,0.499862037,Outcome Gender2
+Outcome_NICU2,4.303691275,12.94775458,Outcome NICU2
+Outcome_Apgar2.1,7.375838926,2.688470312,Outcome Apgar2.1
+Outcome_Apgar2.5,8.372483221,2.8471429,Outcome Apgar2.5

@@ -3,5 +3,5 @@
 This directory holds local checkouts of the linked research repositories.
 
 - `twins_pe/` -> `https://github.com/louzounlab/twins_pe`
-- `twin_fwe/` -> `https://github.com/louzounlab/Twin-FWE`
+- `twin_efw/` -> `https://github.com/louzounlab/Twin-FWE`
 

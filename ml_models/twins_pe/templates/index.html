@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body {
+        background-color: #f0f0f0c5;
+        color: #333333;
+    }
+
+    /* .frame {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color:  rgba(255, 255, 255, 0.336) ;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    } */
+
+    .glow-button {
+        background-color: #23aa9f;
+        color: #ffffff;
+        padding: 10px 15px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        border-radius: 5px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .glow-button:hover {
+        background-color: #c06db2;
+    }
+
+    .numeric-category {
+        margin-bottom: 15px;
+    }
+</style>
+<!-- <script>
+    function addTrimesterFrame() {
+        const container = document.getElementById('trimester-frames');
+        const frame = document.createElement('div');
+        frame.classList.add('frame');
+
+        let categories = '';
+        for (let i = 1; i <= 3; i++) {
+            categories += `
+                <div class="numeric-category">
+                    <label for="category-${i}">Category ${i}:</label>
+                    <input type="number" id="category-${i}" name="category-${i}" min="0" step="any">
+                </div>`;
+        }
+
+        frame.innerHTML = `
+            <h4>Second Trimester Details</h4>
+            ${categories}
+            <button type="button" class="glow-button" onclick="this.parentNode.remove()">Remove Trimester</button>
+        `;
+
+        container.appendChild(frame);
+    }
+</script> -->
+<script>
+    function addTrimesterFrame() {
+        const container = document.getElementById('trimester-frames');
+        const secondTrimester = document.querySelector('.second-trimester');
+        const thirdTrimester = document.querySelector('.third-trimester');
+
+        if (!secondTrimester) {
+            // Add second trimester fields
+            const frame = document.createElement('div');
+            frame.classList.add('frame', 'second-trimester');
+
+            frame.innerHTML = `
+                <h4>Second Trimester Details</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="Trim_2_MAP">MAP</label>
+                        <br>
+                        <input type="number" id="Trim_2_MAP" name="Trim_2_MAP" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_2_PLGF">PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_2_PLGF" name="Trim_2_PLGF" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_2_SFLT1">SFLT1</label>
+                        <br>
+                        <input type="number" id="Trim_2_SFLT1" name="Trim_2_SFLT1" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_2_sflt1_PLGF">sFLT1/PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_2_sflt1_PLGF" name="Trim_2_sflt1_PLGF" step="any">
+                    </div>
+                </div>
+                <br>
+                <button type="button" class="glow-button" onclick="this.parentNode.remove()">Remove Trimester</button>
+            `;
+
+            container.appendChild(frame);
+        } else if (!thirdTrimester) {
+            // Add third trimester fields
+            const frame = document.createElement('div');
+            frame.classList.add('frame', 'third-trimester');
+
+            frame.innerHTML = `
+                <h4>Third Trimester Details</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="Trim_3_MAP">MAP</label>
+                        <br>
+                        <input type="number" id="Trim_3_MAP" name="Trim_3_MAP" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_3_SFLT1/PLGF">SFLT1/PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_3_SFLT1/PLGF" name="Trim_3_SFLT1/PLGF" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_3_SFLT1">SFLT1</label>
+                        <br>
+                        <input type="number" id="Trim_3_SFLT1" name="Trim_3_SFLT1" step="any">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Trim_3_PLGF">PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_3_PLGF" name="Trim_3_PLGF" step="any">
+                    </div>
+                </div>
+                <br>
+                <button type="button" class="glow-button" onclick="this.parentNode.remove()">Remove Trimester</button>
+            `;
+            container.appendChild(frame);
+        }
+    }
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+<h4 style="color: red; text-align: center;">{{ error }}</h4>
+<br>
+<div class="text-center">
+    {% if error %}
+        <h3>The following error occurred: {{ error }}</h3>
+        <br><br>
+    {% endif %}
+    <div class="frame">
+         <h1>Online calculator for predicting preeclampsia in twins</h1>
+    </div>
+</div>
+<div class="container text-center">
+    <br>
+    <h4>Please fill the following details:</h4>
+    <br>
+    <form action="/process_pe_form" method="post" enctype="multipart/form-data">
+        <div class="frame">
+            <div class="section">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="Trim_1_MAP">MAP</label>
+                        <br>
+                        <input type="number" id="Trim_1_MAP" name="Trim_1_MAP" step="any">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="Trim_1_PLGF">PLGF</label>
+                        <br>
+                        <input type="number" id="Trim_1_PLGF" name="Trim_1_PLGF" step="any">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="Trim_1_cffDNA">cffDNA</label>
+                        <br>
+                        <input type="number" id="Trim_1_cffDNA" name="Trim_1_cffDNA" step="any">
+
+                    </div>
+                </div>
+        
+                <br>
+        
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="Trim_1_B">B</label>
+                        <br>
+                        <select id="Trim_1_B" name="Trim_1_B">
+                            <option value=""></option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="DM">DM</label>
+                        <br>
+                        <select id="DM" name="DM">
+                            <option value=""></option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="Nulliparous">Nulliparous</label>
+                        <br>
+                        <select id="Nulliparous" name="Nulliparous">
+                            <option value=""></option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            
+            <div id="trimester-frames"></div>
+    
+        <br>
+        <button type="button" class="glow-button" onclick="addTrimesterFrame()">Add Trimester</button>
+        
+        <button type="submit" class="glow-button" >Submit</button>
+        <br>
+        
+    </form>
+
+    {% if risks %}
+        <br>
+        <br>
+        <div class="row text-center">
+             <!-- {% if risks | length == 3 %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">First trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 4px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[0]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on first trimester inputs {{ risks[0]}}.</p>
+            </div>
+            <!-- {% endif %} -->
+
+            <!-- {% if risks | length == 3 %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">Second trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 4px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[1]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on second trimester inputs {{ risks[1]}}.</p>
+            </div>
+            <!-- {% endif %} -->
+            <div class="col">
+                <p style="font-size: 22px; font-weight: bold;">Third trimester:</p>
+                <div style="width: 300px; height: 40px; background: linear-gradient(to right, green, yellow, red); border: 2px solid black; position: relative; margin: auto;">
+                    <div style="width: 6px; height: 100%; background-color: black; position: absolute; left: calc({{ risks[2]  }} - 2px);"></div>
+                </div>
+                <p style="font-size: 20px;">Absolute risk based on  third trimester inputs {{ risks[2]}}.</p>
+            </div>
+ 
+        </div>
+    {% endif %}
+    <br><br>
+</div>
+{% endblock %}

@@ -160,7 +160,7 @@
             }, 150);
         });
         // Capture-phase keydown so we can intercept arrow keys before
-        // page-specific handlers (e.g. twin-fwe grid navigation).
+        // page-specific handlers (e.g. twin-efw grid navigation).
         form.addEventListener('keydown', function (e) {
             if (!current || current.input !== e.target) return;
             var n = current.items.length;

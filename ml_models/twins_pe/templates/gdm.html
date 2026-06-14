@@ -1,0 +1,424 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body {
+        background-color: #f0f0f0c5;
+        color: #333333;
+        padding-top: 70px; /* Add padding to account for fixed navbar */
+    }
+
+    .frame {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .glow-button {
+        background-color: #4ecdc4;
+        color: #ffffff;
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        margin: 5px;
+    }
+
+    .glow-button:hover {
+        background-color: #44a08d;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .numeric-category {
+        margin-bottom: 15px;
+    }
+
+    .form-control, select, input[type="number"] {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .form-control:focus, select:focus, input[type="number"]:focus {
+        border-color: #4ecdc4;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .risk-display {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin: 20px 0;
+    }
+
+    /* Fixed risk display layout */
+    .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .risk-item {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #dee2e6;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+
+    .risk-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .risk-bar {
+        width: 100%;
+        max-width: 250px;
+        height: 30px;
+        background: linear-gradient(to right, #28a745, #ffc107, #dc3545);
+        border: 2px solid #333;
+        position: relative;
+        margin: 15px auto;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .risk-indicator {
+        width: 4px;
+        height: 100%;
+        background-color: #000;
+        position: absolute;
+        border-radius: 2px;
+        box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    }
+
+    .risk-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .risk-percentage {
+        font-size: 24px;
+        font-weight: bold;
+        color: #e74c3c;
+        margin-top: 10px;
+    }
+
+    .title-header {
+        background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+
+    /* Fixed navbar styles */
+    .custom-navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        background-color: #0c1d1d !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .risk-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .risk-item {
+            padding: 15px;
+        }
+        
+        .risk-bar {
+            max-width: 200px;
+            height: 25px;
+        }
+        
+        .risk-title {
+            font-size: 16px;
+        }
+        
+        .risk-percentage {
+            font-size: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .risk-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .risk-bar {
+            max-width: 180px;
+            height: 25px;
+        }
+        
+        body {
+            padding-top: 60px;
+        }
+    }
+</style>
+
+<script>
+    function addTrimesterFrame() {
+        const container = document.getElementById('trimester-frames');
+        const secondTrimester = document.querySelector('.second-trimester');
+        const thirdTrimester = document.querySelector('.third-trimester');
+
+        if (!secondTrimester) {
+            // Add second trimester fields
+            const frame = document.createElement('div');
+            frame.classList.add('frame', 'second-trimester');
+
+            frame.innerHTML = `
+                <h4>Second Trimester Details</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="second_trimester_EFW1">EFW1</label>
+                        <input type="number" id="second_trimester_EFW1" name="second_trimester_EFW1" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="second_trimester_Glucose">Glucose</label>
+                        <input type="number" id="second_trimester_Glucose" name="second_trimester_Glucose" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="second_trimester_WBC">WBC</label>
+                        <input type="number" id="second_trimester_WBC" name="second_trimester_WBC" step="any" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <button type="button" class="glow-button" onclick="this.parentNode.remove()">Remove Trimester</button>
+            `;
+
+            container.appendChild(frame);
+        } else if (!thirdTrimester) {
+            // Add third trimester fields
+            const frame = document.createElement('div');
+            frame.classList.add('frame', 'third-trimester');
+
+            frame.innerHTML = `
+                <h4>Third Trimester Details</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="Third_Trimester_EFW2">EFW2</label>
+                        <input type="number" id="Third_Trimester_EFW2" name="Third_Trimester_EFW2" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Third_Trimester_PAPPA">PAPPA</label>
+                        <input type="number" id="Third_Trimester_PAPPA" name="Third_Trimester_PAPPA" step="any" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <button type="button" class="glow-button" onclick="this.parentNode.remove()">Remove Trimester</button>
+            `;
+            container.appendChild(frame);
+        }
+    }
+</script>
+
+{% endblock %}
+
+{% block content %}
+{% if error %}
+    <div class="error-message text-center">
+        <h4>Error: {{ error }}</h4>
+    </div>
+{% endif %}
+
+<div class="container">
+    <div class="title-header">
+        <h1>🩺 Gestational Diabetes Mellitus (GDM) Prediction Tool</h1>
+        <p>Advanced AI-powered risk assessment for gestational diabetes in twin pregnancies</p>
+    </div>
+
+    <div class="text-center">
+        <h4>Please fill in the following patient details:</h4>
+        <br>
+
+        <form action="/process_gdm_form" method="post" enctype="multipart/form-data">
+            <div class="frame">
+                <h4>First Trimester Baseline Information</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="First_trimester_Aspirin">Aspirin</label>
+                        <select id="First_trimester_Aspirin" name="First_trimester_Aspirin" class="form-control">
+                            <option value="">Select</option>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="First_trimester_BMI">BMI</label>
+                        <input type="number" id="First_trimester_BMI" name="First_trimester_BMI" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="First_trimester_GA.1st">GA 1st</label>
+                        <input type="number" id="First_trimester_GA.1st" name="First_trimester_GA.1st" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="First_trimester_Glucose">Glucose</label>
+                        <input type="number" id="First_trimester_Glucose" name="First_trimester_Glucose" step="any" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="First_trimester_History_of_GDM">History of GDM</label>
+                        <select id="First_trimester_History_of_GDM" name="First_trimester_History_of_GDM" class="form-control">
+                            <option value="">Select</option>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="First_trimester_MAP">MAP</label>
+                        <input type="number" id="First_trimester_MAP" name="First_trimester_MAP" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="First_trimester_NT2">NT2</label>
+                        <input type="number" id="First_trimester_NT2" name="First_trimester_NT2" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="First_trimester_Platelets">Platelets</label>
+                        <input type="number" id="First_trimester_Platelets" name="First_trimester_Platelets" step="any" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="First_trimester_PreTwin.ID">PreTwin ID</label>
+                        <input type="number" id="First_trimester_PreTwin.ID" name="First_trimester_PreTwin.ID" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="First_trimester_RBC">RBC</label>
+                        <input type="number" id="First_trimester_RBC" name="First_trimester_RBC" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="First_trimester_WBC">WBC</label>
+                        <input type="number" id="First_trimester_WBC" name="First_trimester_WBC" step="any" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="maternal_and_newborn_data_Caucasian">Caucasian</label>
+                        <select id="maternal_and_newborn_data_Caucasian" name="maternal_and_newborn_data_Caucasian" class="form-control">
+                            <option value="">Select</option>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div id="trimester-frames"></div>
+
+            <div class="text-center">
+                <button type="button" class="glow-button" onclick="addTrimesterFrame()">➕ Add Trimester Data</button>
+                <button type="submit" class="glow-button">🔍 Calculate GDM Risk</button>
+            </div>
+        </form>
+
+        {% if risks %}
+            <div class="risk-display">
+                <h3>GDM Risk Assessment Results</h3>
+                
+                <!-- New improved risk display grid -->
+                <div class="risk-grid">
+
+
+                    {% if risks|length > 1 %}
+                    <div class="risk-item">
+                        <div class="risk-title">First Trimester Risk</div>
+                        <div class="risk-bar">
+                            <div class="risk-indicator" style="left: calc({{ risks[1].replace('%', '') }}% - 2px);"></div>
+                        </div>
+                        <div class="risk-percentage">{{ risks[1] }}</div>
+                        <small class="text-muted">Absolute risk</small>
+                    </div>
+                    {% endif %}
+
+                    {% if risks|length > 2 %}
+                    <div class="risk-item">
+                        <div class="risk-title">Second Trimester Risk</div>
+                        <div class="risk-bar">
+                            <div class="risk-indicator" style="left: calc({{ risks[2].replace('%', '') }}% - 2px);"></div>
+                        </div>
+                        <div class="risk-percentage">{{ risks[2] }}</div>
+                        <small class="text-muted">Absolute risk</small>
+                    </div>
+                    {% endif %}
+
+                    {% if risks|length > 3 %}
+                    <div class="risk-item">
+                        <div class="risk-title">Third Trimester Risk</div>
+                        <div class="risk-bar">
+                            <div class="risk-indicator" style="left: calc({{ risks[3].replace('%', '') }}% - 2px);"></div>
+                        </div>
+                        <div class="risk-percentage">{{ risks[3] }}</div>
+                        <small class="text-muted">Absolute risk</small>
+                    </div>
+                    {% endif %}
+
+                    {% if risks|length > 0 %}
+                    <div class="risk-item">
+                        <div class="risk-title">Pre-pregnancy Model</div>
+                        <div class="risk-bar">
+                            <div class="risk-indicator" style="left: calc({{ risks[0].replace('%', '') }}% - 2px);"></div>
+                        </div>
+                        <div class="risk-percentage">{{ risks[0] }}</div>
+                        <small class="text-muted">Absolute risk</small>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <div class="alert alert-info mt-4">
+                    <h5>Risk Interpretation:</h5>
+                    <ul class="text-left">
+                        <li><strong>Low Risk (Green):</strong> 0-15% - Standard monitoring recommended</li>
+                        <li><strong>Moderate Risk (Yellow):</strong> 15-30% - Enhanced monitoring and lifestyle modifications</li>
+                        <li><strong>High Risk (Red):</strong> >30% - Intensive monitoring and early intervention</li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<br><br>
+{% endblock %}

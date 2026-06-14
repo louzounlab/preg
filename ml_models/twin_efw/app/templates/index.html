@@ -1,0 +1,444 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style>
+
+        .hidden {
+            display: none;
+        }
+
+        .glow-button {
+            background-color: #3498db; /* Default background color */
+            color: #ffffff; /* Default text color */
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .glow-button:hover {
+            background-color: #2980b9; /* Hover background color */
+        }
+
+        .glow-button.selected {
+            background-color: plum; /* Selected background color */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a box shadow when selected */
+        }
+
+        .styled-label {
+            background-color: #90e5e2; /* background color */
+            color: black; /* White text color */
+            padding: 8px 12px; /* Padding for the label */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            font-size: 1rem; /* Font size */
+            font-weight: bold; /* Bold text */
+            margin-bottom: 8px; /* Space between label and input */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+        .discordance-label {
+            background-color: lightgreen; /* background color */
+            color: black; /* White text color */
+            padding: 8px 12px; /* Padding for the label */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            font-size: 1rem; /* Font size */
+            font-weight: bold; /* Bold text */
+            margin-bottom: 8px; /* Space between label and input */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+        .discordance-label.red {
+            background-color: red; /* background color */
+            color: #ffffff; /* White text color */
+            padding: 8px 12px; /* Padding for the label */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            font-size: 1rem; /* Font size */
+            font-weight: bold; /* Bold text */
+            margin-bottom: 8px; /* Space between label and input */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    <style>
+    </style>
+    <script>
+        function glow1() {
+            // Remove 'selected' class from all buttons
+            let buttons = document.querySelectorAll('.glow-button');
+            buttons.forEach(function (btn) {
+                btn.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked button
+            let selectedButton = document.getElementById('MCDA');
+            selectedButton.classList.add('selected');
+
+            // Update the value of the hidden input with the id/name of the selected button
+            document.getElementById('cda_type').value = "MCDA";
+        }
+
+        function glow2() {
+            // Remove 'selected' class from all buttons
+            let buttons = document.querySelectorAll('.glow-button');
+            buttons.forEach(function (btn) {
+                btn.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked button
+            let selectedButton = document.getElementById('DCDA');
+            selectedButton.classList.add('selected');
+
+            // Update the value of the hidden input with the id/name of the selected button
+            document.getElementById('cda_type').value = "DCDA";
+        }
+
+        function toggleAdvanceResults() {
+            const x = document.getElementById("advance_results");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        function switchGrid() {
+            const x = document.getElementById("input_row");
+            const z = document.getElementById("input_but");
+            const w = document.getElementById("second_input_row");
+            const y = document.getElementById("results_row");
+            if (x.hidden) {
+                x.hidden = false;
+                z.hidden = false;
+                w.hidden = false;
+                y.hidden = true;
+            } else {
+                x.hidden = true;
+                z.hidden = true;
+                w.hidden = true;
+                y.hidden = false;
+            }
+        }
+
+        function addRow() {
+            const week5 = document.getElementById("week5");
+            const week6 = document.getElementById("week6");
+            const week7 = document.getElementById("week7");
+            const week8 = document.getElementById("week8");
+            const week9 = document.getElementById("week9");
+            const week10 = document.getElementById("week10");
+
+            const Day5 = document.getElementById("Day5");
+            const Day6 = document.getElementById("Day6");
+            const Day7 = document.getElementById("Day7");
+            const Day8 = document.getElementById("Day8");
+            const Day9 = document.getElementById("Day9");
+            const Day10 = document.getElementById("Day10");
+
+            const EFW1_5 = document.getElementById("EFW1_5");
+            const EFW1_6 = document.getElementById("EFW1_6");
+            const EFW1_7 = document.getElementById("EFW1_7");
+            const EFW1_8 = document.getElementById("EFW1_8");
+            const EFW1_9 = document.getElementById("EFW1_9");
+            const EFW1_10 = document.getElementById("EFW1_10");
+
+            const EFW2_5 = document.getElementById("EFW2_5");
+            const EFW2_6 = document.getElementById("EFW2_6");
+            const EFW2_7 = document.getElementById("EFW2_7");
+            const EFW2_8 = document.getElementById("EFW2_8");
+            const EFW2_9 = document.getElementById("EFW2_9");
+            const EFW2_10 = document.getElementById("EFW2_10");
+
+            const last_row = document.getElementById("last_row");
+
+            if (week5.hidden) {
+                week5.hidden = false;
+                Day5.hidden = false;
+                EFW1_5.hidden = false;
+                EFW2_5.hidden = false;
+                last_row.value = 5;
+            } else if (week6.hidden) {
+                week6.hidden = false;
+                Day6.hidden = false;
+                EFW1_6.hidden = false;
+                EFW2_6.hidden = false;
+                last_row.value = 6;
+            } else if (week7.hidden) {
+                week7.hidden = false;
+                Day7.hidden = false;
+                EFW1_7.hidden = false;
+                EFW2_7.hidden = false;
+                last_row.value = 7;
+            } else if (week8.hidden) {
+                week8.hidden = false;
+                Day8.hidden = false;
+                EFW1_8.hidden = false;
+                EFW2_8.hidden = false;
+                last_row.value = 8;
+            } else if (week9.hidden) {
+                week9.hidden = false;
+                Day9.hidden = false;
+                EFW1_9.hidden = false;
+                EFW2_9.hidden = false;
+                last_row.value = 9;
+            } else if (week10.hidden) {
+                week10.hidden = false;
+                Day10.hidden = false;
+                EFW1_10.hidden = false;
+                EFW2_10.hidden = false;
+                last_row.value = 10;
+            } else {
+                alert("You can't add more than 6 rows")
+            }
+        }
+    </script>
+
+    <h4 style="color: red; text-align: center;">{{ error }}</h4>
+    <br>
+    <div class="container text-center">
+        <form action="/process_form" method="post" enctype="multipart/form-data">
+            <input type="text" hidden id="cda_type" name="cda_type" value="None">
+            <input type="number" hidden id="last_row" name="last_row" value="{{ last_row }}">
+            <div class="row" id="first_row">
+                <div class="col">
+                    <label for="cda">MCDA <b style="color: blue; font-size: 20px;">or</b> DCDA</label>
+                    <br>
+                    <br>
+                    <button class="glow-button" onclick="glow1()" id="MCDA" name="MCDA" type="button">MCDA</button>
+                    <button class="glow-button" onclick="glow2()" id="DCDA" name="DCDA" type="button">DCDA</button>
+                </div>
+            </div>
+            <br><br><br>
+            <div class="just">
+                <button type="submit">Submit</button>
+                {% if results %}
+                    <p></p>
+                    <button type="button" onclick="switchGrid()" style="font-size: 1rem;">Switch Grid</button>
+                {% endif %}
+            </div>
+            <div class="row" id="input_row" {% if results %}hidden{% endif %}>
+                <div class="col">
+                    <label for="week">Week</label>
+                    <br>
+                    <br>
+                    <input name="week1" id="week1" type="number" value="{{ data['week1'] }}" min="12" max="36" step="1"><br>
+                    <input name="week2" id="week2" type="number" value="{{ data['week2'] }}" min="12" max="36" step="1"><br>
+                    <input name="week3" id="week3" type="number" value="{{ data['week3'] }}" min="12" max="36" step="1"><br>
+                    <input name="week4" id="week4" type="number" value="{{ data['week4'] }}" min="12" max="36" step="1"><br>
+                </div>
+                <div class="col">
+                    <label for="Day">Day</label>
+                    <br>
+                    <br>
+                    <input name="Day1" id="Day1" type="number" value="{{ data['Day1'] }}" min="0" max="6" step="1"><br>
+                    <input name="Day2" id="Day2" type="number" value="{{ data['Day2'] }}" min="0" max="6" step="1"><br>
+                    <input name="Day3" id="Day3" type="number" value="{{ data['Day3'] }}" min="0" max="6" step="1"><br>
+                    <input name="Day4" id="Day4" type="number" value="{{ data['Day4'] }}" min="0" max="6" step="1"><br>
+                </div>
+                <div class="col">
+                    <label>EFW1</label>
+                    <br>
+                    <br>
+                    <input name="EFW1_1" id="EFW1_1" type="number" value="{{ data['EFW1_1'] }}" min="1" max="4000"
+                           step="0.1"><br>
+                    <input name="EFW1_2" id="EFW1_2" type="number" value="{{ data['EFW1_2'] }}" min="1" max="4000"
+                           step="0.1"><br>
+                    <input name="EFW1_3" id="EFW1_3" type="number" value="{{ data['EFW1_3'] }}" min="1" max="4000"
+                           step="0.1"><br>
+                    <input name="EFW1_4" id="EFW1_4" type="number" value="{{ data['EFW1_4'] }}" min="1" max="4000"
+                           step="0.1"><br>
+                </div>
+                <div class="col">
+                    <label for="EFW2">EFW2</label>
+                    <br>
+                    <br>
+                    <input name="EFW2_1" id="EFW2_1" type="number" value="{{ data['EFW2_1'] }}" min="1" max="4000"
+                           step="0.1"><br>
+                    <input name="EFW2_2" id="EFW2_2" type="number" value="{{ data['EFW2_2'] }}" min="1" max="4000"
+                           step="0.1"><br>
+                    <input name="EFW2_3" id="EFW2_3" type="number" value="{{ data['EFW2_3'] }}" min="1" max="4000"
+                           step="0.1"><br>
+                    <input name="EFW2_4" id="EFW2_4" type="number" value="{{ data['EFW2_4'] }}" min="1" max="4000"
+                           step="0.1"><br>
+                </div>
+            </div>
+            <br>
+            <div {% if results %}hidden{% endif %} id="input_but">
+                <button type="button" name="add_row" id="add_row" onclick="addRow()">add row</button>
+            </div>
+            <br>
+            <div class="row" {% if results %}hidden{% endif %} id="second_input_row">
+                <div class="col">
+                    <input name="week5" id="week5" type="number" value="{{ data['week5'] }}" min="12" max="36" step="1"
+                           {% if last_row < 5 %}hidden{% endif %}><br>
+                    <input name="week6" id="week6" type="number" value="{{ data['week6'] }}" min="12" max="36" step="1"
+                           {% if last_row < 6 %}hidden{% endif %}><br>
+                    <input name="week7" id="week7" type="number" value="{{ data['week7'] }}" min="12" max="36" step="1"
+                           {% if last_row < 7 %}hidden{% endif %}><br>
+                    <input name="week8" id="week8" type="number" value="{{ data['week8'] }}" min="12" max="36" step="1"
+                           {% if last_row < 8 %}hidden{% endif %}><br>
+                    <input name="week9" id="week9" type="number" value="{{ data['week9'] }}" min="12" max="36" step="1"
+                           {% if last_row < 9 %}hidden{% endif %}><br>
+                    <input name="week10" id="week10" type="number" value="{{ data['week10'] }}" min="12" max="36"
+                           step="1" {% if last_row < 10 %}hidden{% endif %}><br>
+                </div>
+                <div class="col">
+                    <input name="Day5" id="Day5" type="number" value="{{ data['Day5'] }}" min="0" max="6" step="1"
+                           {% if last_row < 5 %}hidden{% endif %}><br>
+                    <input name="Day6" id="Day6" type="number" value="{{ data['Day6'] }}" min="0" max="6" step="1"
+                           {% if last_row < 6 %}hidden{% endif %}><br>
+                    <input name="Day7" id="Day7" type="number" value="{{ data['Day7'] }}" min="0" max="6" step="1"
+                           {% if last_row < 7 %}hidden{% endif %}><br>
+                    <input name="Day8" id="Day8" type="number" value="{{ data['Day8'] }}" min="0" max="6" step="1"
+                           {% if last_row < 8 %}hidden{% endif %}><br>
+                    <input name="Day9" id="Day9" type="number" value="{{ data['Day9'] }}" min="0" max="6" step="1"
+                           {% if last_row < 9 %}hidden{% endif %}><br>
+                    <input name="Day10" id="Day10" type="number" value="{{ data['Day10'] }}" min="0" max="6"
+                           step="1" {% if last_row < 10 %}hidden{% endif %}><br>
+                </div>
+                <div class="col">
+                    <input name="EFW1_5" id="EFW1_5" type="number" value="{{ data['EFW1_5'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 5 %}hidden{% endif %}><br>
+                    <input name="EFW1_6" id="EFW1_6" type="number" value="{{ data['EFW1_6'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 6 %}hidden{% endif %}><br>
+                    <input name="EFW1_7" id="EFW1_7" type="number" value="{{ data['EFW1_7'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 7 %}hidden{% endif %}><br>
+                    <input name="EFW1_8" id="EFW1_8" type="number" value="{{ data['EFW1_8'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 8 %}hidden{% endif %}><br>
+                    <input name="EFW1_9" id="EFW1_9" type="number" value="{{ data['EFW1_9'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 9 %}hidden{% endif %}><br>
+                    <input name="EFW1_10" id="EFW1_10" type="number" value="{{ data['EFW1_10'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 10 %}hidden{% endif %}><br>
+                </div>
+                <div class="col">
+                    <input name="EFW2_5" id="EFW2_5" type="number" value="{{ data['EFW2_5'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 5 %}hidden{% endif %}><br>
+                    <input name="EFW2_6" id="EFW2_6" type="number" value="{{ data['EFW2_6'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 6 %}hidden{% endif %}><br>
+                    <input name="EFW2_7" id="EFW2_7" type="number" value="{{ data['EFW2_7'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 7 %}hidden{% endif %}><br>
+                    <input name="EFW2_8" id="EFW2_8" type="number" value="{{ data['EFW2_8'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 8 %}hidden{% endif %}><br>
+                    <input name="EFW2_9" id="EFW2_9" type="number" value="{{ data['EFW2_9'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 9 %}hidden{% endif %}><br>
+                    <input name="EFW2_10" id="EFW2_10" type="number" value="{{ data['EFW2_10'] }}" min="1" max="4000"
+                           step="0.1" {% if last_row < 10 %}hidden{% endif %}><br>
+                </div>
+            </div>
+            <div class="row" {% if not results %}hidden{% endif %} id="results_row">
+                <div class="col">
+                    <label>Percentage1</label>
+                    <br>
+                    <br>
+                    {% for i in range(1, 11) %}
+                        {% if percentage_dict['per1_{}'.format(i)] %}
+                            <label class="styled-label">{{ data["week{}".format(i)] }}({{ data["Day{}".format(i)] }}) {{ percentage_dict['per1_{}'.format(i)] }}</label>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    <label>Z-score1</label>
+                    <br>
+                    <br>
+                    {% for i in range(1, 11) %}
+                        {% if zscore_dict['z1_{}'.format(i)] %}
+                            <label class="styled-label">{{ zscore_dict['z1_{}'.format(i)] }}</label>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    <label>Percentage2</label>
+                    <br>
+                    <br>
+                    {% for i in range(1, 11) %}
+                        {% if percentage_dict['per2_{}'.format(i)] %}
+                            <label class="styled-label">{{ data["week{}".format(i)] }}({{ data["Day{}".format(i)] }}) {{ percentage_dict['per2_{}'.format(i)] }}</label>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    <label>Z-score2</label>
+                    <br>
+                    <br>
+                    {% for i in range(1, 11) %}
+                        {% if zscore_dict['z2_{}'.format(i)] %}
+                            <label class="styled-label">{{ zscore_dict['z2_{}'.format(i)] }}</label>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col">
+                    <label>Discordance Index</label>
+                    <br>
+                    <br>
+                    {% for i in discordance_index %}
+                        <label class="discordance-label {% if highlight_index[i] == 1 %}red{% endif %}">{{ data["week{}".format(i)] }}({{ data["Day{}".format(i)] }}) {{ discordance_index[i] }}</label>
+                        <br>
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+        </form>
+    </div>
+    {% if results %}
+        <div class="container col text-center">
+            <h2>Results</h2>
+            <div class="row justify-content-center align-items-center">
+                <div class="col-md-auto">
+                    <a href="{{ trend_line }}" download class="center">
+                        <img src="{{ trend_line }}" height="350" width="450">
+                    </a>
+                </div>
+                <div class="col-md-auto">
+                    <form action="/adjust_trend" method="post" enctype="multipart/form-data">
+                        <input hidden id="trend_data" name="trend_data" value="{{ trend_data }}">
+                        <br>
+                        <label for="change_range">Adjust Range</label>
+                        <br>
+                        <br>
+                        <input type="number" name="range" id="range" min="1" max="10" step="1"
+                               value="{{ extended_by }}">
+                        <br>
+                        <br>
+                        <button type="submit">Apply</button>
+                    </form>
+                </div>
+            </div>
+            <br>
+            <button type="button" onclick="toggleAdvanceResults()">Advanced Results</button>
+            <br>
+            <div class="container center text-center" id="advance_results" style="display: none">
+                {% for file in gaussians %}
+                    <a href="{{ file }}" download class="center">
+                        <img src="{{ file }}" height="300" width="400">
+                    </a>
+                {% endfor %}
+            </div>
+            <br>
+            <br>
+            <div class="text-center">
+                <a href="{{ percentages_df }}" download="{{ percentages_df }}"
+                   class="form-label text-bg-dark" style="font-size: 16px;">
+                    Click here to download the percentages results</a>
+                <br>
+                <br>
+                <a href="{{ zscore_df }}" download="{{ zscore_df }}"
+                   class="form-label text-bg-dark" style="font-size: 16px;">
+                    Click here to download the z-scores results</a>
+            </div>
+        </div>
+    {% endif %}
+    <br>
+    <br>
+    <br>
+{% endblock %}

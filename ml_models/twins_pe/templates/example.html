@@ -1,0 +1,457 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        🤰Predictions Tool - Examples
+    </title>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        .frame {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: rgba(154, 179, 175, 0.5);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-image: url('./static/Gemini_Generated.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-color: #b6bdbebd;
+            color: #333333 !important;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.0);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .custom-navbar {
+            background-color: #0c1d1d;
+            color: #dbe3e6;
+        }
+
+        .custom-navbar .navbar-brand,
+        .custom-navbar .nav-link {
+            color: #f7fafa !important;
+        }
+
+        .custom-navbar .nav-link:hover {
+            color: #3bd3d8 !important;
+        }
+
+        .glow-button {
+            background-color: #4ecdc4;
+            color: #ffffff;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .glow-button:hover {
+            background-color: #44a08d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .pe-button {
+            background-color: #ff6b6b;
+        }
+
+        .pe-button:hover {
+            background-color: #ee5a52;
+        }
+
+        .form-control, select, input[type="number"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-control:focus, select:focus, input[type="number"]:focus {
+            border-color: #4ecdc4;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .risk-display {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        .risk-bar {
+            width: 300px;
+            height: 40px;
+            background: linear-gradient(to right, #28a745, #ffc107, #dc3545);
+            border: 2px solid #333;
+            position: relative;
+            margin: 10px auto;
+            border-radius: 20px;
+        }
+
+        .risk-indicator {
+            width: 4px;
+            height: 100%;
+            background-color: #000;
+            position: absolute;
+            border-radius: 2px;
+        }
+
+        .title-header {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .pe-header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        }
+
+        .example-section {
+            margin-bottom: 50px;
+        }
+
+        .example-values {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .value-item {
+            display: inline-block;
+            margin: 5px 15px;
+            padding: 5px 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .interpretation {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #28a745;
+        }
+
+        .moderate-risk {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .high-risk {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg custom-navbar border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="color: white; font-size: 30px;"> Predictions Tool ️ </a>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/About">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Example">Example</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Glossary">Features Glossary</a>
+                    </li>
+                </ul>
+            </div>
+            <a class="navbar-brand" href="https://yolo.math.biu.ac.il/">
+                <img src="/static/LabQR.jpg" alt="..." height="36">
+            </a>
+            <a class="navbar-brand" href="https://yolo.math.biu.ac.il/">
+                <img src="/static/yolo_lab.jpg" alt="..." height="36">
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+    <div class="title-header">
+        <h1>📊 Medical Prediction Examples</h1>
+        <p>Sample cases demonstrating the prediction tools for both PE Twins and GDM</p>
+    </div>
+
+    <!-- PE Twins Example -->
+    <div class="example-section">
+        <div class="title-header pe-header">
+            <h2>👶 Preeclampsia in Twins - Example Case</h2>
+        </div>
+
+        <div class="frame">
+            <h4>Case Study: 32-year-old pregnant with twins</h4>
+            <div class="example-values">
+                <h5>First Trimester Values:</h5>
+                <span class="value-item"><strong>MAP:</strong> 85 mmHg</span>
+                <span class="value-item"><strong>PLGF:</strong> 45 pg/mL</span>
+                <span class="value-item"><strong>cffDNA:</strong> 12%</span>
+                <span class="value-item"><strong>Blood Type B:</strong> Yes</span>
+                <span class="value-item"><strong>DM:</strong> No</span>
+                <span class="value-item"><strong>Nulliparous:</strong> Yes</span>
+            </div>
+
+            <div class="example-values">
+                <h5>Second Trimester Values:</h5>
+                <span class="value-item"><strong>MAP:</strong> 88 mmHg</span>
+                <span class="value-item"><strong>PLGF:</strong> 38 pg/mL</span>
+                <span class="value-item"><strong>SFLT1:</strong> 2800 pg/mL</span>
+                <span class="value-item"><strong>sFLT1/PLGF:</strong> 73.7</span>
+            </div>
+
+            <div class="example-values">
+                <h5>Third Trimester Values:</h5>
+                <span class="value-item"><strong>MAP:</strong> 92 mmHg</span>
+                <span class="value-item"><strong>SFLT1/PLGF:</strong> 95.2</span>
+                <span class="value-item"><strong>SFLT1:</strong> 3200 pg/mL</span>
+                <span class="value-item"><strong>PLGF:</strong> 33.6 pg/mL</span>
+            </div>
+        </div>
+
+        <div class="risk-display">
+            <h3>PE Risk Assessment Results</h3>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <p style="font-size: 22px; font-weight: bold;">First Trimester:</p>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" style="left: calc(15% - 2px);"></div>
+                    </div>
+                    <p style="font-size: 18px; color: #2c3e50;">
+                        <strong>15.2%</strong> absolute risk
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <p style="font-size: 22px; font-weight: bold;">Second Trimester:</p>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" style="left: calc(28% - 2px);"></div>
+                    </div>
+                    <p style="font-size: 18px; color: #2c3e50;">
+                        <strong>28.7%</strong> absolute risk
+                    </p>
+                </div>
+
+                <div class="col-md-4">
+                    <p style="font-size: 22px; font-weight: bold;">Third Trimester:</p>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" style="left: calc(42% - 2px);"></div>
+                    </div>
+                    <p style="font-size: 18px; color: #2c3e50;">
+                        <strong>42.1%</strong> absolute risk
+                    </p>
+                </div>
+            </div>
+
+            <div class="interpretation high-risk">
+                <h5>Clinical Interpretation:</h5>
+                <p><strong>Progressive Risk Increase:</strong> This case shows escalating preeclampsia risk across trimesters, from moderate (15.2%) to high risk (42.1%). The elevated sFLT1/PLGF ratio and rising MAP indicate need for:</p>
+                <ul>
+                    <li>Intensive maternal and fetal monitoring</li>
+                    <li>Weekly clinic visits in third trimester</li>
+                    <li>Consideration of early delivery planning</li>
+                    <li>Blood pressure management and antihypertensive therapy</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button class="glow-button pe-button" onclick="window.location.href='/PE_Twins'">
+                Try PE Twins Prediction Tool
+            </button>
+        </div>
+    </div>
+
+    <!-- GDM Example -->
+    <div class="example-section">
+        <div class="title-header">
+            <h2>🩺 Gestational Diabetes Mellitus - Example Case</h2>
+        </div>
+
+        <div class="frame">
+            <h4>Case Study: 28-year-old pregnant with twins</h4>
+            <div class="example-values">
+                <h5>First Trimester Baseline:</h5>
+                <span class="value-item"><strong>BMI:</strong> 28.5 kg/m²</span>
+                <span class="value-item"><strong>Glucose:</strong> 92 mg/dL</span>
+                <span class="value-item"><strong>History of GDM:</strong> No</span>
+                <span class="value-item"><strong>Aspirin:</strong> Yes</span>
+                <span class="value-item"><strong>MAP:</strong> 82 mmHg</span>
+                <span class="value-item"><strong>Caucasian:</strong> Yes</span>
+            </div>
+
+            <div class="example-values">
+                <h5>Additional Parameters:</h5>
+                <span class="value-item"><strong>GA 1st:</strong> 11.2 weeks</span>
+                <span class="value-item"><strong>NT2:</strong> 1.8 mm</span>
+                <span class="value-item"><strong>Platelets:</strong> 285,000</span>
+                <span class="value-item"><strong>WBC:</strong> 8.2 × 10³</span>
+                <span class="value-item"><strong>RBC:</strong> 4.1 × 10⁶</span>
+                <span class="value-item"><strong>PreTwin ID:</strong> 2</span>
+            </div>
+
+            <div class="example-values">
+                <h5>Second Trimester Data:</h5>
+                <span class="value-item"><strong>EFW1:</strong> 520g</span>
+                <span class="value-item"><strong>Glucose:</strong> 98 mg/dL</span>
+                <span class="value-item"><strong>WBC:</strong> 9.1 × 10³</span>
+            </div>
+
+            <div class="example-values">
+                <h5>Third Trimester Data:</h5>
+                <span class="value-item"><strong>EFW2:</strong> 1850g</span>
+                <span class="value-item"><strong>PAPPA:</strong> 1.2 MoM</span>
+            </div>
+        </div>
+
+        <div class="risk-display">
+            <h3>GDM Risk Assessment Results</h3>
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <p style="font-size: 22px; font-weight: bold;">Model 0 Risk:</p>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" style="left: calc(12% - 2px);"></div>
+                    </div>
+                    <p style="font-size: 18px; color: #2c3e50;">
+                        <strong>12.3%</strong> absolute risk
+                    </p>
+                </div>
+
+                <div class="col-md-3">
+                    <p style="font-size: 22px; font-weight: bold;">First Trimester:</p>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" style="left: calc(18% - 2px);"></div>
+                    </div>
+                    <p style="font-size: 18px; color: #2c3e50;">
+                        <strong>18.5%</strong> absolute risk
+                    </p>
+                </div>
+
+                <div class="col-md-3">
+                    <p style="font-size: 22px; font-weight: bold;">Second Trimester:</p>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" style="left: calc(22% - 2px);"></div>
+                    </div>
+                    <p style="font-size: 18px; color: #2c3e50;">
+                        <strong>22.1%</strong> absolute risk
+                    </p>
+                </div>
+
+                <div class="col-md-3">
+                    <p style="font-size: 22px; font-weight: bold;">Third Trimester:</p>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" style="left: calc(26% - 2px);"></div>
+                    </div>
+                    <p style="font-size: 18px; color: #2c3e50;">
+                        <strong>26.8%</strong> absolute risk
+                    </p>
+                </div>
+            </div>
+
+            <div class="interpretation moderate-risk">
+                <h5>Clinical Interpretation:</h5>
+                <p><strong>Moderate Risk Profile:</strong> This case shows moderate GDM risk (26.8%) with gradual increase through pregnancy. Key risk factors include elevated BMI and twin pregnancy. Recommendations:</p>
+                <ul>
+                    <li>Enhanced monitoring with regular glucose screening</li>
+                    <li>Dietary counseling and lifestyle modifications</li>
+                    <li>Consider early glucose tolerance testing</li>
+                    <li>Monitor fetal growth closely due to twin pregnancy</li>
+                    <li>Nutritional consultation for optimal weight management</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button class="glow-button" onclick="window.location.href='/GDM'">
+                Try GDM Prediction Tool
+            </button>
+        </div>
+    </div>
+
+    <!-- Risk Interpretation Guide -->
+    <div class="frame">
+        <h3>📋 Risk Interpretation Guide</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Preeclampsia Risk Levels:</h5>
+                <ul>
+                    <li><strong style="color: #28a745;">Low Risk (0-15%):</strong> Standard prenatal care</li>
+                    <li><strong style="color: #ffc107;">Moderate Risk (15-30%):</strong> Enhanced monitoring, consider aspirin</li>
+                    <li><strong style="color: #dc3545;">High Risk (>30%):</strong> Intensive monitoring, early delivery planning</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5>GDM Risk Levels:</h5>
+                <ul>
+                    <li><strong style="color: #28a745;">Low Risk (0-15%):</strong> Standard screening protocol</li>
+                    <li><strong style="color: #ffc107;">Moderate Risk (15-30%):</strong> Enhanced screening, lifestyle modifications</li>
+                    <li><strong style="color: #dc3545;">High Risk (>30%):</strong> Early testing, intensive management</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <div class="frame">
+            <h4>🏠 Ready to Use the Tools?</h4>
+            <p>Choose the appropriate prediction tool for your clinical needs:</p>
+            <button class="glow-button pe-button" onclick="window.location.href='/PE_Twins'">
+                PE Twins Prediction
+            </button>
+            <button class="glow-button" onclick="window.location.href='/GDM'">
+                GDM Prediction
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+</script>
+</body>
+</html>

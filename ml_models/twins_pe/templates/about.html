@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="/static/index.css">
+    <style>
+        .main-div {
+            margin: auto;
+            width: 80%;
+        }
+
+        .frame {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color:  rgba(154, 179, 175, 0.5) ;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <br>
+
+    <div class="container page-top">
+        <div class="frame">
+        <h1>About</h1>
+    </div>
+    <br>
+    <div class="frame">
+    <div class="container">
+        <p>This is an initial version of the PE website,
+            developed by Tamar Michelson and Yuli Tshuva YoloLab </a> at the
+            <a href="https://yolo.math.biu.ac.il/">YOLO Lab</a>.
+        </p>
+        <br>
+        <p>
+            Our online calculator provides a prediction model to assess the risk of developing preeclampsia (PE) in twin pregnancies, based on clinical parameters available during different trimesters.       
+        </p>
+        <p>
+            This tool utilizes the most important predictive features from the first, second, and third trimesters to calculate the absolute risk of developing PE (expressed as a percentage).      
+        </p>
+        <p>
+            Designed to support physicians throughout the course of a twin pregnancy, our calculator aids in making informed decisions about monitoring, early interventions, and management strategies to mitigate the risks associated with preeclampsia in twin pregnancies. 
+        </p>
+    </div>
+    </div>
+{% endblock %}
+

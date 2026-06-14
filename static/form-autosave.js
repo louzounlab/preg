@@ -69,8 +69,8 @@
         }
     }
 
-    // Twin-FWE: unhide rows 5..last_row after restore so populated cells are visible.
-    function expandFWERows(form) {
+    // Twin-EFW: unhide rows 5..last_row after restore so populated cells are visible.
+    function expandEFWRows(form) {
         var lastRow = form.querySelector('[name="last_row"]');
         if (!lastRow) return;
         var lr = parseInt(lastRow.value, 10);
@@ -88,7 +88,7 @@
         if (data) {
             preparePEFrames(form, data);
             restore(form, data);
-            expandFWERows(form);
+            expandEFWRows(form);
         }
 
         var persist = function () { save(form); };

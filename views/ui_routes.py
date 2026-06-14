@@ -4,8 +4,9 @@ from flask import Blueprint, render_template, request
 from auth.decorators import login_required
 from ml_models.adapters.gdm import predict as predict_gdm
 from ml_models.adapters.twin_pe import predict as predict_pe
-from ml_models.adapters.twin_fwe import predict as predict_fwe, adjust_trend as adjust_fwe_trend
+from ml_models.adapters.twin_efw import predict as predict_efw, adjust_trend as adjust_efw_trend
 from ml_models.adapters.pepred import predict as predict_pepred
+from ml_models.adapters.preterm import predict as predict_preterm
 
 ui = Blueprint('ui', __name__)
 
@@ -51,10 +52,10 @@ def gdm():
     return render_template('gdm.html', active='GDM', risks=[])
 
 
-@ui.route('/twin-fwe')
+@ui.route('/twin-efw')
 @login_required
-def twin_fwe():
-    return render_template('twin-fwe.html', data={}, percentage_dict={}, zscore_dict={}, last_row=4)
+def twin_efw():
+    return render_template('twin-efw.html', data={}, percentage_dict={}, zscore_dict={}, last_row=4)
 
 
 @ui.route('/PEPRED')
@@ -62,6 +63,24 @@ def twin_fwe():
 @login_required
 def pepred():
     return render_template('pepred.html', results=False)
+
+
+@ui.route('/preterm')
+@ui.route('/PRETERM')
+@login_required
+def preterm():
+    return render_template('preterm.html', results=[])
+
+
+@ui.route('/process_preterm_form', methods=['POST', 'GET'])
+@login_required
+def process_preterm_form():
+    submodule_root = str(PROJECT_ROOT / "ml_models" / "preterm_birth")
+    try:
+        results = predict_preterm(dict(request.form), submodule_root)
+        return render_template('preterm.html', results=results, data=dict(request.form))
+    except Exception as exc:
+        return render_template('preterm.html', results=[], error=str(exc))
 
 
 @ui.route('/process_pe_form', methods=['POST', 'GET'])
@@ -86,18 +105,18 @@ def process_gdm_form():
         return render_template('gdm.html', active='GDM', risks=[], error=str(exc))
 
 
-@ui.route('/process_fwe_form', methods=['POST', 'GET'])
+@ui.route('/process_efw_form', methods=['POST', 'GET'])
 @login_required
-def process_fwe_form():
-    submodule_root = str(PROJECT_ROOT / "ml_models" / "twin_fwe")
+def process_efw_form():
+    submodule_root = str(PROJECT_ROOT / "ml_models" / "twin_efw")
     form_data = request.form.to_dict()
     last_row = int(form_data.get('last_row', 4) or 4)
     try:
-        ctx = predict_fwe(form_data, submodule_root, static_root=STATIC_ROOT)
-        return render_template('twin-fwe.html', **ctx)
+        ctx = predict_efw(form_data, submodule_root, static_root=STATIC_ROOT)
+        return render_template('twin-efw.html', **ctx)
     except Exception as exc:
         return render_template(
-            'twin-fwe.html',
+            'twin-efw.html',
             data=form_data,
             percentage_dict={},
             zscore_dict={},
@@ -126,11 +145,11 @@ def adjust_trend():
     extended_by = int(request.form.get("range") or 1)
     last_row = int(request.form.get("last_row", 4) or 4)
     try:
-        ctx = adjust_fwe_trend(trend_data_path, extended_by=extended_by)
-        return render_template('twin-fwe.html', **ctx)
+        ctx = adjust_efw_trend(trend_data_path, extended_by=extended_by, static_root=STATIC_ROOT)
+        return render_template('twin-efw.html', **ctx)
     except Exception as exc:
         return render_template(
-            'twin-fwe.html',
+            'twin-efw.html',
             data={},
             percentage_dict={},
             zscore_dict={},
