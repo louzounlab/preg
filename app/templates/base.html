@@ -28,6 +28,7 @@
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             background-color: #b6bdbebd;
             color: #333333 !important;
             padding-top: 70px;
@@ -130,6 +131,14 @@
 
         .custom-navbar .nav-link:hover {
             color: #3bd3d8 !important;
+        }
+
+        /* The SHELA wordmark is dark text on transparency; give it a light
+           backing so it stays legible on the dark navbar. */
+        .shela-logo {
+            background-color: #ffffff;
+            padding: 4px 8px;
+            border-radius: 6px;
         }
 
         @media (max-width: 768px) {
@@ -290,7 +299,7 @@
                 <img src="/static/yolo_lab.jpg" alt="..." height="36">
             </a>
             <a class="navbar-brand" href="http://www.shela.health/" target="_blank" rel="noopener">
-                <img src="{{ url_for('static', filename='SHELA LOGO color.png') }}" alt="SHELA" height="36">
+                <img class="shela-logo" src="{{ url_for('static', filename='SHELA LOGO color.png') }}" alt="SHELA" height="36">
             </a>
             <div class="d-flex align-items-center ms-3">
                 {% if session.user %}
