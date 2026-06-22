@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <style>
+        .main-div {
+            margin: auto;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: #4a5b5a;
+            margin-bottom: 0;
+        }
+
+        .example-index-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 8px;
+        }
+
+        .example-index-card {
+            flex: 1 1 280px;
+            border-left: 6px solid #888;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .example-index-card.model-pe       { border-left-color: #ee5a52; }
+        .example-index-card.model-gdm      { border-left-color: #44a08d; }
+        .example-index-card.model-twin-efw { border-left-color: #7D3C98; }
+        .example-index-card.model-pepred   { border-left-color: #1e3a8a; }
+
+        .example-index-card h2 {
+            font-size: 1.5rem;
+            color: #1f2d2d;
+            margin: 0 0 8px 0;
+        }
+
+        .example-index-card p {
+            color: #2f3d3d;
+            margin: 0 0 16px 0;
+        }
+
+        .view-link {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #ffffff !important;
+            background-color: #0c1d1d;
+            transition: opacity 0.15s ease;
+            white-space: nowrap;
+            align-self: flex-start;
+        }
+
+        .view-link:hover {
+            opacity: 0.85;
+            text-decoration: none;
+            color: #ffffff !important;
+        }
+
+        @media (max-width: 768px) {
+            .example-index-card { flex: 1 1 100%; }
+            .page-title { font-size: 1.8rem; }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="main-div page-top">
+        <br>
+        <div class="frame">
+            <h1 class="page-title">Example Runs</h1>
+            <p class="page-subtitle">
+                Walk-throughs of representative form submissions and the corresponding
+                results. Choose a model to see its own examples.
+            </p>
+        </div>
+
+        <div class="example-index-grid">
+            {% for key, model in models.items() %}
+                <div class="frame example-index-card {{ model.css }}">
+                    <div>
+                        <h2>{{ model.name }}</h2>
+                        <p>{{ model.description }}</p>
+                    </div>
+                    <a class="view-link" href="{{ url_for('ui.example_model', model=key) }}">View examples →</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

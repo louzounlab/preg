@@ -289,6 +289,9 @@
             <a class="navbar-brand" href="https://yolo.math.biu.ac.il/">
                 <img src="/static/yolo_lab.jpg" alt="..." height="36">
             </a>
+            <a class="navbar-brand" href="http://www.shela.health/" target="_blank" rel="noopener">
+                <img src="{{ url_for('static', filename='SHELA LOGO color.png') }}" alt="SHELA" height="36">
+            </a>
             <div class="d-flex align-items-center ms-3">
                 {% if session.user %}
                     {% if session.user.picture %}

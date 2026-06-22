@@ -1,3 +1,5 @@
+import os
+
 from authlib.integrations.flask_client import OAuth
 from flask import Blueprint, current_app, redirect, session, url_for
 
@@ -53,6 +55,20 @@ def _extract_userinfo(token):
 
 @auth.route("/login")
 def login():
+    # Local development bypass: when FLASK_ENV=development (and Google OAuth is
+    # not configured) sign in a fake user so the protected model pages are
+    # reachable without setting up real OAuth credentials.
+    if os.environ.get("FLASK_ENV") == "development" and not config.GOOGLE_CLIENT_ID:
+        session["user"] = {
+            "email": "dev@localhost",
+            "name": "Local Dev",
+            "picture": None,
+        }
+        next_url = session.pop("next", None)
+        if not next_url or not next_url.startswith("/") or next_url[:2] in ("//", "/\\"):
+            next_url = "/Home"
+        return redirect(next_url)
+
     redirect_uri = url_for("auth.callback", _external=True)
     return oauth.google.authorize_redirect(redirect_uri)
 

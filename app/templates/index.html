@@ -95,6 +95,10 @@
             background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
         }
 
+        .btn-gdmpred {
+            background: linear-gradient(135deg, #f6a23b 0%, #b86a14 100%);
+        }
+
         .btn-preterm {
             background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
         }
@@ -144,32 +148,38 @@
 {% block content %}
     <div class="container page-top">
         <div class="hero-section">
-            <h1 class="hero-title">Medical Prediction Tools</h1>
-            <p class="hero-subtitle">Advanced AI-powered diagnostic tools to support healthcare professionals in making informed decisions</p>
+            <h1 class="hero-title">Pregnancy complication predictions</h1>
+            <p class="hero-subtitle">Advanced AI-powered diagnostic tools to support a healthy pregnancy</p>
 
             <div class="button-group">
+                <a href="{{ url_for('ui.pepred') }}" class="btn-custom btn-pepred">
+                    <div class="btn-icon">🫀</div>
+                    <div class="btn-title">PE prediction</div>
+                    <div class="btn-description">Preeclampsia risk prediction from maternal history and 1st trimester biomarkers</div>
+                </a>
+
                 <a href="{{ url_for('ui.pe_twins') }}" class="btn-custom btn-pe">
                     <div class="btn-icon">👶</div>
                     <div class="btn-title">PE Twins Prediction</div>
-                    <div class="btn-description">Predict preeclampsia risk in twin pregnancies using advanced algorithms</div>
+                    <div class="btn-description">Predict preeclampsia risk in twin pregnancies from maternal history and 1st trimester biomarkers</div>
+                </a>
+
+                <a href="https://gdmpred.math.biu.ac.il/Home" target="_blank" rel="noopener" class="btn-custom btn-gdmpred">
+                    <div class="btn-icon">🩸</div>
+                    <div class="btn-title">GDMpred</div>
+                    <div class="btn-description">Gestational diabetes mellitus risk prediction from maternal history and 1st trimester biomarkers</div>
                 </a>
 
                 <a href="{{ url_for('ui.gdm') }}" class="btn-custom btn-gdm">
                     <div class="btn-icon">🩺</div>
-                    <div class="btn-title">GDM Prediction</div>
-                    <div class="btn-description">Gestational diabetes mellitus risk assessment and prediction tool</div>
+                    <div class="btn-title">Twin GDM Prediction</div>
+                    <div class="btn-description">Gestational diabetes mellitus risk in twin pregnancies from maternal history and 1st trimester biomarkers</div>
                 </a>
 
                 <a href="{{ url_for('ui.twin_efw') }}" class="btn-custom btn-twin">
                     <div class="btn-icon">📈</div>
                     <div class="btn-title">Twin-EFW</div>
                     <div class="btn-description">Twin fetal weight estimation and discordance prediction tool</div>
-                </a>
-
-                <a href="{{ url_for('ui.pepred') }}" class="btn-custom btn-pepred">
-                    <div class="btn-icon">🫀</div>
-                    <div class="btn-title">PEPRED</div>
-                    <div class="btn-description">Preeclampsia risk prediction from maternal history and 1st-trimester biomarkers</div>
                 </a>
 
                 <a href="{{ url_for('ui.preterm') }}" class="btn-custom btn-preterm">

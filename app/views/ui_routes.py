@@ -1,5 +1,5 @@
 from pathlib import Path
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, abort
 
 from auth.decorators import login_required
 from ml_models.adapters.gdm import predict as predict_gdm
@@ -12,6 +12,78 @@ ui = Blueprint('ui', __name__)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 STATIC_ROOT = str(PROJECT_ROOT / "static")
+
+# Example runs, one entry per model. Each model has its own example page so the
+# walk-throughs are not all mixed together on a single page.
+EXAMPLES = {
+    "pepred": {
+        "name": "PE prediction",
+        "css": "model-pepred",
+        "endpoint": "ui.pepred",
+        "description": "Preeclampsia risk from maternal history and 1st trimester biomarkers.",
+        "scenarios": [
+            {
+                "title": "High-risk example",
+                "form": "examples/PEPRED/high_risk_form.png",
+                "result": "examples/PEPRED/high_risk_result.png",
+            },
+        ],
+    },
+    "pe-twins": {
+        "name": "PE Twins Prediction",
+        "css": "model-pe",
+        "endpoint": "ui.pe_twins",
+        "description": "Preeclampsia risk in twin pregnancies.",
+        "scenarios": [
+            {
+                "title": "Low-risk example",
+                "form": "examples/PE_TWINS/low_risk_form.png",
+                "result": "examples/PE_TWINS/low_risk_results.png",
+            },
+            {
+                "title": "High-risk example",
+                "form": "examples/PE_TWINS/high_risk_form.png",
+                "result": "examples/PE_TWINS/high_risk_results.png",
+            },
+        ],
+    },
+    "twin-gdm": {
+        "name": "Twin GDM Prediction",
+        "css": "model-gdm",
+        "endpoint": "ui.gdm",
+        "description": "Gestational diabetes mellitus risk in twin pregnancies.",
+        "scenarios": [
+            {
+                "title": "Low-risk example",
+                "form": "examples/gdm/low_risk_form.png",
+                "result": "examples/gdm/low_risk_results.png",
+            },
+            {
+                "title": "High-risk example",
+                "form": "examples/gdm/high_risk_form.png",
+                "result": "examples/gdm/high_risk_results.png",
+            },
+        ],
+    },
+    "twin-efw": {
+        "name": "Twin-EFW",
+        "css": "model-twin-efw",
+        "endpoint": "ui.twin_efw",
+        "description": "Twin fetal weight estimation and discordance prediction.",
+        "scenarios": [
+            {
+                "title": "Both twins severely growth restricted",
+                "form": "examples/TWIN_EFW/both_twins_severly_growth_form.png",
+                "result": "examples/TWIN_EFW/both_twins_severly_growth_result.png",
+            },
+            {
+                "title": "Severe discordance",
+                "form": "examples/TWIN_EFW/Severe_discordance_form.png",
+                "result": "examples/TWIN_EFW/Severe_discordance_result.png",
+            },
+        ],
+    },
+}
 
 
 @ui.route('/')
@@ -35,7 +107,16 @@ def glossary():
 @ui.route('/example')
 @ui.route('/Example')
 def example():
-    return render_template('example.html')
+    return render_template('examples_index.html', models=EXAMPLES)
+
+
+@ui.route('/example/<model>')
+@ui.route('/Example/<model>')
+def example_model(model):
+    data = EXAMPLES.get(model)
+    if data is None:
+        abort(404)
+    return render_template('example.html', model=data)
 
 
 @ui.route('/PE_Twins')

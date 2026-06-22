@@ -131,169 +131,40 @@
     <div class="main-div page-top">
         <br>
         <div class="frame">
-            <h1 class="page-title">Example Runs</h1>
+            <a href="{{ url_for('ui.example') }}" style="text-decoration:none; color:#0c1d1d; font-weight:600;">← All examples</a>
+            <h1 class="page-title" style="margin-top:8px;">{{ model.name }} — Example Runs</h1>
             <p class="page-subtitle">
                 Walk-throughs of representative form submissions and the corresponding
-                results for each prediction tool. Click any image to view it full size.
+                results. Click any image to view it full size.
             </p>
         </div>
 
-        <div class="frame model-frame model-pe">
+        <div class="frame model-frame {{ model.css }}">
             <div class="model-header">
-                <h2>PE Twins Prediction</h2>
-                <a class="try-link" href="{{ url_for('ui.pe_twins') }}">Try this model →</a>
+                <h2>{{ model.name }}</h2>
+                <a class="try-link" href="{{ url_for(model.endpoint) }}">Try this model →</a>
             </div>
-            <p class="model-description">Preeclampsia risk in twin pregnancies.</p>
+            <p class="model-description">{{ model.description }}</p>
 
+            {% for scenario in model.scenarios %}
             <div class="scenario">
-                <div class="scenario-title">Low-risk example</div>
+                <div class="scenario-title">{{ scenario.title }}</div>
                 <div class="example-pair">
                     <div class="example-card">
                         <div class="example-label">Form input</div>
-                        <a href="/static/examples/PE_TWINS/low_risk_form.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/PE_TWINS/low_risk_form.png" alt="PE Twins low-risk form input">
+                        <a href="{{ url_for('static', filename=scenario.form) }}" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename=scenario.form) }}" alt="{{ model.name }} {{ scenario.title }} form input">
                         </a>
                     </div>
                     <div class="example-card">
                         <div class="example-label">Result</div>
-                        <a href="/static/examples/PE_TWINS/low_risk_results.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/PE_TWINS/low_risk_results.png" alt="PE Twins low-risk result">
+                        <a href="{{ url_for('static', filename=scenario.result) }}" target="_blank" rel="noopener">
+                            <img src="{{ url_for('static', filename=scenario.result) }}" alt="{{ model.name }} {{ scenario.title }} result">
                         </a>
                     </div>
                 </div>
             </div>
-
-            <div class="scenario">
-                <div class="scenario-title">High-risk example</div>
-                <div class="example-pair">
-                    <div class="example-card">
-                        <div class="example-label">Form input</div>
-                        <a href="/static/examples/PE_TWINS/high_risk_form.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/PE_TWINS/high_risk_form.png" alt="PE Twins high-risk form input">
-                        </a>
-                    </div>
-                    <div class="example-card">
-                        <div class="example-label">Result</div>
-                        <a href="/static/examples/PE_TWINS/high_risk_results.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/PE_TWINS/high_risk_results.png" alt="PE Twins high-risk result">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="frame model-frame model-gdm">
-            <div class="model-header">
-                <h2>GDM Prediction</h2>
-                <a class="try-link" href="{{ url_for('ui.gdm') }}">Try this model →</a>
-            </div>
-            <p class="model-description">Gestational diabetes mellitus risk assessment.</p>
-
-            <div class="scenario">
-                <div class="scenario-title">Low-risk example</div>
-                <div class="example-pair">
-                    <div class="example-card">
-                        <div class="example-label">Form input</div>
-                        <a href="/static/examples/gdm/low_risk_form.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/gdm/low_risk_form.png" alt="GDM low-risk form input">
-                        </a>
-                    </div>
-                    <div class="example-card">
-                        <div class="example-label">Result</div>
-                        <a href="/static/examples/gdm/low_risk_results.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/gdm/low_risk_results.png" alt="GDM low-risk result">
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="scenario">
-                <div class="scenario-title">High-risk example</div>
-                <div class="example-pair">
-                    <div class="example-card">
-                        <div class="example-label">Form input</div>
-                        <a href="/static/examples/gdm/high_risk_form.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/gdm/high_risk_form.png" alt="GDM high-risk form input">
-                        </a>
-                    </div>
-                    <div class="example-card">
-                        <div class="example-label">Result</div>
-                        <a href="/static/examples/gdm/high_risk_results.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/gdm/high_risk_results.png" alt="GDM high-risk result">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="frame model-frame model-twin-efw">
-            <div class="model-header">
-                <h2>Twin-EFW</h2>
-                <a class="try-link" href="{{ url_for('ui.twin_efw') }}">Try this model →</a>
-            </div>
-            <p class="model-description">Twin fetal weight estimation and discordance prediction.</p>
-
-            <div class="scenario">
-                <div class="scenario-title">Both twins severely growth restricted</div>
-                <div class="example-pair">
-                    <div class="example-card">
-                        <div class="example-label">Form input</div>
-                        <a href="/static/examples/TWIN_EFW/both_twins_severly_growth_form.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/TWIN_EFW/both_twins_severly_growth_form.png" alt="Twin-EFW both twins growth restricted form input">
-                        </a>
-                    </div>
-                    <div class="example-card">
-                        <div class="example-label">Result</div>
-                        <a href="/static/examples/TWIN_EFW/both_twins_severly_growth_result.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/TWIN_EFW/both_twins_severly_growth_result.png" alt="Twin-EFW both twins growth restricted result">
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="scenario">
-                <div class="scenario-title">Severe discordance</div>
-                <div class="example-pair">
-                    <div class="example-card">
-                        <div class="example-label">Form input</div>
-                        <a href="/static/examples/TWIN_EFW/Severe_discordance_form.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/TWIN_EFW/Severe_discordance_form.png" alt="Twin-EFW severe discordance form input">
-                        </a>
-                    </div>
-                    <div class="example-card">
-                        <div class="example-label">Result</div>
-                        <a href="/static/examples/TWIN_EFW/Severe_discordance_result.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/TWIN_EFW/Severe_discordance_result.png" alt="Twin-EFW severe discordance result">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="frame model-frame model-pepred">
-            <div class="model-header">
-                <h2>PEPRED</h2>
-                <a class="try-link" href="{{ url_for('ui.pepred') }}">Try this model →</a>
-            </div>
-            <p class="model-description">Preeclampsia risk from maternal history and 1st-trimester biomarkers.</p>
-
-            <div class="scenario">
-                <div class="scenario-title">High-risk example</div>
-                <div class="example-pair">
-                    <div class="example-card">
-                        <div class="example-label">Form input</div>
-                        <a href="/static/examples/PEPRED/high_risk_form.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/PEPRED/high_risk_form.png" alt="PEPRED high-risk form input">
-                        </a>
-                    </div>
-                    <div class="example-card">
-                        <div class="example-label">Result</div>
-                        <a href="/static/examples/PEPRED/high_risk_result.png" target="_blank" rel="noopener">
-                            <img src="/static/examples/PEPRED/high_risk_result.png" alt="PEPRED high-risk result">
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
