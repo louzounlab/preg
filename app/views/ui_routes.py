@@ -7,6 +7,7 @@ from ml_models.adapters.twin_pe import predict as predict_pe
 from ml_models.adapters.twin_efw import predict as predict_efw, adjust_trend as adjust_efw_trend
 from ml_models.adapters.pepred import predict as predict_pepred
 from ml_models.adapters.preterm import predict as predict_preterm
+from ml_models.adapters.sga import predict as predict_sga
 
 ui = Blueprint('ui', __name__)
 
@@ -151,6 +152,25 @@ def pepred():
 @login_required
 def preterm():
     return render_template('preterm.html', results=[])
+
+
+@ui.route('/SGA')
+@ui.route('/sga')
+@login_required
+def sga():
+    return render_template('sga.html', result=None)
+
+
+@ui.route('/process_sga_form', methods=['POST', 'GET'])
+@login_required
+def process_sga_form():
+    submodule_root = str(PROJECT_ROOT / "ml_models" / "sga")
+    form_data = dict(request.form)
+    try:
+        result = predict_sga(form_data, submodule_root)
+        return render_template('sga.html', result=result, data=form_data)
+    except Exception as exc:
+        return render_template('sga.html', result=None, data=form_data, error=str(exc))
 
 
 @ui.route('/process_preterm_form', methods=['POST', 'GET'])

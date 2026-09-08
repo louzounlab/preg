@@ -103,6 +103,10 @@
             background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
         }
 
+        .btn-sga {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+        }
+
         .btn-icon {
             font-size: 2.5rem;
             margin-bottom: 10px;
@@ -186,6 +190,12 @@
                     <div class="btn-icon">👶</div>
                     <div class="btn-title">Preterm Birth</div>
                     <div class="btn-description">Risk of delivery before 34 weeks from maternal history (preview model)</div>
+                </a>
+
+                <a href="{{ url_for('ui.sga') }}" class="btn-custom btn-sga">
+                    <div class="btn-icon">⚖️</div>
+                    <div class="btn-title">SGA</div>
+                    <div class="btn-description">Predicted birth-weight centile for gestational age from a mid-trimester scan and maternal history</div>
                 </a>
             </div>
         </div>

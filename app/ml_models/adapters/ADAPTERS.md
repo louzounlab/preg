@@ -51,6 +51,11 @@ def _load_models(model_dir: str):
 - Use the provided `submodule_root` to load `static/mean_std_*.csv`, `models_*` directories, and `predicted_results_*` files. Avoid hard-coded relative paths.
 
 5. Input handling
+- Fill anything the form left blank from the model's own artifacts (training means, medians, ...) rather than guessing, and tell the caller which fields you filled — `sga.py` ships a `sga_feature_medians.csv` next to the pickle and returns a `defaults_used` list.
+- Median-filling is only safe for fields that are *independent*. If two columns encode the same
+  quantity (`sga.py`'s `last.bwcent` / `last.bwzscore`) or one is computed from others (`BMI` from
+  height and weight), derive the blank one instead — defaulting it contradicts the value the caller
+  actually supplied, and the two features cancel inside the model.
 - Coerce values using a small helper:
 
 ```py
@@ -66,6 +71,7 @@ def _to_float(x, default=0.0):
 6. Output
 - Return a list of formatted percentage strings. The UI template renders them.
 - If you need richer output (estimates, images, time-series), return a dict and update the consuming view/template to read it.
+- Not every model is a risk classifier. A regression that returns a plain number should return a dict too — see `sga.py`, which returns the predicted birth-weight z-score plus the centile derived from it.
 
 7. Testing
 - Add a small unit-test that imports the adapter and calls `predict()` with a small payload and `submodule_root` set to the local clone path. Example:

@@ -1,0 +1,672 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    body {
+        background-color: #f0f0f0c5;
+        color: #333333;
+        padding-top: 70px;
+    }
+
+    .frame {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .frame h4 {
+        color: #047857;
+        margin-bottom: 4px;
+    }
+
+    .frame .section-help {
+        color: #555;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .frame .row + .row { margin-top: 12px; }
+
+    .glow-button {
+        background-color: #10b981;
+        color: #ffffff;
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        margin: 5px;
+    }
+
+    .glow-button:hover {
+        background-color: #047857;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .form-control, select, input[type="number"], input[type="text"] {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .form-control:focus, select:focus, input[type="number"]:focus, input[type="text"]:focus {
+        border-color: #10b981;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .title-header {
+        background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .intro-callout {
+        background: #ecfdf5;
+        border-left: 4px solid #10b981;
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        color: #1f2937;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid #f5c6cb;
+    }
+
+    /* Keeps the submit button on screen no matter how far down the form you
+       are — it used to sit below the fold on shorter viewports. */
+    .submit-bar {
+        position: sticky;
+        bottom: 0;
+        z-index: 5;
+        text-align: center;
+        padding: 10px;
+        margin: 0 -15px;
+        background: rgba(240, 240, 240, 0.94);
+        border-top: 1px solid #d8dcdc;
+    }
+
+    .risk-display {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin: 20px 0;
+    }
+
+    .risk-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        margin: 20px 0;
+    }
+
+    .risk-item {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #dee2e6;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+
+    .risk-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .risk-bar {
+        width: 100%;
+        max-width: 320px;
+        height: 30px;
+        /* Low centiles are the clinical concern here, high ones a lesser one. */
+        background: linear-gradient(to right,
+            #dc3545 0%, #fd7e14 5%, #ffc107 10%,
+            #28a745 40%, #28a745 60%,
+            #ffc107 90%, #fd7e14 100%);
+        border: 2px solid #333;
+        position: relative;
+        margin: 15px auto;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .risk-indicator {
+        width: 4px;
+        height: 100%;
+        background-color: #000;
+        position: absolute;
+        border-radius: 2px;
+        box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    }
+
+    .risk-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #047857;
+        margin-bottom: 10px;
+    }
+
+    .risk-percentage {
+        font-size: 24px;
+        font-weight: bold;
+        color: #047857;
+        margin-top: 10px;
+    }
+
+    .category-badge {
+        display: inline-block;
+        padding: 8px 18px;
+        border-radius: 999px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-top: 14px;
+    }
+
+    .category-severe-sga { background: #fee2e2; color: #991b1b; }
+    .category-sga        { background: #ffedd5; color: #9a3412; }
+    .category-normal     { background: #d1fae5; color: #065f46; }
+    .category-lga        { background: #fef3c7; color: #92400e; }
+
+    .defaults-note {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 13px;
+        color: #4b5563;
+    }
+
+    .defaults-note summary {
+        cursor: pointer;
+        color: #047857;
+        font-weight: 600;
+    }
+
+    .defaults-note p { margin: 8px 0 0; }
+
+    .warn-note {
+        background: #fffbeb;
+        border: 1px solid #fcd34d;
+        border-left: 4px solid #f59e0b;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 14px;
+        font-size: 13px;
+        color: #78350f;
+        text-align: left;
+    }
+
+    .warn-note strong { color: #92400e; }
+    .warn-note ul { margin: 8px 0 0; padding-left: 20px; }
+    .warn-note p  { margin: 8px 0 0; }
+
+    @media (max-width: 768px) {
+        .risk-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .risk-item { padding: 15px; }
+        .risk-bar { max-width: 220px; height: 25px; }
+        .risk-title { font-size: 16px; }
+        .risk-percentage { font-size: 20px; }
+    }
+</style>
+
+<script>
+    function positionRiskIndicators() {
+        document.querySelectorAll('.risk-indicator[data-risk]').forEach(function (indicator) {
+            var risk = parseFloat(indicator.dataset.risk);
+            if (!Number.isNaN(risk)) {
+                var clamped = Math.max(0, Math.min(100, risk));
+                indicator.style.left = 'calc(' + clamped + '% - 2px)';
+            }
+        });
+    }
+
+    // After a submit, bring the result into view instead of leaving it below
+    // the form where it has to be hunted for.
+    function revealResult() {
+        var result = document.getElementById('sga-result');
+        if (result) result.scrollIntoView({ block: 'center' });
+    }
+
+    // BMI is read-only and always derived, so it cannot contradict the height
+    // and weight it is computed from. Mirrors _apply_derived_bmi server-side.
+    function syncBmi() {
+        var h = parseFloat(document.getElementById('height').value);
+        var w = parseFloat(document.getElementById('weight_22').value);
+        var bmi = document.getElementById('BMI');
+        if (h > 0 && w > 0) {
+            bmi.value = (w / Math.pow(h / 100, 2)).toFixed(1);
+        } else {
+            bmi.value = '';
+        }
+    }
+
+    // Selecting "Nulliparous" anywhere in the history block makes the
+    // previous-delivery row meaningless — say so rather than letting it be
+    // silently median-filled.
+    function syncParity() {
+        var nullip = document.getElementById('prev.pe').value === 'prev.pe_Nullip'
+                  || document.getElementById('Previous_IUD').value === 'Previous_IUD_Nullip';
+        var note = document.getElementById('nullip-note');
+        if (note) note.hidden = !nullip;
+    }
+
+    function initSga() {
+        positionRiskIndicators();
+        revealResult();
+        ['height', 'weight_22'].forEach(function (id) {
+            document.getElementById(id).addEventListener('input', syncBmi);
+        });
+        ['prev.pe', 'Previous_IUD'].forEach(function (id) {
+            document.getElementById(id).addEventListener('change', syncParity);
+        });
+        syncBmi();
+        syncParity();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSga);
+    } else {
+        initSga();
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% if error %}
+    <div class="container">
+        <div class="error-message text-center">
+            <h4>Error: {{ error }}</h4>
+        </div>
+    </div>
+{% endif %}
+
+{% set d = data | default({}) %}
+
+<div class="container">
+    <div class="title-header">
+        <h1>⚖️ SGA — Birth-weight Centile</h1>
+        <p>Predicted weight of the newborn, normalised for the gestational week of birth,
+        from a mid-trimester scan and maternal history.</p>
+    </div>
+
+    <div class="intro-callout">
+        Unlike the other tools on this site, this model does not return a risk probability — it
+        returns a <strong>number</strong>: the predicted birth-weight centile for gestational age,
+        with the underlying z-score alongside it. Every field is optional; anything left blank is
+        completed with the <strong>median</strong> of that feature in the training data, and the
+        result lists which fields were filled that way.
+    </div>
+
+    <form action="{{ url_for('ui.process_sga_form') }}" method="post"
+          enctype="multipart/form-data" data-autosave-key="sga">
+
+        <!-- Mid-trimester scan -->
+        <div class="frame">
+            <h4>Mid-trimester Scan (~22 weeks)</h4>
+            <p class="section-help">Measurements taken at the second-trimester ultrasound.</p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="ga22">Gestational age at scan (weeks)</label>
+                        <span class="help-tip"><span class="help-tip-text">Gestational age at the time of the second-trimester scan, in weeks (decimals allowed).</span></span>
+                    </div>
+                    <input type="number" id="ga22" name="ga22" step="any" min="19" max="24"
+                           class="form-control" value="{{ d.get('ga22', '') }}">
+                </div>
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="efw22">Estimated fetal weight (g)</label>
+                        <span class="help-tip"><span class="help-tip-text">Estimated fetal weight measured at the scan, in grams.</span></span>
+                    </div>
+                    <input type="number" id="efw22" name="efw22" step="any" min="100" max="1500"
+                           class="form-control" value="{{ d.get('efw22', '') }}">
+                </div>
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="u22">Uterine artery PI (MoM)</label>
+                        <span class="help-tip"><span class="help-tip-text">Mean uterine artery pulsatility index at the scan, as a multiple of the median (1.0 = median).</span></span>
+                    </div>
+                    <input type="number" id="u22" name="u22" step="any" min="0.3" max="4"
+                           class="form-control" value="{{ d.get('u22', '') }}">
+                </div>
+            </div>
+        </div>
+
+        <!-- Maternal characteristics -->
+        <div class="frame">
+            <h4>Maternal Characteristics</h4>
+            <p class="section-help">Demographics and body measurements. BMI is computed from the
+            height and weight — it is shown here for confirmation and cannot be edited, so it can
+            never disagree with the two measurements it comes from.</p>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="age">Maternal age (years)</label>
+                        <span class="help-tip"><span class="help-tip-text">Mother's age in years.</span></span>
+                    </div>
+                    <input type="number" id="age" name="age" step="any" min="12" max="60"
+                           class="form-control" value="{{ d.get('age', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="height">Height (cm)</label>
+                        <span class="help-tip"><span class="help-tip-text">Mother's height in centimetres.</span></span>
+                    </div>
+                    <input type="number" id="height" name="height" step="any" min="120" max="210"
+                           class="form-control" value="{{ d.get('height', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="weight_22">Weight at scan (kg)</label>
+                        <span class="help-tip"><span class="help-tip-text">Mother's weight at the time of the second-trimester scan, in kilograms.</span></span>
+                    </div>
+                    <input type="number" id="weight_22" name="weight_22" step="any" min="35" max="200"
+                           class="form-control" value="{{ d.get('weight_22', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="BMI">BMI</label>
+                        <span class="help-tip"><span class="help-tip-text">Body-mass index (kg/m²), computed as weight / (height/100)² — the same formula used in the training data. Fill in height and weight to populate it.</span></span>
+                    </div>
+                    <input type="number" id="BMI" name="BMI" step="any" readonly
+                           class="form-control" placeholder="from height / weight"
+                           value="{{ d.get('BMI', '') }}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="race">Racial origin</label>
+                        <span class="help-tip"><span class="help-tip-text">Self-reported racial origin, as recorded in the training cohort.</span></span>
+                    </div>
+                    <select id="race" name="race" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="race_White" {{ 'selected' if d.get('race') == 'race_White' }}>White</option>
+                        <option value="race_Black" {{ 'selected' if d.get('race') == 'race_Black' }}>Black</option>
+                        <option value="race_South_Asian" {{ 'selected' if d.get('race') == 'race_South_Asian' }}>South Asian</option>
+                        <option value="race_East_Asian" {{ 'selected' if d.get('race') == 'race_East_Asian' }}>East Asian</option>
+                        <option value="race_Mixed" {{ 'selected' if d.get('race') == 'race_Mixed' }}>Mixed</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="conception">Method of conception</label>
+                        <span class="help-tip"><span class="help-tip-text">How this pregnancy was conceived.</span></span>
+                    </div>
+                    <select id="conception" name="conception" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="conception__Spontaneous" {{ 'selected' if d.get('conception') == 'conception__Spontaneous' }}>Spontaneous</option>
+                        <option value="conception__IVF" {{ 'selected' if d.get('conception') == 'conception__IVF' }}>IVF</option>
+                        <option value="conception__Ovulation_drugs" {{ 'selected' if d.get('conception') == 'conception__Ovulation_drugs' }}>Ovulation drugs</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="smoking">Smoking</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the mother smokes during this pregnancy.</span></span>
+                    </div>
+                    <select id="smoking" name="smoking" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="smoking_No" {{ 'selected' if d.get('smoking') == 'smoking_No' }}>No</option>
+                        <option value="smoking_Smoker" {{ 'selected' if d.get('smoking') == 'smoking_Smoker' }}>Smoker</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Medical history -->
+        <div class="frame">
+            <h4>Medical History</h4>
+            <p class="section-help">Pre-existing maternal conditions and family history.</p>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="chr">Chronic hypertension</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the mother has chronic high blood pressure.</span></span>
+                    </div>
+                    <select id="chr" name="chr" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="chr_No" {{ 'selected' if d.get('chr') == 'chr_No' }}>No</option>
+                        <option value="chr_Chronic_hypertension" {{ 'selected' if d.get('chr') == 'chr_Chronic_hypertension' }}>Chronic hypertension</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="dm">Diabetes mellitus</label>
+                        <span class="help-tip"><span class="help-tip-text">Pre-existing diabetes, if any.</span></span>
+                    </div>
+                    <select id="dm" name="dm" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="dm_No" {{ 'selected' if d.get('dm') == 'dm_No' }}>No</option>
+                        <option value="dm_Type_1_DM" {{ 'selected' if d.get('dm') == 'dm_Type_1_DM' }}>Type 1 DM</option>
+                        <option value="dm_Type_2_DM" {{ 'selected' if d.get('dm') == 'dm_Type_2_DM' }}>Type 2 DM</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="sle">SLE / APS</label>
+                        <span class="help-tip"><span class="help-tip-text">Systemic lupus erythematosus or antiphospholipid syndrome.</span></span>
+                    </div>
+                    <select id="sle" name="sle" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="sle_No" {{ 'selected' if d.get('sle') == 'sle_No' }}>No</option>
+                        <option value="sle_SLE/APS" {{ 'selected' if d.get('sle') == 'sle_SLE/APS' }}>SLE / APS</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="fh">Family history of PE</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether the mother's own mother or a sister had preeclampsia.</span></span>
+                    </div>
+                    <select id="fh" name="fh" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="fh_No" {{ 'selected' if d.get('fh') == 'fh_No' }}>No</option>
+                        <option value="fh_FH-PE_mother" {{ 'selected' if d.get('fh') == 'fh_FH-PE_mother' }}>Mother had PE</option>
+                        <option value="fh_FH-PE_sister" {{ 'selected' if d.get('fh') == 'fh_FH-PE_sister' }}>Sister had PE</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Obstetric history -->
+        <div class="frame">
+            <h4>Obstetric History</h4>
+            <p class="section-help">Previous pregnancies and their outcomes. The bottom row describes
+            the most recent delivery. <strong>For a first pregnancy there is no neutral way to leave it
+            blank</strong> — the model has no missing-value handling, so empty fields are filled with the
+            median of <em>parous</em> women, which asserts a previous delivery at 40 weeks on the 50th
+            centile. The result will say so, and should be read with that in mind.</p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="prev.pe">Previous preeclampsia</label>
+                        <span class="help-tip"><span class="help-tip-text">Parity, and whether a previous pregnancy was complicated by preeclampsia.</span></span>
+                    </div>
+                    <select id="prev.pe" name="prev.pe" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="prev.pe_Nullip" {{ 'selected' if d.get('prev.pe') == 'prev.pe_Nullip' }}>Nulliparous</option>
+                        <option value="prev.pe_Multip-no_PE" {{ 'selected' if d.get('prev.pe') == 'prev.pe_Multip-no_PE' }}>Multiparous — no previous PE</option>
+                        <option value="prev.pe_Multip-PE" {{ 'selected' if d.get('prev.pe') == 'prev.pe_Multip-PE' }}>Multiparous — previous PE</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="Previous_IUD">Previous intrauterine death</label>
+                        <span class="help-tip"><span class="help-tip-text">Whether a previous pregnancy ended in intrauterine death.</span></span>
+                    </div>
+                    <select id="Previous_IUD" name="Previous_IUD" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="Previous_IUD_Nullip" {{ 'selected' if d.get('Previous_IUD') == 'Previous_IUD_Nullip' }}>Nulliparous</option>
+                        <option value="Previous_IUD_Multip-no_IUD" {{ 'selected' if d.get('Previous_IUD') == 'Previous_IUD_Multip-no_IUD' }}>Multiparous — no IUD</option>
+                        <option value="Previous_IUD_Multip-IUD" {{ 'selected' if d.get('Previous_IUD') == 'Previous_IUD_Multip-IUD' }}>Multiparous — previous IUD</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="label-row">
+                        <label for="Previous_death">Previous fetal / neonatal death</label>
+                        <span class="help-tip"><span class="help-tip-text">Gestational age at which a previous pregnancy loss occurred, if any.</span></span>
+                    </div>
+                    <select id="Previous_death" name="Previous_death" class="form-control">
+                        <option value="">— use median —</option>
+                        <option value="Previous_death_No_death" {{ 'selected' if d.get('Previous_death') == 'Previous_death_No_death' }}>No death</option>
+                        <option value="Previous_death_Death_st16w" {{ 'selected' if d.get('Previous_death') == 'Previous_death_Death_st16w' }}>Death before 16 weeks</option>
+                        <option value="Previous_death_Death_16-23w" {{ 'selected' if d.get('Previous_death') == 'Previous_death_Death_16-23w' }}>Death at 16–23 weeks</option>
+                        <option value="Previous_death_Death_gt24w" {{ 'selected' if d.get('Previous_death') == 'Previous_death_Death_gt24w' }}>Death after 24 weeks</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="warn-note" id="nullip-note" hidden>
+                <strong>First pregnancy selected.</strong>
+                <p>The four fields below describe a previous delivery. Left blank they are filled with
+                the median of parous women, not treated as absent, so the model will be told this
+                mother previously delivered a normal 40-week baby. There is no input that represents
+                "no previous pregnancy" — read the result accordingly.</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="interval">Interval since last pregnancy (years)</label>
+                        <span class="help-tip"><span class="help-tip-text">Years between the previous delivery and this pregnancy.</span></span>
+                    </div>
+                    <input type="number" id="interval" name="interval" step="any" min="0" max="30"
+                           class="form-control" value="{{ d.get('interval', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="last.ga">GA at last delivery (weeks)</label>
+                        <span class="help-tip"><span class="help-tip-text">Gestational age in weeks at the most recent previous delivery.</span></span>
+                    </div>
+                    <input type="number" id="last.ga" name="last.ga" step="any" min="20" max="43"
+                           class="form-control" value="{{ d.get('last.ga', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="last.bwcent">Last birth-weight centile</label>
+                        <span class="help-tip"><span class="help-tip-text">Birth-weight centile for gestational age of the previous baby (0–100). This and the z-score beside it are the same figure in different units — fill in whichever you have and the other is derived from it.</span></span>
+                    </div>
+                    <input type="number" id="last.bwcent" name="last.bwcent" step="any" min="0" max="100"
+                           class="form-control" value="{{ d.get('last.bwcent', '') }}">
+                </div>
+                <div class="col-md-3">
+                    <div class="label-row">
+                        <label for="last.bwzscore">Last birth-weight z-score</label>
+                        <span class="help-tip"><span class="help-tip-text">Birth-weight z-score for gestational age of the previous baby (0 = median). Interchangeable with the centile beside it — filling in either one is enough.</span></span>
+                    </div>
+                    <input type="number" id="last.bwzscore" name="last.bwzscore" step="any" min="-6" max="6"
+                           class="form-control" value="{{ d.get('last.bwzscore', '') }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="submit-bar">
+            <button type="submit" class="glow-button">🔬 Predict Birth-weight Centile</button>
+        </div>
+    </form>
+
+    {% if result %}
+        <div class="risk-display" id="sga-result">
+            <h3 style="color:#047857;">Predicted Birth Weight for Gestational Age</h3>
+            <p class="text-muted">Estimated weight of the newborn relative to babies born at the
+            same gestational week.</p>
+
+            <div class="risk-grid">
+                <div class="risk-item">
+                    <div class="risk-title">Birth-weight centile</div>
+                    <div class="risk-bar">
+                        <div class="risk-indicator" data-risk="{{ result.centile }}"></div>
+                    </div>
+                    <div class="risk-percentage">
+                        {%- if result.centile < 0.1 -%}&lt;0.1
+                        {%- elif result.centile > 99.9 -%}&gt;99.9
+                        {%- else -%}{{ result.centile }}
+                        {%- endif -%}
+                    </div>
+                    <small class="text-muted">normalised for the gestational week of birth</small>
+                </div>
+
+                <div class="risk-item">
+                    <div class="risk-title">Raw model output</div>
+                    <div class="risk-percentage">{{ '%+.3f' | format(result.zscore) }}</div>
+                    <small class="text-muted">z-score (0 = median for that week)</small>
+                    <div>
+                        <span class="category-badge category-{{ result.category }}">{{ result.category_label }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if result.warnings %}
+                <div class="warn-note">
+                    <strong>⚠ Check these entries</strong>
+                    <ul>
+                        {% for w in result.warnings %}<li>{{ w }}</li>{% endfor %}
+                    </ul>
+                    <p>The value was scored as given — the model does not reject out-of-range input —
+                    so if one of these is a unit or decimal-point slip, the result above is wrong.</p>
+                </div>
+            {% endif %}
+
+            {% set history = result.defaults_used_fields
+                             | select('in', ['interval', 'last.ga', 'last.bwcent', 'last.bwzscore'])
+                             | list %}
+            {% if history %}
+                <div class="warn-note">
+                    <strong>⚠ A previous delivery was assumed</strong>
+                    <p>{{ history | length }} of the previous-delivery fields were left blank and filled
+                    with the median of parous women — the model has no missing-value handling, so this
+                    asserts an earlier delivery at 40 weeks on the 50th centile
+                    {%- if d.get('prev.pe') == 'prev.pe_Nullip' or d.get('Previous_IUD') == 'Previous_IUD_Nullip' %},
+                    which contradicts the nulliparous status selected above{% endif %}.
+                    Previous birth weight is the strongest single input to this model, so treat the
+                    figure above as provisional unless those fields are filled in.</p>
+                </div>
+            {% endif %}
+
+            {% if result.defaults_used %}
+                <details class="defaults-note">
+                    <summary>{{ result.defaults_used | length }} field(s) completed with the training-set median</summary>
+                    <p>{{ result.defaults_used | join(', ') }}. Filling them in will sharpen the estimate.</p>
+                </details>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

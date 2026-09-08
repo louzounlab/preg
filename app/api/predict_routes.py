@@ -5,6 +5,7 @@ from auth.decorators import login_required
 from ml_models.adapters.twin_pe import predict as predict_pe
 from ml_models.adapters.twin_efw import predict as predict_efw
 from ml_models.adapters.preterm import predict as predict_preterm
+from ml_models.adapters.sga import predict as predict_sga
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -19,6 +20,15 @@ def predict_preterm_route():
     submodule_root = str(PROJECT_ROOT / "ml_models" / "preterm_birth")
     results = predict_preterm(payload, submodule_root)
     return jsonify({"success": True, "model": "preterm", "results": results})
+
+
+@api.route('/predict/sga', methods=['POST'])
+@login_required
+def predict_sga_route():
+    payload = request.get_json(silent=True) or {}
+    submodule_root = str(PROJECT_ROOT / "ml_models" / "sga")
+    result = predict_sga(payload, submodule_root)
+    return jsonify({"success": True, "model": "sga", **result})
 
 
 @api.route('/predict/twin-pe', methods=['POST'])

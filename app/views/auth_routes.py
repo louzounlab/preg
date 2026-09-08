@@ -55,6 +55,8 @@ def _extract_userinfo(token):
 
 @auth.route("/login")
 def login():
+    # Reached from the sign-in notice dialog in base.html, which states what is
+    # transferred to Google before the browser is sent there.
     # Local development bypass: when FLASK_ENV=development (and Google OAuth is
     # not configured) sign in a fake user so the protected model pages are
     # reachable without setting up real OAuth credentials.
