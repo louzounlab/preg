@@ -325,8 +325,9 @@
         Unlike the other tools on this site, this model does not return a risk probability — it
         returns a <strong>number</strong>: the predicted birth-weight centile for gestational age,
         with the underlying z-score alongside it. Every field is optional; anything left blank is
-        completed with the <strong>median</strong> of that feature in the training data, and the
-        result lists which fields were filled that way.
+        completed from the training data — the <strong>median</strong> for numeric fields, the
+        <strong>most frequent</strong> value for categorical ones — and the result lists which
+        fields were filled that way.
     </div>
 
     <form action="{{ url_for('ui.process_sga_form') }}" method="post"
@@ -415,7 +416,7 @@
                         <span class="help-tip"><span class="help-tip-text">Self-reported racial origin, as recorded in the training cohort.</span></span>
                     </div>
                     <select id="race" name="race" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="race_White" {{ 'selected' if d.get('race') == 'race_White' }}>White</option>
                         <option value="race_Black" {{ 'selected' if d.get('race') == 'race_Black' }}>Black</option>
                         <option value="race_South_Asian" {{ 'selected' if d.get('race') == 'race_South_Asian' }}>South Asian</option>
@@ -429,7 +430,7 @@
                         <span class="help-tip"><span class="help-tip-text">How this pregnancy was conceived.</span></span>
                     </div>
                     <select id="conception" name="conception" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="conception__Spontaneous" {{ 'selected' if d.get('conception') == 'conception__Spontaneous' }}>Spontaneous</option>
                         <option value="conception__IVF" {{ 'selected' if d.get('conception') == 'conception__IVF' }}>IVF</option>
                         <option value="conception__Ovulation_drugs" {{ 'selected' if d.get('conception') == 'conception__Ovulation_drugs' }}>Ovulation drugs</option>
@@ -441,7 +442,7 @@
                         <span class="help-tip"><span class="help-tip-text">Whether the mother smokes during this pregnancy.</span></span>
                     </div>
                     <select id="smoking" name="smoking" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="smoking_No" {{ 'selected' if d.get('smoking') == 'smoking_No' }}>No</option>
                         <option value="smoking_Smoker" {{ 'selected' if d.get('smoking') == 'smoking_Smoker' }}>Smoker</option>
                     </select>
@@ -461,7 +462,7 @@
                         <span class="help-tip"><span class="help-tip-text">Whether the mother has chronic high blood pressure.</span></span>
                     </div>
                     <select id="chr" name="chr" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="chr_No" {{ 'selected' if d.get('chr') == 'chr_No' }}>No</option>
                         <option value="chr_Chronic_hypertension" {{ 'selected' if d.get('chr') == 'chr_Chronic_hypertension' }}>Chronic hypertension</option>
                     </select>
@@ -472,7 +473,7 @@
                         <span class="help-tip"><span class="help-tip-text">Pre-existing diabetes, if any.</span></span>
                     </div>
                     <select id="dm" name="dm" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="dm_No" {{ 'selected' if d.get('dm') == 'dm_No' }}>No</option>
                         <option value="dm_Type_1_DM" {{ 'selected' if d.get('dm') == 'dm_Type_1_DM' }}>Type 1 DM</option>
                         <option value="dm_Type_2_DM" {{ 'selected' if d.get('dm') == 'dm_Type_2_DM' }}>Type 2 DM</option>
@@ -484,7 +485,7 @@
                         <span class="help-tip"><span class="help-tip-text">Systemic lupus erythematosus or antiphospholipid syndrome.</span></span>
                     </div>
                     <select id="sle" name="sle" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="sle_No" {{ 'selected' if d.get('sle') == 'sle_No' }}>No</option>
                         <option value="sle_SLE/APS" {{ 'selected' if d.get('sle') == 'sle_SLE/APS' }}>SLE / APS</option>
                     </select>
@@ -495,7 +496,7 @@
                         <span class="help-tip"><span class="help-tip-text">Whether the mother's own mother or a sister had preeclampsia.</span></span>
                     </div>
                     <select id="fh" name="fh" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="fh_No" {{ 'selected' if d.get('fh') == 'fh_No' }}>No</option>
                         <option value="fh_FH-PE_mother" {{ 'selected' if d.get('fh') == 'fh_FH-PE_mother' }}>Mother had PE</option>
                         <option value="fh_FH-PE_sister" {{ 'selected' if d.get('fh') == 'fh_FH-PE_sister' }}>Sister had PE</option>
@@ -520,7 +521,7 @@
                         <span class="help-tip"><span class="help-tip-text">Parity, and whether a previous pregnancy was complicated by preeclampsia.</span></span>
                     </div>
                     <select id="prev.pe" name="prev.pe" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="prev.pe_Nullip" {{ 'selected' if d.get('prev.pe') == 'prev.pe_Nullip' }}>Nulliparous</option>
                         <option value="prev.pe_Multip-no_PE" {{ 'selected' if d.get('prev.pe') == 'prev.pe_Multip-no_PE' }}>Multiparous — no previous PE</option>
                         <option value="prev.pe_Multip-PE" {{ 'selected' if d.get('prev.pe') == 'prev.pe_Multip-PE' }}>Multiparous — previous PE</option>
@@ -532,7 +533,7 @@
                         <span class="help-tip"><span class="help-tip-text">Whether a previous pregnancy ended in intrauterine death.</span></span>
                     </div>
                     <select id="Previous_IUD" name="Previous_IUD" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="Previous_IUD_Nullip" {{ 'selected' if d.get('Previous_IUD') == 'Previous_IUD_Nullip' }}>Nulliparous</option>
                         <option value="Previous_IUD_Multip-no_IUD" {{ 'selected' if d.get('Previous_IUD') == 'Previous_IUD_Multip-no_IUD' }}>Multiparous — no IUD</option>
                         <option value="Previous_IUD_Multip-IUD" {{ 'selected' if d.get('Previous_IUD') == 'Previous_IUD_Multip-IUD' }}>Multiparous — previous IUD</option>
@@ -544,7 +545,7 @@
                         <span class="help-tip"><span class="help-tip-text">Gestational age at which a previous pregnancy loss occurred, if any.</span></span>
                     </div>
                     <select id="Previous_death" name="Previous_death" class="form-control">
-                        <option value="">— use median —</option>
+                        <option value="">— use most frequent —</option>
                         <option value="Previous_death_No_death" {{ 'selected' if d.get('Previous_death') == 'Previous_death_No_death' }}>No death</option>
                         <option value="Previous_death_Death_st16w" {{ 'selected' if d.get('Previous_death') == 'Previous_death_Death_st16w' }}>Death before 16 weeks</option>
                         <option value="Previous_death_Death_16-23w" {{ 'selected' if d.get('Previous_death') == 'Previous_death_Death_16-23w' }}>Death at 16–23 weeks</option>
@@ -662,7 +663,7 @@
 
             {% if result.defaults_used %}
                 <details class="defaults-note">
-                    <summary>{{ result.defaults_used | length }} field(s) completed with the training-set median</summary>
+                    <summary>{{ result.defaults_used | length }} field(s) completed from the training data (median or most frequent value)</summary>
                     <p>{{ result.defaults_used | join(', ') }}. Filling them in will sharpen the estimate.</p>
                 </details>
             {% endif %}
