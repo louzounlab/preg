@@ -133,11 +133,11 @@
             color: #3bd3d8 !important;
         }
 
-        /* The SHELA wordmark is dark text on transparency; give it a light
+        /* The YOLO lab logo is dark text on transparency; give it a light
            backing so it stays legible on the dark navbar. */
-        .shela-logo {
+        .yolo-logo {
             background-color: #ffffff;
-            padding: 4px 8px;
+            padding: 4px 10px;
             border-radius: 6px;
         }
 
@@ -306,13 +306,7 @@
                 </ul>
             </div>
             <a class="navbar-brand" href="https://yolo.math.biu.ac.il/">
-                <img src="/static/LabQR.jpg" alt="..." height="36">
-            </a>
-            <a class="navbar-brand" href="https://yolo.math.biu.ac.il/">
-                <img src="/static/yolo_lab.jpg" alt="..." height="36">
-            </a>
-            <a class="navbar-brand" href="http://www.shela.health/" target="_blank" rel="noopener">
-                <img class="shela-logo" src="{{ url_for('static', filename='SHELA LOGO color.png') }}" alt="SHELA" height="36">
+                <img class="yolo-logo" src="{{ url_for('static', filename='yolo_lab_EN_dark.png') }}" alt="YOLO Lab" height="52">
             </a>
             <div class="d-flex align-items-center ms-3">
                 {% if session.user %}
